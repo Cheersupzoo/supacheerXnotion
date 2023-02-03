@@ -4,7 +4,15 @@ import { NotionAPI } from "notion-client";
 import { NotionRenderer } from "react-notion-x";
 
 export default function Home({ data }: { data: any }) {
-  return <NotionRenderer recordMap={data} fullPage={true} darkMode={false} />;
+  return (
+    <NotionRenderer
+      recordMap={data}
+      fullPage={true}
+      darkMode={false}
+      disableHeader={true}
+      previewImages={true}
+    />
+  );
 }
 
 export async function getStaticProps() {
