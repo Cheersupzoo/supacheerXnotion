@@ -15,7 +15,7 @@ export default function Home({ data }: { data: any }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const notion = new NotionAPI();
   const recordMap = await notion.getPage(
     "Suppachai-a801d85fcc9e4c76bd7a4c60ad234952"
