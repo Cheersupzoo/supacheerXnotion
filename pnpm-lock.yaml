@@ -10,6 +10,7 @@ specifiers:
   next: 13.1.6
   notion-client: ^6.15.6
   p-limit: ^4.0.0
+  posthog-js: ^1.46.1
   react: 18.2.0
   react-dom: 18.2.0
   react-notion-x: ^6.15.7
@@ -25,6 +26,7 @@ dependencies:
   next: 13.1.6_biqbaboplfbrettd7655fr4n2y
   notion-client: 6.15.6
   p-limit: 4.0.0
+  posthog-js: 1.46.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-notion-x: 6.15.7_biqbaboplfbrettd7655fr4n2y
@@ -1216,6 +1218,10 @@ packages:
       reusify: 1.0.4
     dev: false
 
+  /fflate/0.4.8:
+    resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
+    dev: false
+
   /file-entry-cache/6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -2229,6 +2235,13 @@ packages:
       source-map-js: 1.0.2
     dev: false
 
+  /posthog-js/1.46.1:
+    resolution: {integrity: sha512-6RWnEeD7bk6w5xQLpcN0EMuzzSswB1Gshy/DSyFdZUPVyRm3L6BW5BdH87ELQ11FxiWur954OywOblkJrNBjYQ==}
+    dependencies:
+      fflate: 0.4.8
+      rrweb-snapshot: 1.1.14
+    dev: false
+
   /prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
@@ -2506,6 +2519,10 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
+    dev: false
+
+  /rrweb-snapshot/1.1.14:
+    resolution: {integrity: sha512-eP5pirNjP5+GewQfcOQY4uBiDnpqxNRc65yKPW0eSoU1XamDfc4M8oqpXGMyUyvLyxFDB0q0+DChuxxiU2FXBQ==}
     dev: false
 
   /rtl-css-js/1.16.1:
