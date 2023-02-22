@@ -5,7 +5,6 @@ import { NotionRenderer, defaultMapImageUrl } from "react-notion-x";
 import Link from "next/link";
 import fs from "fs/promises";
 import { existsSync } from "fs";
-import { randomUUID } from "crypto";
 
 import pLimit from "p-limit";
 
@@ -40,17 +39,23 @@ export async function getStaticProps() {
     await fs.mkdir("./public/picture_cache");
   }
 
-  async function imageUrlToFile(url: string) {
-    const response = await fetch(url, undefined);
-    const contentType = response.headers.get("Content-Type");
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+  function extractKeyFromUrl(url: string) {
+    const regex =
+      /https:\/\/s3.us-west-2.amazonaws.com\/secure.notion-static.com\/(.*)\/.*\.(.*)\?.*/;
+    const result = regex.exec(url);
+    return [result?.[1] ?? "", result?.[2]];
+  }
 
-    const fileName = `/picture_cache/${randomUUID()}.${contentType?.replace(
-      "image/",
-      ""
-    )}`;
-    await fs.writeFile(`./public${fileName}`, buffer);
+  async function imageUrlToFile(url: string) {
+    const [key, contentType] = extractKeyFromUrl(url);
+    const fileName = `/picture_cache/${key}.${contentType}`;
+    if (!existsSync(`./public${fileName}`)) {
+      const response = await fetch(url);
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      await fs.writeFile(`./public${fileName}`, buffer);
+    }
 
     return fileName;
   }
