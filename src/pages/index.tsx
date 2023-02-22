@@ -3,6 +3,9 @@ import styles from "./page.module.css";
 import { NotionAPI } from "notion-client";
 import { NotionRenderer, defaultMapImageUrl } from "react-notion-x";
 import Link from "next/link";
+import fs from "fs/promises";
+import { existsSync } from "fs";
+import { randomUUID } from "crypto";
 
 import pLimit from "p-limit";
 
@@ -15,7 +18,7 @@ export default function Home({ data }: { data: any }) {
       disableHeader={true}
       previewImages={true}
       mapImageUrl={(url, block) => {
-        if (url.includes("https://s3.us-west-2.amazonaws.com")) {
+        if (url.includes("picture_cache")) {
           return url;
         }
         const defaultUrl = defaultMapImageUrl(url, block);
@@ -33,13 +36,23 @@ export async function getStaticProps() {
     "Suppachai-a801d85fcc9e4c76bd7a4c60ad234952"
   );
 
-  async function imageUrlToBase64(url: string) {
+  if (!existsSync("./public/picture_cache")) {
+    await fs.mkdir("./public/picture_cache");
+  }
+
+  async function imageUrlToFile(url: string) {
     const response = await fetch(url, undefined);
     const contentType = response.headers.get("Content-Type");
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    return "data:" + contentType + ";base64," + buffer.toString("base64");
+    const fileName = `/picture_cache/${randomUUID()}.${contentType?.replace(
+      "image/",
+      ""
+    )}`;
+    await fs.writeFile(`./public${fileName}`, buffer);
+
+    return fileName;
   }
 
   const limit = pLimit(4);
@@ -47,7 +60,7 @@ export async function getStaticProps() {
   const promises = Object.entries(recordMap.signed_urls).map(
     async ([key, url]) =>
       limit(async () => {
-        const image = await imageUrlToBase64(url);
+        const image = await imageUrlToFile(url);
 
         return {
           [key]: image,
