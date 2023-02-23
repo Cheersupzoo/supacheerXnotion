@@ -7,6 +7,7 @@ import fs from "fs/promises";
 import { existsSync } from "fs";
 
 import pLimit from "p-limit";
+import { NotionPageHeader } from "@/components/NotionPageHeader";
 
 export default function Home({ data }: { data: any }) {
   return (
@@ -14,7 +15,6 @@ export default function Home({ data }: { data: any }) {
       recordMap={data}
       fullPage={true}
       darkMode={false}
-      disableHeader={true}
       previewImages={true}
       mapImageUrl={(url, block) => {
         if (url.includes("picture_cache")) {
@@ -24,7 +24,7 @@ export default function Home({ data }: { data: any }) {
 
         return defaultUrl ?? "";
       }}
-      components={{ nextImage: Image }}
+      components={{ nextImage: Image, Header: NotionPageHeader }}
     />
   );
 }
