@@ -8,24 +8,28 @@ import { existsSync } from "fs";
 
 import pLimit from "p-limit";
 import { NotionPageHeader } from "@/components/NotionPageHeader";
+import { PageHead } from "@/components/PageHead";
 
 export default function Home({ data }: { data: any }) {
   return (
-    <NotionRenderer
-      recordMap={data}
-      fullPage={true}
-      darkMode={false}
-      previewImages={true}
-      mapImageUrl={(url, block) => {
-        if (url.includes("picture_cache")) {
-          return url;
-        }
-        const defaultUrl = defaultMapImageUrl(url, block);
+    <>
+      <PageHead pageId={data.pageId} site={data.site} title={data.title} />
+      <NotionRenderer
+        recordMap={data}
+        fullPage={true}
+        darkMode={false}
+        previewImages={true}
+        mapImageUrl={(url, block) => {
+          if (url.includes("picture_cache")) {
+            return url;
+          }
+          const defaultUrl = defaultMapImageUrl(url, block);
 
-        return defaultUrl ?? "";
-      }}
-      components={{ nextImage: Image, Header: NotionPageHeader }}
-    />
+          return defaultUrl ?? "";
+        }}
+        components={{ nextImage: Image, Header: NotionPageHeader }}
+      />
+    </>
   );
 }
 
