@@ -11,10 +11,8 @@ export const PageHead: React.FC<
     url?: string
   }
 > = ({ site, title, description, pageId, image, url }) => {
-
   title = title ?? site?.name
   description = description ?? site?.description
-
 
   return (
     <Head>
@@ -34,8 +32,6 @@ export const PageHead: React.FC<
           <meta property='twitter:domain' content={site.domain} />
         </>
       )}
-
-
 
       {description && (
         <>
