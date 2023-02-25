@@ -1,7 +1,4 @@
-
-
 // core styles shared by all of react-notion-x (required)
-
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'

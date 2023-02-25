@@ -4,7 +4,7 @@ import * as types from 'notion-types'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
 import cs from 'classnames'
-import { PageIcon, useNotionContext } from 'react-notion-x'
+import { PageIcon } from 'react-notion-x'
 
 import { useDarkMode } from '@/lib/use-dark-mode'
 
@@ -35,8 +35,6 @@ const ToggleThemeButton = () => {
 export const NotionPageHeader: React.FC<{
   block: types.CollectionViewPageBlock | types.PageBlock
 }> = ({ block }) => {
-  const { components, mapPageUrl } = useNotionContext()
-
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>

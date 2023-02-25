@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import {  useMemo } from 'react'
+import { useMemo } from 'react'
 
 import { NotionAPI } from 'notion-client'
 import { idToUuid, parsePageId } from 'notion-utils'
@@ -14,7 +14,6 @@ import { buildImageCache } from '@/lib/buildImageCache'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
 import { ExtendedRecordMap, PageProps, Params } from '@/lib/types'
-
 
 export default function Home({
   recordMap,
