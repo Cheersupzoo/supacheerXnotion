@@ -1,10 +1,9 @@
-import { getAllPagesInSpace, uuidToId, parsePageId } from 'notion-utils'
+import { getAllPagesInSpace, parsePageId } from 'notion-utils'
+import pMemoize from 'p-memoize'
 
 import * as types from './types'
-import { notion } from './notion-api'
 import { getCanonicalPageId } from './get-canonical-page-id'
-
-import pMemoize from 'p-memoize'
+import { notion } from './notion-api'
 
 export async function getSiteMap(): Promise<types.SiteMap> {
   const rootNotionPageId = parsePageId(

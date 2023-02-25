@@ -4,7 +4,7 @@ import * as types from 'notion-types'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
 import cs from 'classnames'
-import { useNotionContext, PageIcon } from 'react-notion-x'
+import { PageIcon, useNotionContext } from 'react-notion-x'
 
 import { useDarkMode } from '@/lib/use-dark-mode'
 

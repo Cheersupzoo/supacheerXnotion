@@ -1,18 +1,17 @@
 import Image from 'next/image'
-import styles from './page.module.css'
-import { NotionAPI } from 'notion-client'
-import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
-import { NotionPageHeader } from '@/components/NotionPageHeader'
-import { PageHead } from '@/components/PageHead'
-import { Code, Equation, Modal, Pdf } from '@/components/NotionXComponent'
+import { NotionAPI } from 'notion-client'
+import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
 import { Collection } from 'react-notion-x/build/third-party/collection'
-import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
+
+import { NotionPageHeader } from '@/components/NotionPageHeader'
+import { Code, Equation, Modal, Pdf } from '@/components/NotionXComponent'
+import { PageHead } from '@/components/PageHead'
 import { buildImageCache } from '@/lib/buildImageCache'
+import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
-import { SiteMap } from '@/lib/types'
 
 export default function Home({
   recordMap,

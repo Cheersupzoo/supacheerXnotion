@@ -1,12 +1,17 @@
-// core styles shared by all of react-notion-x (required)
-import 'react-notion-x/src/styles.css'
 
-// used for code syntax highlighting (optional)
-import 'prismjs/themes/prism-coy.css'
+
+// core styles shared by all of react-notion-x (required)
+
+import { AppProps } from 'next/app'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 // used for rendering equations (optional)
 import 'katex/dist/katex.min.css'
-import { AppProps } from 'next/app'
+import posthog from 'posthog-js'
+// used for code syntax highlighting (optional)
+import 'prismjs/themes/prism-coy.css'
+import 'react-notion-x/src/styles.css'
 import 'styles/global.css'
 // this might be better for dark mode
 // import 'prismjs/themes/prism-okaidia.css'
@@ -14,9 +19,6 @@ import 'styles/global.css'
 import 'styles/notion.css'
 // global style overrides for prism theme (optional)
 import 'styles/prism-theme.css'
-import posthog from 'posthog-js'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()

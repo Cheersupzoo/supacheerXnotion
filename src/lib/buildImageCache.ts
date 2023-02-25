@@ -1,11 +1,12 @@
-import { ExtendedRecordMap } from 'notion-types'
-import pLimit from 'p-limit'
-import fs from 'fs/promises'
 import { existsSync } from 'fs'
+import fs from 'fs/promises'
+import { ExtendedRecordMap } from 'notion-types'
 import { getPageImageUrls } from 'notion-utils'
+import pLimit from 'p-limit'
 import { defaultMapImageUrl } from 'react-notion-x'
-import { imageUrlToFile } from './imageUrlToFile'
+
 import { extractKeyFromUrl } from './extractKeyFromUrl'
+import { imageUrlToFile } from './imageUrlToFile'
 
 export async function buildImageCache(recordMap: ExtendedRecordMap) {
   if (!existsSync('./public/picture_cache')) {

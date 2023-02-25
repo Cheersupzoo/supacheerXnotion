@@ -3,6 +3,7 @@ import {
   getCanonicalPageId as getCanonicalPageIdImpl,
   parsePageId
 } from 'notion-utils'
+
 export const pageUrlOverrides = cleanPageUrlMap(
   {},
   { label: 'pageUrlOverrides' }
