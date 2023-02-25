@@ -3,7 +3,7 @@ import styles from './page.module.css'
 import { NotionAPI } from 'notion-client'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
 import Link from 'next/link'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { NotionPageHeader } from '@/components/NotionPageHeader'
 import { PageHead } from '@/components/PageHead'
@@ -12,16 +12,16 @@ import { Collection } from 'react-notion-x/build/third-party/collection'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { buildImageCache } from '@/lib/buildImageCache'
 import { getSiteMap } from '@/lib/get-site-map'
-import { SiteMap } from '@/lib/types'
+import { GetStaticProps } from 'next'
+import { ExtendedRecordMap, PageProps, Params } from '@/lib/types'
+import { idToUuid, parsePageId } from 'notion-utils'
 
 export default function Home({
   recordMap,
-  imageCache,
-  idCanonicalMap
+  imageCache
 }: {
   recordMap: any
   imageCache: { [key: string]: string }
-  idCanonicalMap: { [key: string]: string }
 }) {
   const components = useMemo(
     () => ({
@@ -31,11 +31,15 @@ export default function Home({
       Collection,
       Equation,
       Pdf,
-      Modal,
-      Header: NotionPageHeader
+      Modal
     }),
     []
   )
+
+  if (!recordMap) {
+    return <div>Loading...</div>
+  }
+
   return (
     <>
       <PageHead
@@ -62,24 +66,60 @@ export default function Home({
           return imageCache[key]
         }}
         components={components}
-        mapPageUrl={(url) => idCanonicalMap[url]}
+        mapPageUrl={(url) => {
+          if (url === idToUuid('a801d85fcc9e4c76bd7a4c60ad234952')) {
+            return '/'
+          }
+
+          return url
+        }}
       />
     </>
   )
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps<PageProps, Params> = async (
+  context
+) => {
+  const rawPageId = context.params?.pageId as string
+
+  let pageId = parsePageId(rawPageId)
+
   const notion = new NotionAPI()
-  const recordMap = await notion.getPage(
-    'Suppachai-a801d85fcc9e4c76bd7a4c60ad234952'
-  )
+  let recordMap: ExtendedRecordMap
+  if (pageId) {
+    recordMap = await notion.getPage(pageId)
+  } else {
+    const siteMap = await getSiteMap()
+    pageId = siteMap?.canonicalPageMap[rawPageId]
+    recordMap = await notion.getPage(pageId)
+  }
 
   const imageCache = await buildImageCache(recordMap)
-  const siteMap = await getSiteMap()
-  const idCanonicalMap = Object.entries(siteMap.canonicalPageMap).reduce(
-    (map, [canonical, id]) => ({ ...map, [id]: canonical }),
-    {}
-  )
 
-  return { props: { recordMap, imageCache, idCanonicalMap } }
+  return { props: { recordMap, imageCache } }
+}
+
+export async function getStaticPaths() {
+  const environment = process.env.NODE_ENV || 'development'
+  if (environment === 'development') {
+    return {
+      paths: [],
+      fallback: true
+    }
+  }
+
+  const siteMap = await getSiteMap()
+
+  const staticPaths = {
+    paths: Object.keys(siteMap.canonicalPageMap).map((pageId) => ({
+      params: {
+        pageId
+      }
+    })),
+    // paths: [],
+    fallback: false
+  }
+
+  return staticPaths
 }
