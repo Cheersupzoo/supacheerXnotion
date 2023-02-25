@@ -6,6 +6,7 @@ import Link from 'next/link'
 import fs from 'fs/promises'
 import { existsSync } from 'fs'
 import { useMemo } from 'react'
+import { getPageImageUrls } from 'notion-utils'
 
 import pLimit from 'p-limit'
 import { NotionPageHeader } from '@/components/NotionPageHeader'
@@ -13,7 +14,17 @@ import { PageHead } from '@/components/PageHead'
 import { Code, Equation, Modal, Pdf } from '@/components/NotionXComponent'
 import { Collection } from 'react-notion-x/build/third-party/collection'
 
-export default function Home({ data }: { data: any }) {
+import { PreviewImage } from 'notion-types'
+import { imageUrlToFile } from '@/lib/imageUrlToFile'
+import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
+
+export default function Home({
+  recordMap,
+  imageCache
+}: {
+  recordMap: any
+  imageCache: { [key: string]: string }
+}) {
   const components = useMemo(
     () => ({
       nextImage: Image,
@@ -29,19 +40,28 @@ export default function Home({ data }: { data: any }) {
   )
   return (
     <>
-      <PageHead pageId={data.pageId} site={data.site} title={data.title} />
+      <PageHead
+        pageId={recordMap.pageId}
+        site={recordMap.site}
+        title={recordMap.title}
+      />
       <NotionRenderer
-        recordMap={data}
+        recordMap={recordMap}
         fullPage={true}
         darkMode={false}
         previewImages={true}
         mapImageUrl={(url, block) => {
-          if (url.includes('picture_cache')) {
-            return url
-          }
           const defaultUrl = defaultMapImageUrl(url, block)
+          if (!defaultUrl) {
+            return ''
+          }
 
-          return defaultUrl ?? ''
+          const [key] = extractKeyFromUrl(decodeURIComponent(defaultUrl))
+          if (!key) {
+            return defaultUrl
+          }
+
+          return imageCache[key]
         }}
         components={components}
       />
@@ -59,38 +79,33 @@ export async function getStaticProps() {
     await fs.mkdir('./public/picture_cache')
   }
 
-  function extractKeyFromUrl(url: string) {
-    const regex =
-      /https:\/\/s3.us-west-2.amazonaws.com\/secure.notion-static.com\/(.*)\/.*\.(.*)\?.*/
-    const result = regex.exec(url)
-    return [result?.[1] ?? '', result?.[2]]
-  }
-
-  async function imageUrlToFile(url: string) {
-    const [key, contentType] = extractKeyFromUrl(url)
-    const fileName = `/picture_cache/${key}.${contentType}`
-    if (!existsSync(`./public${fileName}`)) {
-      const response = await fetch(url)
-      const arrayBuffer = await response.arrayBuffer()
-      const buffer = Buffer.from(arrayBuffer)
-
-      await fs.writeFile(`./public${fileName}`, buffer)
-    }
-
-    return fileName
-  }
-
   const limit = pLimit(4)
 
-  const promises = Object.entries(recordMap.signed_urls).map(
-    async ([key, url]) =>
-      limit(async () => {
-        const image = await imageUrlToFile(url)
+  const imageUrls = getPageImageUrls(recordMap, {
+    mapImageUrl: (url, block) => {
+      return defaultMapImageUrl(url, block)
+    }
+  })
 
-        return {
-          [key]: image
-        }
-      })
+  let current = 0
+  const total = imageUrls.length
+
+  console.log(`🚀 Build Image Cache...`)
+
+  const promises = imageUrls.map(async (url) =>
+    limit(async () => {
+      const image = await imageUrlToFile(url)
+      current++
+      console.log(`🚀 ${current}/${total}`)
+      const [key] = extractKeyFromUrl(decodeURIComponent(url))
+      if (!key) {
+        return {}
+      }
+
+      return {
+        [key]: image
+      }
+    })
   )
 
   const arrayKeyUrl = await Promise.all(promises)
@@ -100,10 +115,5 @@ export async function getStaticProps() {
     {}
   )
 
-  const base64ImageRecordMap = {
-    ...recordMap,
-    signed_urls: base64Signed_url
-  }
-
-  return { props: { data: base64ImageRecordMap } }
+  return { props: { recordMap, imageCache: base64Signed_url } }
 }
