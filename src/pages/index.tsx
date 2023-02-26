@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
@@ -6,6 +6,7 @@ import { NotionAPI } from 'notion-client'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
 import { Collection } from 'react-notion-x/build/third-party/collection'
 
+import { Footer } from '@/components/Footer'
 import { NotionPageHeader } from '@/components/NotionPageHeader'
 import { Code, Equation, Modal, Pdf } from '@/components/NotionXComponent'
 import { PageHead } from '@/components/PageHead'
@@ -62,9 +63,9 @@ export default function Home({
 
           return imageCache[key]
         }}
-        
         components={components}
         mapPageUrl={(url) => idCanonicalMap[url]}
+        footer={<Footer />}
       />
     </>
   )

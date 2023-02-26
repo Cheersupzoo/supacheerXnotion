@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
@@ -8,6 +8,7 @@ import { idToUuid, parsePageId } from 'notion-utils'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
 import { Collection } from 'react-notion-x/build/third-party/collection'
 
+import { Footer } from '@/components/Footer'
 import { Code, Equation, Modal, Pdf } from '@/components/NotionXComponent'
 import { PageHead } from '@/components/PageHead'
 import { buildImageCache } from '@/lib/buildImageCache'
@@ -72,6 +73,7 @@ export default function Home({
 
           return url
         }}
+        footer={<Footer />}
       />
     </>
   )
