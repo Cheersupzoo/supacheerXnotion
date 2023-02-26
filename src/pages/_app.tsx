@@ -26,7 +26,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     }
 
     posthog.init('phc_z2lv4tGxD4PeSIzFHY24YrJvHgzLz9hdm3vKffbi5Hh', {
-      api_host: 'https://app.posthog.com'
+      api_host: 'https://app.posthog.com',
+      persistence: 'memory'
     })
 
     router.events.on('routeChangeComplete', onRouteChangeComplete)
