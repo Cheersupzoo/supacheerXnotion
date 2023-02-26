@@ -10,6 +10,7 @@ import { NotionPageHeader } from '@/components/NotionPageHeader'
 import { Code, Equation, Modal, Pdf } from '@/components/NotionXComponent'
 import { PageHead } from '@/components/PageHead'
 import { buildImageCache } from '@/lib/buildImageCache'
+import { buildPreviewImage } from '@/lib/buildPreviewImage'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
 
@@ -21,6 +22,7 @@ export default function Home({
   recordMap: any
   imageCache: { [key: string]: string }
   idCanonicalMap: { [key: string]: string }
+  previewImageMap: { [key: string]: string }
 }) {
   const components = useMemo(
     () => ({
@@ -60,6 +62,7 @@ export default function Home({
 
           return imageCache[key]
         }}
+        
         components={components}
         mapPageUrl={(url) => idCanonicalMap[url]}
       />
@@ -74,6 +77,9 @@ export async function getStaticProps() {
   )
 
   const imageCache = await buildImageCache(recordMap)
+
+  const previewImageMap = await buildPreviewImage(imageCache)
+  recordMap.preview_images = previewImageMap
   const siteMap = await getSiteMap()
   const idCanonicalMap = Object.entries(siteMap.canonicalPageMap).reduce(
     (map, [canonical, id]) => ({ ...map, [id]: canonical }),

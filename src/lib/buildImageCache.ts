@@ -9,8 +9,9 @@ import { extractKeyFromUrl } from './extractKeyFromUrl'
 import { imageUrlToFile } from './imageUrlToFile'
 
 export async function buildImageCache(recordMap: ExtendedRecordMap) {
-  if (!existsSync('./public/picture_cache')) {
-    await fs.mkdir('./public/picture_cache')
+  const imageFolder = './public/picture_cache'
+  if (!existsSync(imageFolder)) {
+    await fs.mkdir(imageFolder)
   }
 
   const limit = pLimit(6)
