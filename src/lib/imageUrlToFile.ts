@@ -16,14 +16,19 @@ export async function imageUrlToFile(url: string) {
     if (['jpeg', 'jpg', 'png'].includes(contentType ?? '')) {
       const Sharp = (await import('sharp')).default
 
-      let sharp = await Sharp(buffer).resize({
-        width: 2500,
-        height: 1800,
-        fit: 'inside'
-      })
+      let sharp = await Sharp(buffer)
+
+      const { width, height } = await sharp.metadata()
+      if ((width ?? 0) > 2500 || (height ?? 0) > 1800) {
+        sharp = sharp.resize({
+          width: 2500,
+          height: 1800,
+          fit: 'inside'
+        })
+      }
 
       if (['jpeg', 'jpg'].includes(contentType ?? '')) {
-        sharp = sharp.jpeg({ mozjpeg: true })
+        sharp = sharp.jpeg({ mozjpeg: true, quality: 75 })
       }
 
       buffer = await sharp.toBuffer()
