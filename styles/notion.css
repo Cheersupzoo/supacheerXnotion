@@ -276,6 +276,18 @@
   );
 }
 
+.dark-mode .notion-purple_background,
+.dark-mode .notion-pink_background {
+  /* light pink */
+  background-image: linear-gradient(
+    119deg,
+    var(--bg-color),
+    #7b5665 10.5%,
+    #3b3033 85.29%,
+    var(--bg-color)
+  );
+}
+
 .notion-blue_background {
   /* light blue */
   background-image: linear-gradient(
@@ -286,6 +298,16 @@
     var(--bg-color)
   );
 }
+
+.dark-mode .notion-blue_background {
+  background-image: linear-gradient(
+    119deg,
+    var(--bg-color),
+    #29646f 10.5%,
+    #24404a 85.29%,
+    var(--bg-color)
+  );
+}
 .notion-gray_background {
   /* light gret */
   background-image: linear-gradient(
@@ -293,6 +315,17 @@
     var(--bg-color),
     #e7e7e7 10.5%,
     #bdbcbc 85.29%,
+    var(--bg-color)
+  );
+}
+
+.dark-mode .notion-gray_background {
+  /* light gret */
+  background-image: linear-gradient(
+    119deg,
+    var(--bg-color),
+    #565656 10.5%,
+    #282828 85.29%,
     var(--bg-color)
   );
 }
@@ -309,6 +342,18 @@
   );
 }
 
+.dark-mode .notion-red_background,
+.dark-mode .notion-orange_background {
+  /* light red */
+  background-image: linear-gradient(
+    119deg,
+    var(--bg-color),
+    #6b4972 10.5%,
+    #371e3f 85.29%,
+    var(--bg-color)
+  );
+}
+
 .notion-teal_background {
   /* light green */
   background-image: linear-gradient(
@@ -316,6 +361,17 @@
     var(--bg-color),
     #d4eabc 10.5%,
     #d2eabc 85.29%,
+    var(--bg-color)
+  );
+}
+
+.dark-mode .notion-teal_background {
+  /* light green */
+  background-image: linear-gradient(
+    119deg,
+    var(--bg-color),
+    #5a773e 10.5%,
+    #253617 85.29%,
     var(--bg-color)
   );
 }
@@ -333,14 +389,8 @@
 
 /* disable highlighting in dark mode */
 .dark-mode .notion-red_background,
-.dark-mode .notion-pink_background,
-.dark-mode .notion-blue_background,
-.dark-mode .notion-purple_background,
-.dark-mode .notion-teal_background,
 .dark-mode .notion-yellow_background,
-.dark-mode .notion-orange_background,
-.dark-mode .notion-brown_background,
-.dark-mode .notion-gray_background {
+.dark-mode .notion-brown_background {
   padding: 0;
   margin: 0;
   border-radius: 0;
