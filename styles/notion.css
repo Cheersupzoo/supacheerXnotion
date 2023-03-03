@@ -264,6 +264,16 @@
   );
 }
 
+.dark-mode .notion-yellow_background {
+  background-image: linear-gradient(
+    119deg,
+    var(--bg-color),
+    #6d6726 10.5%,
+    #3b3917 85.29%,
+    var(--bg-color)
+  );
+}
+
 .notion-purple_background,
 .notion-pink_background {
   /* light pink */
@@ -389,7 +399,6 @@
 
 /* disable highlighting in dark mode */
 .dark-mode .notion-red_background,
-.dark-mode .notion-yellow_background,
 .dark-mode .notion-brown_background {
   padding: 0;
   margin: 0;
