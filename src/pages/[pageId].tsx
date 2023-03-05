@@ -10,6 +10,7 @@ import { Collection } from 'react-notion-x/build/third-party/collection'
 
 import { Footer } from '@/components/Footer'
 import { Code, Equation, Modal, Pdf } from '@/components/NotionXComponent'
+import { PageAside } from '@/components/PageAside'
 import { PageHead } from '@/components/PageHead'
 import { buildImageCache } from '@/lib/buildImageCache'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
@@ -35,6 +36,7 @@ export default function Home({
     }),
     []
   )
+  const pageAside = useMemo(() => <PageAside />, [])
 
   if (!recordMap) {
     return <div>Loading...</div>
@@ -74,6 +76,7 @@ export default function Home({
           return url
         }}
         footer={<Footer />}
+        pageAside={pageAside}
       />
     </>
   )
