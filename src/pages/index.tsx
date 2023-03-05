@@ -9,6 +9,7 @@ import { Collection } from 'react-notion-x/build/third-party/collection'
 import { Footer } from '@/components/Footer'
 import { NotionPageHeader } from '@/components/NotionPageHeader'
 import { Code, Equation, Modal, Pdf } from '@/components/NotionXComponent'
+import { PageAside } from '@/components/PageAside'
 import { PageHead } from '@/components/PageHead'
 import { buildImageCache } from '@/lib/buildImageCache'
 import { buildPreviewImage } from '@/lib/buildPreviewImage'
@@ -38,6 +39,8 @@ export default function Home({
     }),
     []
   )
+
+  const pageAside = useMemo(() => <PageAside />, [])
   return (
     <>
       <PageHead
@@ -66,6 +69,7 @@ export default function Home({
         components={components}
         mapPageUrl={(url) => idCanonicalMap[url]}
         footer={<Footer />}
+        pageAside={pageAside}
       />
     </>
   )
