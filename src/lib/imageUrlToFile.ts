@@ -31,7 +31,7 @@ export async function imageUrlToFile(url: string) {
         sharp = sharp.jpeg({ mozjpeg: true, quality: 75 })
       }
 
-      buffer = await sharp.toBuffer()
+      buffer = await sharp.withMetadata().toBuffer()
     }
     await fs.writeFile(`./public${fileName}`, buffer)
   }
