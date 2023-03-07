@@ -17,6 +17,7 @@ import { buildPreviewImage } from '@/lib/buildPreviewImage'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
 import { getCanonicalPageUrl } from '@/lib/map-page-url'
+import { SneakPeakBlog } from '@/components/SneakPeakBlog/SneakPeakBlog'
 
 export default function Home({
   recordMap,
@@ -86,6 +87,7 @@ export default function Home({
         footer={<Footer />}
         pageAside={pageAside}
       />
+      <SneakPeakBlog />
     </>
   )
 }
