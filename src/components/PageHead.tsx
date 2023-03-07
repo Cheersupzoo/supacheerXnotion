@@ -7,7 +7,7 @@ export const PageHead: React.FC<{
   image?: string
   url?: string
 }> = ({ title, description, url }) => {
-  const rssFeedUrl = `https://www.suppachai.com/feed`
+  const rssFeedUrl = `https://www.supacheer.com/feed`
   title = title ?? 'Supacheer'
   description = description ?? 'Website of Cheer'
 
