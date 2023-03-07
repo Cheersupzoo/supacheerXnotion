@@ -32,22 +32,24 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-notion-x": "^6.15.7",
+    "rss": "^1.2.2",
     "sharp": "^0.31.3",
     "typescript": "4.9.5"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^3.4.0",
     "@types/lqip-modern": "^1.1.2",
+    "@types/node": "^18.8.5",
     "@types/prismjs": "^1.26.0",
+    "@types/react": "^18.0.21",
+    "@types/rss": "^0.0.30",
     "@types/sharp": "^0.31.1",
-    "prettier": "^2.7.1",
+    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/parser": "^5.40.0",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "@types/node": "^18.8.5",
-    "@types/react": "^18.0.21",
-    "@typescript-eslint/eslint-plugin": "^5.40.0",
-    "@typescript-eslint/parser": "^5.40.0"
+    "prettier": "^2.7.1"
   }
 }
