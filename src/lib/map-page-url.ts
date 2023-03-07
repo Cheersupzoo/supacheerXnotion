@@ -23,14 +23,17 @@ export const mapPageUrl =
   }
 
 export const getCanonicalPageUrl =
-  (site: Site, recordMap: ExtendedRecordMap) =>
+  (recordMap: ExtendedRecordMap) =>
   (pageId = '') => {
     const pageUuid = parsePageId(pageId, { uuid: true })
 
-    if (uuidToId(pageId) === site.rootNotionPageId) {
-      return `https://${site.domain}`
+    if (uuidToId(pageId) === 'a801d85fcc9e4c76bd7a4c60ad234952') {
+      return `https://www.supacheer.com`
     } else {
-      return `https://${site.domain}/${getCanonicalPageId(pageUuid, recordMap)}`
+      return `https://www.supacheer.com/${getCanonicalPageId(
+        pageUuid,
+        recordMap
+      )}`
     }
   }
 

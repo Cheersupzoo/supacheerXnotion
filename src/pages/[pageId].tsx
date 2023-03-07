@@ -4,7 +4,12 @@ import Link from 'next/link'
 import { useMemo } from 'react'
 
 import { NotionAPI } from 'notion-client'
-import { idToUuid, parsePageId } from 'notion-utils'
+import {
+  getBlockTitle,
+  getPageProperty,
+  idToUuid,
+  parsePageId
+} from 'notion-utils'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
 import { Collection } from 'react-notion-x/build/third-party/collection'
 
@@ -15,14 +20,17 @@ import { PageHead } from '@/components/PageHead'
 import { buildImageCache } from '@/lib/buildImageCache'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
+import { getCanonicalPageUrl } from '@/lib/map-page-url'
 import { ExtendedRecordMap, PageProps, Params } from '@/lib/types'
 
 export default function Home({
   recordMap,
-  imageCache
+  imageCache,
+  pageId
 }: {
   recordMap: any
   imageCache: { [key: string]: string }
+  pageId: string
 }) {
   const components = useMemo(
     () => ({
@@ -42,12 +50,25 @@ export default function Home({
     return <div>Loading...</div>
   }
 
+  const keys = Object.keys(recordMap?.block || {})
+  const block = recordMap?.block?.[keys[0]]?.value
+
+  const canonicalPageUrl = getCanonicalPageUrl(recordMap)(pageId)
+
+  const socialDescription = getPageProperty<string>(
+    'Description',
+    block,
+    recordMap
+  )
+
+  const title = getBlockTitle(block, recordMap)
+
   return (
     <>
       <PageHead
-        pageId={recordMap.pageId}
-        site={recordMap.site}
-        title={recordMap.title}
+        title={title}
+        description={socialDescription}
+        url={canonicalPageUrl}
       />
       <NotionRenderer
         recordMap={recordMap}
@@ -101,7 +122,7 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async (
 
   const imageCache = await buildImageCache(recordMap)
 
-  return { props: { recordMap, imageCache } }
+  return { props: { recordMap, imageCache, pageId } }
 }
 
 export async function getStaticPaths() {

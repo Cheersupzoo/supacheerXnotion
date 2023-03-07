@@ -1,18 +1,14 @@
 import * as React from 'react'
 import Head from 'next/head'
 
-import * as types from '@/lib/types'
-
-export const PageHead: React.FC<
-  types.PageProps & {
-    title?: string
-    description?: string
-    image?: string
-    url?: string
-  }
-> = ({ site, title, description, url }) => {
-  title = title ?? site?.name
-  description = description ?? site?.description
+export const PageHead: React.FC<{
+  title?: string
+  description?: string
+  image?: string
+  url?: string
+}> = ({ title, description, url }) => {
+  title = title ?? 'Supacheer'
+  description = description ?? 'Website of Cheer'
 
   return (
     <Head>
@@ -26,12 +22,8 @@ export const PageHead: React.FC<
       <meta name='robots' content='index,follow' />
       <meta property='og:type' content='website' />
 
-      {site && (
-        <>
-          <meta property='og:site_name' content={site.name} />
-          <meta property='twitter:domain' content={site.domain} />
-        </>
-      )}
+      <meta property='og:site_name' content='Supacheer' />
+      <meta property='twitter:domain' content='supacheer.com' />
 
       {description && (
         <>

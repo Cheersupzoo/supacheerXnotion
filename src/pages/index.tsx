@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useMemo } from 'react'
 
 import { NotionAPI } from 'notion-client'
+import { getPageProperty } from 'notion-utils'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
 import { Collection } from 'react-notion-x/build/third-party/collection'
 
@@ -15,6 +16,7 @@ import { buildImageCache } from '@/lib/buildImageCache'
 import { buildPreviewImage } from '@/lib/buildPreviewImage'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
+import { getCanonicalPageUrl } from '@/lib/map-page-url'
 
 export default function Home({
   recordMap,
@@ -41,12 +43,25 @@ export default function Home({
   )
 
   const pageAside = useMemo(() => <PageAside />, [])
+
+  const keys = Object.keys(recordMap?.block || {})
+  const block = recordMap?.block?.[keys[0]]?.value
+
+  const canonicalPageUrl = getCanonicalPageUrl(recordMap)(
+    'a801d85fcc9e4c76bd7a4c60ad234952'
+  )
+
+  const socialDescription = getPageProperty<string>(
+    'Description',
+    block,
+    recordMap
+  )
   return (
     <>
       <PageHead
-        pageId={recordMap.pageId}
-        site={recordMap.site}
         title={recordMap.title}
+        description={socialDescription}
+        url={canonicalPageUrl}
       />
       <NotionRenderer
         recordMap={recordMap}
