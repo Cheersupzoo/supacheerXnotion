@@ -1,10 +1,11 @@
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 import { InfinitySpin } from 'react-loader-spinner'
 
 import { downloadBlogFeed } from '@/lib/downloadBlogFeed'
 
-import { BlogCard } from './BlogCard'
+import { BlogCard, blogBaseUrl } from './BlogCard'
 
 export type BlogsProp = Awaited<ReturnType<typeof downloadBlogFeed>>
 
@@ -38,11 +39,24 @@ export default function SneakPeakBlogInit() {
   }
 
   return (
-    <div className='notion' style={{ minHeight: 0, marginTop: '-3rem' }}>
+    <div className='notion' style={{ minHeight: 0 }}>
       <div className='notion-page'>
         {blogs.map((blog) => (
           <BlogCard key={blog.slug} post={blog} />
         ))}
+      </div>
+
+      <div className='' style={{ display: 'flex', justifyContent: 'center' }}>
+        <span className='notion-orange_background'>
+          <Link
+            target='_blank'
+            rel='noopener noreferrer'
+            className={'notion-link'}
+            href={blogBaseUrl}
+          >
+            More
+          </Link>
+        </span>
       </div>
     </div>
   )
