@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useMemo } from 'react'
 
 import { NotionAPI } from 'notion-client'
+import { ExtendedRecordMap } from 'notion-types'
 import { getPageProperty } from 'notion-utils'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
 import { Collection } from 'react-notion-x/build/third-party/collection'
@@ -24,11 +25,12 @@ export default function Home({
   imageCache,
   idCanonicalMap
 }: {
-  recordMap: any
+  recordMap: ExtendedRecordMap
   imageCache: { [key: string]: string }
   idCanonicalMap: { [key: string]: string }
   previewImageMap: { [key: string]: string }
 }) {
+  console.log('🚀 ~ file: index.tsx:32 ~ recordMap:', recordMap)
   const components = useMemo(
     () => ({
       nextImage: Image,
@@ -47,6 +49,7 @@ export default function Home({
 
   const keys = Object.keys(recordMap?.block || {})
   const block = recordMap?.block?.[keys[0]]?.value
+  console.log('🚀 ~ file: index.tsx:51 ~ block:', block)
 
   const canonicalPageUrl = getCanonicalPageUrl(recordMap)(
     'a801d85fcc9e4c76bd7a4c60ad234952'
@@ -57,10 +60,11 @@ export default function Home({
     block,
     recordMap
   )
+
   return (
     <>
       <PageHead
-        title={recordMap.title}
+        title={'Supacheer'}
         description={socialDescription}
         url={canonicalPageUrl}
       />
@@ -84,9 +88,10 @@ export default function Home({
         }}
         components={components}
         mapPageUrl={(url) => idCanonicalMap[url]}
-        footer={<Footer />}
+        // footer={<Footer />}
         pageAside={pageAside}
       />
+      <Footer />
       <SneakPeakBlog />
     </>
   )
