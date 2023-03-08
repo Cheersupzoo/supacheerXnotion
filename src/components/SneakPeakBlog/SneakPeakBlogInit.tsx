@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { downloadBlogFeed } from '@/lib/downloadBlogFeed'
 
-import BlogCard from './BlogCard'
+import { BlogCard } from './BlogCard'
 
 export type BlogsProp = Awaited<ReturnType<typeof downloadBlogFeed>>
 
@@ -24,10 +24,12 @@ export default function SneakPeakBlogInit() {
   }
 
   return (
-    <>
-      {blogs.map((blog) => (
-        <BlogCard key={blog.slug} post={blog} />
-      ))}
-    </>
+    <div className='notion notion-app' style={{ minHeight: 0 }}>
+      <div className='notion-page'>
+        {blogs.map((blog) => (
+          <BlogCard key={blog.slug} post={blog} />
+        ))}
+      </div>
+    </div>
   )
 }
