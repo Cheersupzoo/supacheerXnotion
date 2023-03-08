@@ -24,7 +24,7 @@ export default function SneakPeakBlogInit() {
   }
 
   return (
-    <div className='notion notion-app' style={{ minHeight: 0 }}>
+    <div className='notion notion-app' style={{ minHeight: 0, marginTop: '-2rem' }}>
       <div className='notion-page'>
         {blogs.map((blog) => (
           <BlogCard key={blog.slug} post={blog} />
