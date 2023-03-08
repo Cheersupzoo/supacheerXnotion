@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { InfinitySpin } from 'react-loader-spinner'
+
 import { downloadBlogFeed } from '@/lib/downloadBlogFeed'
 
 import { BlogCard } from './BlogCard'
@@ -12,15 +14,27 @@ export default function SneakPeakBlogInit() {
 
   useEffect(() => {
     const init = async () => {
+      const start = Date.now()
       const blogs = await downloadBlogFeed()
-      setBlogs(blogs)
-      setLoading(false)
+      const end = Date.now()
+      // Want to show my Loader
+      setTimeout(
+        async () => {
+          setBlogs(blogs)
+          setLoading(false)
+        },
+        end - start > 1000 ? 0 : 2000
+      )
     }
     init()
   }, [])
 
   if (loading) {
-    return <></>
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <InfinitySpin color='var(--fg-color)' />
+      </div>
+    )
   }
 
   return (
