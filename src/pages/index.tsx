@@ -39,8 +39,7 @@ export default function Home({
       Collection,
       Equation,
       Pdf,
-      Modal,
-      Header: NotionPageHeader
+      Modal
     }),
     []
   )
@@ -64,17 +63,19 @@ export default function Home({
   const isFooterInViewport = useIsInViewport(footerRef)
 
   return (
-    <>
+    <div className='notion-app'>
       <PageHead
         title={'Supacheer'}
         description={socialDescription}
         url={canonicalPageUrl}
       />
+      <NotionPageHeader block={block} />
       <NotionRenderer
         recordMap={recordMap}
         fullPage={true}
         darkMode={false}
         previewImages={true}
+        disableHeader={true}
         mapImageUrl={(url, block) => {
           const defaultUrl = defaultMapImageUrl(url, block)
           if (!defaultUrl) {
@@ -92,11 +93,12 @@ export default function Home({
         mapPageUrl={(url) => idCanonicalMap[url]}
         pageAside={pageAside}
       />
+
       <SneakPeakBlog startDisplay={isFooterInViewport} />
       <div ref={footerRef}>
         <Footer />
       </div>
-    </>
+    </div>
   )
 }
 

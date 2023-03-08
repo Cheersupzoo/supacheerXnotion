@@ -33,7 +33,7 @@ const ToggleThemeButton = () => {
 }
 
 export const NotionPageHeader: React.FC<{
-  block: types.CollectionViewPageBlock | types.PageBlock
+  block: types.CollectionViewPageBlock | types.PageBlock | types.Block
 }> = ({ block }) => {
   return (
     <header className='notion-header'>
