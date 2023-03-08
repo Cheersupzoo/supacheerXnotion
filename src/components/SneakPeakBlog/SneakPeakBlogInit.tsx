@@ -20,7 +20,7 @@ export default function SneakPeakBlogInit() {
   }, [])
 
   if (loading) {
-    return <div>loading...</div>
+    return <></>
   }
 
   return (

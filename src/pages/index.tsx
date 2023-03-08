@@ -1,6 +1,6 @@
 import Image from 'next/legacy/image'
 import Link from 'next/link'
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 
 import { NotionAPI } from 'notion-client'
 import { ExtendedRecordMap } from 'notion-types'
@@ -13,12 +13,13 @@ import { NotionPageHeader } from '@/components/NotionPageHeader'
 import { Code, Equation, Modal, Pdf } from '@/components/NotionXComponent'
 import { PageAside } from '@/components/PageAside'
 import { PageHead } from '@/components/PageHead'
+import { SneakPeakBlog } from '@/components/SneakPeakBlog/SneakPeakBlog'
+import { useIsInViewport } from '@/components/useIsInViewpoint'
 import { buildImageCache } from '@/lib/buildImageCache'
 import { buildPreviewImage } from '@/lib/buildPreviewImage'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
 import { getCanonicalPageUrl } from '@/lib/map-page-url'
-import { SneakPeakBlog } from '@/components/SneakPeakBlog/SneakPeakBlog'
 
 export default function Home({
   recordMap,
@@ -30,7 +31,6 @@ export default function Home({
   idCanonicalMap: { [key: string]: string }
   previewImageMap: { [key: string]: string }
 }) {
-  console.log('🚀 ~ file: index.tsx:32 ~ recordMap:', recordMap)
   const components = useMemo(
     () => ({
       nextImage: Image,
@@ -49,7 +49,6 @@ export default function Home({
 
   const keys = Object.keys(recordMap?.block || {})
   const block = recordMap?.block?.[keys[0]]?.value
-  console.log('🚀 ~ file: index.tsx:51 ~ block:', block)
 
   const canonicalPageUrl = getCanonicalPageUrl(recordMap)(
     'a801d85fcc9e4c76bd7a4c60ad234952'
@@ -60,6 +59,9 @@ export default function Home({
     block,
     recordMap
   )
+
+  const footerRef = useRef<HTMLDivElement>(null)
+  const isFooterInViewport = useIsInViewport(footerRef)
 
   return (
     <>
@@ -88,11 +90,12 @@ export default function Home({
         }}
         components={components}
         mapPageUrl={(url) => idCanonicalMap[url]}
-        // footer={<Footer />}
         pageAside={pageAside}
       />
-      <Footer />
-      <SneakPeakBlog />
+      <SneakPeakBlog startDisplay={isFooterInViewport} />
+      <div ref={footerRef}>
+        <Footer />
+      </div>
     </>
   )
 }

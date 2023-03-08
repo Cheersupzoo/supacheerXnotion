@@ -1,12 +1,20 @@
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 
 const SneakPeakBlogInit = lazy(() => import('./SneakPeakBlogInit'))
-export function SneakPeakBlog() {
+export function SneakPeakBlog({ startDisplay }: { startDisplay: boolean }) {
+  const [display, setDisplay] = useState(false)
+  useEffect(() => {
+    if (startDisplay) setDisplay(true)
+  }, [startDisplay])
   return (
     <>
-      <Suspense fallback={<div>loading...</div>}>
-        <SneakPeakBlogInit />
-      </Suspense>
+      {display ? (
+        <Suspense fallback={<></>}>
+          <SneakPeakBlogInit />
+        </Suspense>
+      ) : (
+        <></>
+      )}
     </>
   )
 }
