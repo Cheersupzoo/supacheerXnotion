@@ -54,7 +54,6 @@
   justify-content: space-between;
   align-items: center;
 
-  background: var(--bg-color);
   color: var(--fg-color);
   caret-color: var(--fg-color);
 }

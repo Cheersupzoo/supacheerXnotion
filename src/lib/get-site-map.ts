@@ -5,11 +5,10 @@ import * as types from './types'
 import { getCanonicalPageId } from './get-canonical-page-id'
 import { notion } from './notion-api'
 
-export async function getSiteMap(): Promise<types.SiteMap> {
-  const rootNotionPageId = parsePageId(
-    'Suppachai-a801d85fcc9e4c76bd7a4c60ad234952',
-    { uuid: false }
-  )
+export async function getSiteMap(
+  pageId = 'Suppachai-a801d85fcc9e4c76bd7a4c60ad234952'
+): Promise<types.SiteMap> {
+  const rootNotionPageId = parsePageId(pageId, { uuid: false })
 
   const partialSiteMap = await getAllPages(rootNotionPageId)
 

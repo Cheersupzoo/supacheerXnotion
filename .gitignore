@@ -37,3 +37,6 @@ next-env.d.ts
 
 # picture cache
 public/picture_cache
+
+# video cache
+public/video_cache

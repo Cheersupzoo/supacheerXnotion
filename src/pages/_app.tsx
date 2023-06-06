@@ -16,11 +16,14 @@ import 'styles/global.css'
 import 'styles/notion.css'
 // global style overrides for prism theme (optional)
 import 'styles/prism-theme.css'
+import 'styles/theme.css'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') return
+
     function onRouteChangeComplete() {
       posthog.capture('$pageview')
     }

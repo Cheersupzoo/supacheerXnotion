@@ -28,12 +28,9 @@ export const getCanonicalPageUrl =
     const pageUuid = parsePageId(pageId, { uuid: true })
 
     if (uuidToId(pageId) === 'a801d85fcc9e4c76bd7a4c60ad234952') {
-      return `https://www.supacheer.com`
+      return `/`
     } else {
-      return `https://www.supacheer.com/${getCanonicalPageId(
-        pageUuid,
-        recordMap
-      )}`
+      return `/${getCanonicalPageId(pageUuid, recordMap)}`
     }
   }
 

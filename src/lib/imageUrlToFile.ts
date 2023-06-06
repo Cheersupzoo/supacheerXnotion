@@ -5,8 +5,6 @@ import { extractKeyFromUrl } from './extractKeyFromUrl'
 
 export async function imageUrlToFile(url: string) {
   const [key, contentType] = extractKeyFromUrl(decodeURIComponent(url))
-  console.log('🚀 ~ file: imageUrlToFile.ts:7 ~ imageUrlToFile ~ key:', key)
-
   const fileName = `/picture_cache/${key}.${contentType}`
   if (!existsSync(`./public${fileName}`)) {
     const response = await fetch(url)

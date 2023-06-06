@@ -3,6 +3,8 @@ import lqip from 'lqip-modern'
 import { PreviewImage } from 'notion-types'
 import pLimit from 'p-limit'
 
+import { isDev } from './env'
+
 export interface PreviewImageMap {
   [url: string]: PreviewImage | null
 }
@@ -10,7 +12,7 @@ export interface PreviewImageMap {
 export async function buildPreviewImage(imageKeyMap: {
   [key: string]: string
 }): Promise<PreviewImageMap> {
-  const limit = pLimit(12)
+  const limit = isDev() ? pLimit(30) : pLimit(12)
 
   const promises = Object.entries(imageKeyMap).map(async ([, url]) =>
     limit(async () => {
