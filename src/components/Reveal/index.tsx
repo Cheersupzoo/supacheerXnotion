@@ -154,7 +154,7 @@ export const RevealComponent = () => {
       <section
         id='CONTACT'
         data-auto-animate
-        className='text-[2.4rem] md:text-[1.2rem] !flex'
+        className='!flex text-[2.4rem] md:text-[1.2rem]'
         style={{
           height: '100%',
           flexDirection: 'column',
@@ -167,7 +167,7 @@ export const RevealComponent = () => {
             backgroundColor:
               'color-mix(in srgb, var(--bg-color), transparent 40%)'
           }}
-          className=' mx-auto rounded-md bg-opacity-50 py-10 backdrop-blur-sm md:w-96'
+          className=' mx-auto rounded-md bg-opacity-50 px-12 py-10 backdrop-blur-sm md:w-96'
         >
           Feel free to contact me on{' '}
           <a
