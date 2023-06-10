@@ -48,24 +48,24 @@ export default function Home({
   const components = useMemo(
     () => ({
       nextImage: (...all: any) => {
-        const { width, height } = all[0]
+        const { width, height, src, objectfit, layout } = all[0]
         if (width / height > 1.6) {
           return (
             <div className='relative h-full flex-1'>
               <img
-                {...all[0]}
+                {...{ src, objectfit, layout }}
                 style={{
                   ...all[0].style,
                   objectFit: 'cover',
                   height: '100%',
                   cursor: 'zoom-in'
                 }}
-                onClick={() => {
-                  new ImageViewer({
-                    images: [{ mainUrl: all[0].src }],
-                    isZoomable: true
-                  })
-                }}
+                // onClick={() => {
+                //   new ImageViewer({
+                //     images: [{ mainUrl: all[0].src }],
+                //     isZoomable: true
+                //   })
+                // }}
               />
 
               <MdOutlineVrpano className='pointer-events-none absolute bottom-0 right-5  text-2xl text-gray-100' />
@@ -74,14 +74,14 @@ export default function Home({
         }
         return (
           <img
-            {...all[0]}
-            style={{ ...all[0].style, objectFit: 'cover',cursor: 'zoom-in' }}
-            onClick={() => {
-              new ImageViewer({
-                images: [{ mainUrl: all[0].src }],
-                isZoomable: true
-              })
-            }}
+            {...{ src, objectfit, layout }}
+            style={{ ...all[0].style, objectFit: 'cover', cursor: 'zoom-in' }}
+            // onClick={() => {
+            //   new ImageViewer({
+            //     images: [{ mainUrl: all[0].src }],
+            //     isZoomable: true
+            //   })
+            // }}
           />
         )
       },
