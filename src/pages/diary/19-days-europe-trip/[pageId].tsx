@@ -24,7 +24,7 @@ import {
   Pdf
 } from '@/components/Notion/NotionXComponent'
 import { PageLink } from '@/components/Notion/PageLink'
-import { LinkMod } from '@/components/Notion/SphereViewer'
+import { LinkMod } from '@/components/Notion/LinkMod'
 import { PageHead } from '@/components/helper/PageHead'
 import { buildImageCache } from '@/lib/buildImageCache'
 import { buildPreviewImage } from '@/lib/buildPreviewImage'

@@ -11,7 +11,7 @@ export async function imageUrlToFile(url: string) {
     const arrayBuffer = await response.arrayBuffer()
     let buffer = Buffer.from(arrayBuffer)
 
-    if (['jpeg', 'jpg', 'png'].includes(contentType ?? '')) {
+    if (['jpeg', 'jpg', 'png','webp'].includes(contentType ?? '')) {
       const Sharp = (await import('sharp')).default
 
       let sharp = await Sharp(buffer)
