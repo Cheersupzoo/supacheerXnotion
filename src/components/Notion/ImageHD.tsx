@@ -1,5 +1,6 @@
-import ImageViewer from 'awesome-image-viewer'
 import { MdOutlineVrpano } from 'react-icons/md'
+
+import { ImageViewer } from './ImageViewer'
 
 export const ImageHD = ({ all }: { all: any }) => {
   const file = all[0].href
@@ -11,9 +12,12 @@ export const ImageHD = ({ all }: { all: any }) => {
   const height = hIndex > -1 ? paramRegexResult?.[hIndex + 1] : '500px'
 
   return (
-    <div
+    <ImageViewer
       style={{ height }}
-      className='imageHD relative flex w-[100vw] flex-col justify-center self-center'
+      className={
+        'imageHD relative flex w-[100vw] flex-col justify-center self-center'
+      }
+      src={`/diary/${fileName}.webp`}
     >
       <img
         className='flex-1'
@@ -23,15 +27,9 @@ export const ImageHD = ({ all }: { all: any }) => {
           cursor: 'zoom-in'
         }}
         src={`/diary/${file}`}
-        onClick={() => {
-          new ImageViewer({
-            images: [{ mainUrl: `/diary/${fileName}.webp` }],
-            isZoomable: true
-          })
-        }}
       />
 
       <MdOutlineVrpano className='pointer-events-none absolute bottom-0 right-5  text-2xl text-gray-100' />
-    </div>
+    </ImageViewer>
   )
 }
