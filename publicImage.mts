@@ -15,7 +15,7 @@ let folder = basePath
     }
   ])
   folder = answers.folder.trim().replaceAll("'", '').replaceAll('"', '')
-  console.log('Output',folder)
+  console.log('Output', folder)
   if (!existsSync(basePath)) {
     mkdirp(basePath)
   }
@@ -108,7 +108,8 @@ async function writeImage(
     outputPath += fileType
   }
 
-  const buffer = await sharp.withMetadata().toBuffer()
+  // const buffer = await sharp.withMetadata().toBuffer()
+  const buffer = await sharp.rotate().toBuffer()
   writeFileSync(outputPath, buffer)
   console.log('✅ Write Complete', outputPath)
 }
