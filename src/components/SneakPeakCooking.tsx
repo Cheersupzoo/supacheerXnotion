@@ -46,6 +46,9 @@ function LookForMore() {
 
   useEffect(() => {
     const onScroll = () => {
+      if (!divRef.current) {
+        return
+      }
       const screenHeight = document.documentElement.clientHeight
 
       const { top } = divRef.current.getBoundingClientRect()
@@ -194,7 +197,7 @@ function Image({
         document.documentElement.clientWidth ||
         document.body.clientWidth
       const halfScreenWidth = screenWidth / 2
-      if(!imgRef.current) {
+      if (!imgRef.current) {
         return
       }
       const { width: imgWidth, clientHeight: imgHeight } = imgRef.current
