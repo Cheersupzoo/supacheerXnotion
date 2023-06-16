@@ -52,22 +52,24 @@ let folder = basePath
 
     const sharp = Sharp(path)
 
-    // await writeImage(sharp, fileName, fileType, {
-    //   maxWidth: 7000,
-    //   maxHeight: 3000,
-    //   isWebp: true
-    // })
+    if (folder === basePath) {
+      await writeImage(sharp, fileName, fileType, {
+        maxWidth: 7000,
+        maxHeight: 3000,
+        isWebp: true
+      })
 
-    // await writeImage(sharp, fileName, fileType, {
-    //   maxWidth: 2200,
-    //   maxHeight: 1200
-    // })
-
-    await writeImage(sharp, fileName, fileType, {
-      maxWidth: 7000,
-      maxHeight: 4000,
-      isWebp: true
-    })
+      await writeImage(sharp, fileName, fileType, {
+        maxWidth: 2200,
+        maxHeight: 1200
+      })
+    } else {
+      await writeImage(sharp, fileName, fileType, {
+        maxWidth: 7000,
+        maxHeight: 4000,
+        isWebp: true
+      })
+    }
   }
 })()
 
