@@ -87,37 +87,39 @@ export const ImageViewer = ({
       {children}
       {isShow && (
         <div
-          className='fixed  left-0 right-0 top-0 z-[399]  h-[100vh] transform overflow-scroll   bg-[var(--bg-color)] bg-opacity-90 opacity-100 shadow-lg backdrop-blur-sm dark:bg-gray-800 dark:bg-opacity-90'
+          className='fixed  left-0 right-0 top-0 z-[399]  h-[100vh] transform  bg-[var(--bg-color)] bg-opacity-90 opacity-100 shadow-lg backdrop-blur-sm dark:bg-gray-800 dark:bg-opacity-90'
           onClick={hide}
         >
-          <div
-            ref={divRef}
-            className='flex h-full items-center justify-center'
-            style={{ width: divWidth }}
-          >
-            <img
-              ref={imgRef}
-              style={{
-                margin: 'auto',
-                width: 'auto',
-                objectFit: 'contain',
-                cursor: !isZoomable
-                  ? 'default'
-                  : !isZoom
-                  ? 'zoom-in'
-                  : 'zoom-out',
-                height: 'auto'
-              }}
-              onClick={(e) => {
-                e.stopPropagation()
-                toggleZoom()
-              }}
-              src={src}
-            />
+          <div className='h-[100vh] w-[100vw]  overflow-auto '>
+            <div
+              ref={divRef}
+              className='flex h-full items-center justify-center'
+              style={{ width: divWidth }}
+            >
+              <img
+                ref={imgRef}
+                style={{
+                  margin: 'auto',
+                  width: 'auto',
+                  objectFit: 'contain',
+                  cursor: !isZoomable
+                    ? 'default'
+                    : !isZoom
+                    ? 'zoom-in'
+                    : 'zoom-out',
+                  height: 'auto'
+                }}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  toggleZoom()
+                }}
+                src={src}
+              />
+            </div>
           </div>
           <div
             onClick={hide}
-            className='absolute right-4 top-4 cursor-pointer p-2 text-xl text-[var(--text-color)]'
+            className='fixed right-4 top-4 cursor-pointer p-2 text-xl text-[var(--text-color)]'
           >
             <AiOutlineClose />
           </div>
