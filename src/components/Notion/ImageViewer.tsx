@@ -32,6 +32,10 @@ export const ImageViewer = ({
     setIsShow(true)
     bodyOverflow.current = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    const header = document.body.querySelector('header')
+    if (header) {
+      header.style.visibility = 'hidden'
+    }
 
     addEventListener('keydown', escKey)
   }
@@ -39,6 +43,10 @@ export const ImageViewer = ({
   const hide = () => {
     setIsShow(false)
     document.body.style.overflow = bodyOverflow.current
+    const header = document.body.querySelector('header')
+    if (header) {
+      header.style.visibility = 'initial'
+    }
     removeEventListener('keydown', escKey)
   }
 
@@ -79,7 +87,7 @@ export const ImageViewer = ({
       {children}
       {isShow && (
         <div
-          className='fixed  left-0 right-0 top-0 z-[299]  h-[100vh] transform overflow-scroll   bg-[var(--bg-color)] bg-opacity-90 opacity-100 shadow-lg backdrop-blur-sm dark:bg-gray-800 dark:bg-opacity-90'
+          className='fixed  left-0 right-0 top-0 z-[399]  h-[100vh] transform overflow-scroll   bg-[var(--bg-color)] bg-opacity-90 opacity-100 shadow-lg backdrop-blur-sm dark:bg-gray-800 dark:bg-opacity-90'
           onClick={hide}
         >
           <div
@@ -91,9 +99,14 @@ export const ImageViewer = ({
               ref={imgRef}
               style={{
                 margin: 'auto',
-                width: '100%',
+                width: 'auto',
                 objectFit: 'contain',
-                cursor: !isZoomable? 'default' : !isZoom ? 'zoom-in' : 'zoom-out'
+                cursor: !isZoomable
+                  ? 'default'
+                  : !isZoom
+                  ? 'zoom-in'
+                  : 'zoom-out',
+                height: 'auto'
               }}
               onClick={(e) => {
                 e.stopPropagation()
@@ -102,7 +115,10 @@ export const ImageViewer = ({
               src={src}
             />
           </div>
-          <div className='absolute right-4 top-4 text-xl text-[var(--text-color)]'>
+          <div
+            onClick={hide}
+            className='absolute right-4 top-4 cursor-pointer p-2 text-xl text-[var(--text-color)]'
+          >
             <AiOutlineClose />
           </div>
         </div>
