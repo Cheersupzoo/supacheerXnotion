@@ -27,7 +27,7 @@ let folder = basePath
         name: 'image_path',
         message: 'Image that want to import to public',
         validate(value: string) {
-          const pass = value.match(/.*\.(JPG|jpg|png)/i)
+          const pass = value.match(/.*\.(JPG|jpg|png|jpeg)/i)
           if (pass) {
             return true
           }
@@ -42,7 +42,7 @@ let folder = basePath
       .trim()
       .replaceAll("'", '')
       .replaceAll('"', '')
-    const regexResult = /.*\/(.*)\.(JPG|jpg|png)/gm.exec(path)
+    const regexResult = /.*\/(.*)\.(JPG|jpg|png|jpeg)/gm.exec(path)
     const fileName = regexResult?.[1]
     const fileType = regexResult?.[2].toLowerCase()
     if (!fileName || !fileType) {
