@@ -13,38 +13,23 @@ export const Page1 = () => {
     setIsLoading(false)
   }, [])
 
-  // const [isAllowGyroscopeButtonShow, setIsAllowGyroscopeButtonShow] =
-  //   useState(false)
-  // useEffect(() => {
-  //   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
-
-  //   const isDeviceMotionExist =
-  //     typeof DeviceMotionEvent !== 'undefined' &&
-  //     //@ts-ignore
-  //     typeof DeviceMotionEvent.requestPermission === 'function'
-  //   if (!isIOS) {
-  //     return
-  //   }
-  //   if (!isDeviceMotionExist) {
-  //     return
-  //   }
-
-  //   setIsAllowGyroscopeButtonShow(true)
-  //   //@ts-ignore
-  //   DeviceMotionEvent.requestPermission()
-  //     .then((permissionState: string) => {
-  //       const isPermissionGranted = permissionState === 'granted'
-
-  //       setIsAllowGyroscopeButtonShow(!isPermissionGranted)
-  //     })
-  //     .catch(console.error)
-  // }, [])
-
   const isTouchable = isTouchDevice()
   return (
-    <section id="START">
-      <div className='animate-pulse1 text-[4rem] text-[--fg-color] md:text-[3rem]'>
-        START
+    <section id='START'>
+      <div className='animate-pulse1  text-[4rem] text-[--fg-color] md:text-[3rem]'>
+        {!isLoading && isTouchable ? (
+          <span className='-translate-y-1/3 leading-[8rem]'>
+            SWIPE
+            <br />
+            LEFT
+            <br />
+            TO
+            <br />
+            START
+          </span>
+        ) : (
+          <>START</>
+        )}
       </div>
       <style jsx>{`
         @keyframes pulse {
@@ -67,7 +52,7 @@ export const Page1 = () => {
         </div>
       )}
       {!isLoading && isTouchable && (
-        <div className='ml-8 mt-20'>
+        <div className='ml-8 mt-20 -translate-y-1/3'>
           <Swiping />
         </div>
       )}

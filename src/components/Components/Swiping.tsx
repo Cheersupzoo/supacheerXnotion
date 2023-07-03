@@ -13,7 +13,7 @@ export const Swiping = () => {
         }
         .swiping {
           animation-name: swiping-key;
-          animation-duration: 5s;
+          animation-duration: 4s;
           animation-iteration-count: infinite;
         }
 
@@ -22,7 +22,7 @@ export const Swiping = () => {
             width: 50px;
             opacity: 0;
           }
-          15% {
+          10% {
             opacity: 0;
           }
           27% {
@@ -32,24 +32,24 @@ export const Swiping = () => {
             width: 50px;
             transform: translateX(0px);
           }
-          34% {
+          38% {
             width: 100px;
           }
           40% {
             opacity: 1;
           }
-          44% {
+          52% {
             width: 50px;
           }
 
-          46% {
+          54% {
             transform: translateX(-70px);
           }
-          50% {
+          60% {
             width: 50px;
             opacity: 0;
           }
-          54% {
+          64% {
             opacity: 0;
           }
           100% {
