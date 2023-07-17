@@ -18,6 +18,13 @@ import 'styles/notion.css'
 import 'styles/prism-theme.css'
 import 'styles/theme.css'
 
+if (typeof window !== 'undefined') {
+  const isDark =
+    localStorage?.getItem('darkMode') === 'true' ??
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  document.documentElement.classList.add(isDark ? 'dark-mode' : 'light-mode')
+}
+
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
