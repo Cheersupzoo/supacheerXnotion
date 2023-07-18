@@ -1,12 +1,44 @@
 import Image from 'next/image'
-import { useState } from 'react'
+import {
+  ForwardedRef,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState
+} from 'react'
 
 import Man from '@/assets/1_zpng.png'
-import { animated, easings, useSpring } from '@react-spring/web'
+import { SpringRef, animated, easings, useSpring } from '@react-spring/web'
 import { clamp, mapLinear } from 'three/src/math/MathUtils'
 
 export function FloatingMan({ className }: { className?: string }) {
   const [isHover, setIsHover] = useState(false)
+  const imageRef = useRef<{
+    addOnLoad: (fun: () => void) => void
+    removeOnload: (fun: () => void) => void
+  }>(null!)
+
+  const hiRef = SpringRef()
+
+  useEffect(() => {
+    const loaded = () => {
+      console.log('load from parent')
+      setTimeout(() => {
+        setIsHover(true)
+        hiRef.current.forEach((controller) => controller.start())
+      }, 1400)
+      // setIsHover(true)
+    }
+
+    const currentImageRef = imageRef.current
+
+    currentImageRef.addOnLoad(loaded)
+
+    return () => {
+      currentImageRef.removeOnload(loaded)
+    }
+  }, [])
 
   const { offset, hiX, opacity } = useSpring({
     from: { offset: -4, hiX: -20, opacity: 0 },
@@ -15,7 +47,8 @@ export function FloatingMan({ className }: { className?: string }) {
     config: {
       easing: easings.easeOutCirc,
       duration: 300
-    }
+    },
+    ref: hiRef
   })
 
   const { scale, translateX } = useSpring({
@@ -41,14 +74,14 @@ export function FloatingMan({ className }: { className?: string }) {
   return (
     <div
       className={'group relative z-0 ' + className}
-      onPointerEnter={() => {
-        setIsHover(true)
-      }}
-      onPointerLeave={() => {
-        setIsHover(false)
-      }}
+      // onPointerEnter={() => {
+      //   setIsHover(true)
+      // }}
+      // onPointerLeave={() => {
+      //   setIsHover(false)
+      // }}
     >
-      <FloatingManImage />
+      <FloatingManImage ref={imageRef} />
       <div className='absolute -left-4 top-12 flex rotate-6 flex-col items-end'>
         <animated.svg
           fill='none'
@@ -114,7 +147,27 @@ export function FloatingMan({ className }: { className?: string }) {
   )
 }
 
-export function FloatingManImage() {
+export const FloatingManImage = forwardRef(function FloatingManImageRef(
+  prop,
+  ref: ForwardedRef<{
+    addOnLoad: (fun: () => void) => void
+    removeOnload: (fun: () => void) => void
+  }>
+) {
+  const onLoadRef = useRef({ callbacks: new Set<() => void>() })
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      addOnLoad: (fun: () => void) => {
+        onLoadRef.current.callbacks.add(fun)
+      },
+      removeOnload: (fun: () => void) => {
+        onLoadRef.current.callbacks.delete(fun)
+      }
+    }),
+    []
+  )
   const { x } = useSpring({
     from: {
       x: 'M 106.102 3.4202 C 76.6289 -0.2932 7.2936 -5.9885 1.5766 40.3115 C -4.1404 86.6116 34.7439 85.3943 26.1708 106.9209 C 17.5977 128.4475 7.3316 140.3894 15.9232 161.2331 C 24.5148 182.0768 51.5677 192.3043 86.6316 184.8026 C 121.6955 177.3008 153.2202 171.121 156.3152 152.0103 C 159.4102 132.8995 137.7763 130.1391 136.8448 101.7971 C 135.9133 73.455 160.3037 46.7019 149.1419 28.0144 C 137.9801 9.3269 135.5751 7.1335 106.102 3.4202 Z'
@@ -145,6 +198,16 @@ export function FloatingManImage() {
           className='select-none transition-all group-hover:rotate-3 group-hover:scale-105 dark:brightness-90'
           src={Man}
           alt='Floating Man'
+          style={{
+            scale: '0',
+            transition: '1s cubic-bezier(.33,.02,.17,1.24)'
+          }}
+          onLoadingComplete={(img) => {
+            img.style.transform = ''
+            img.style.scale = '1'
+            console.log('complete')
+            onLoadRef.current.callbacks.forEach((e) => e())
+          }}
         />
       </a>
       <svg
@@ -159,7 +222,7 @@ export function FloatingManImage() {
       </svg>
     </div>
   )
-}
+})
 
 function ClickMe({ isHover }: { isHover: boolean }) {
   const { offset } = useSpring({ offset: isHover ? 420 : 450 })
@@ -194,7 +257,11 @@ function ClickMe({ isHover }: { isHover: boolean }) {
           d='M 1 3 L 2 5'
         />
       </svg>
-      <div className='translate-y-6 select-none font-medium text-[--blue-color] opacity-0 transition-all delay-75 group-hover:opacity-100'>
+      <div
+        className={`translate-y-6 select-none font-medium text-[--blue-color] transition-all delay-75 duration-700 ${
+          isHover ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         Click to learn more about me!
       </div>
     </div>
@@ -205,7 +272,11 @@ function ScrollDown({ isHover }: { isHover: boolean }) {
   const { offset } = useSpring({ offset: isHover ? 420 : 450, delay: 200 })
   return (
     <div className='absolute -left-0 bottom-[-10px] flex -translate-x-[calc(100%)] flex-row items-center'>
-      <div className='-translate-y-8 translate-x-10 select-none text-right text-sm font-medium text-[--blue-color] opacity-0 transition-all delay-500 group-hover:opacity-100'>
+      <div
+        className={`-translate-y-8 translate-x-10 select-none text-right text-sm font-medium text-[--blue-color] transition-all delay-500 duration-700 ${
+          isHover ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         Or scroll down to look at my blog and more!
       </div>
       <svg
