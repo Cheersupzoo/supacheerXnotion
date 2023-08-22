@@ -3,7 +3,7 @@ import pMemoize from 'p-memoize'
 
 import * as types from './types'
 import { getCanonicalPageId } from './get-canonical-page-id'
-import { notion } from './notion-api'
+import { getPageCached } from './notion-api'
 
 export async function getSiteMap(
   pageId = 'Suppachai-a801d85fcc9e4c76bd7a4c60ad234952'
@@ -26,7 +26,7 @@ async function getAllPagesImpl(
   rootNotionSpaceId?: string
 ): Promise<Partial<types.SiteMap>> {
   const getPage = async (pageId: string, ...args: any[]) => {
-    return notion.getPage(pageId, ...args)
+    return getPageCached(pageId, ...args)
   }
 
   const pageMap = await getAllPagesInSpace(

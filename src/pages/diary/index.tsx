@@ -2,7 +2,6 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
-import { NotionAPI } from 'notion-client'
 import { ExtendedRecordMap } from 'notion-types'
 import { getPageProperty } from 'notion-utils'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
@@ -22,6 +21,7 @@ import { buildPreviewImage } from '@/lib/buildPreviewImage'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
 import { getCanonicalPageUrl } from '@/lib/map-page-url'
+import { getPageCached } from '@/lib/notion-api'
 
 export default function Diary({
   recordMap,
@@ -100,8 +100,7 @@ export default function Diary({
 }
 
 export async function getStaticProps() {
-  const notion = new NotionAPI()
-  const recordMap = await notion.getPage(
+  const recordMap = await getPageCached(
     '19-Days-Europe-Trip-Diary-4e95b0b2988d4166926449283033d810'
   )
 

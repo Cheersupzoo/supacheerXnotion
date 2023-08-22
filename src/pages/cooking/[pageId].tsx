@@ -3,7 +3,6 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
-import { NotionAPI } from 'notion-client'
 import {
   getBlockTitle,
   getPageProperty,
@@ -27,6 +26,7 @@ import { buildImageCache } from '@/lib/buildImageCache'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
 import { getCanonicalPageUrl } from '@/lib/map-page-url'
+import { getPageCached } from '@/lib/notion-api'
 import { transformParentNode } from '@/lib/transfromParentNode'
 import { ExtendedRecordMap, PageProps, Params } from '@/lib/types'
 
@@ -118,14 +118,13 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async (
 
   let pageId = parsePageId(rawPageId)
 
-  const notion = new NotionAPI()
   let recordMap: ExtendedRecordMap
   if (pageId) {
-    recordMap = await notion.getPage(pageId)
+    recordMap = await getPageCached(pageId)
   } else {
     const siteMap = await getSiteMap()
     pageId = siteMap?.canonicalPageMap[rawPageId]
-    recordMap = await notion.getPage(pageId)
+    recordMap = await getPageCached(pageId)
   }
 
   const imageCache = await buildImageCache(recordMap)

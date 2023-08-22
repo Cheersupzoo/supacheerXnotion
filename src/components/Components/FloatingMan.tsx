@@ -23,7 +23,6 @@ export function FloatingMan({ className }: { className?: string }) {
 
   useEffect(() => {
     const loaded = () => {
-      console.log('load from parent')
       setTimeout(() => {
         setIsHover(true)
         hiRef.current.forEach((controller) => controller.start())
@@ -205,7 +204,6 @@ export const FloatingManImage = forwardRef(function FloatingManImageRef(
           onLoadingComplete={(img) => {
             img.style.transform = ''
             img.style.scale = '1'
-            console.log('complete')
             onLoadRef.current.callbacks.forEach((e) => e())
           }}
         />

@@ -2,7 +2,6 @@ import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
-import { NotionAPI } from 'notion-client'
 import {
   getBlockTitle,
   getPageProperty,
@@ -32,6 +31,7 @@ import { buildVideoCache } from '@/lib/buildVideoCache'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
 import { getCanonicalPageUrl } from '@/lib/map-page-url'
+import { getPageCached } from '@/lib/notion-api'
 import { ExtendedRecordMap, PageProps, Params } from '@/lib/types'
 
 export default function Home({
@@ -171,17 +171,16 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async (
 
   let pageId = parsePageId(rawPageId)
 
-  const notion = new NotionAPI()
   let recordMap: ExtendedRecordMap
   let idCanonicalMap: { [key: string]: string } = {}
   if (pageId) {
-    recordMap = await notion.getPage(pageId)
+    recordMap = await getPageCached(pageId)
   } else {
     const siteMap = await getSiteMap(
       '19-Days-Europe-Trip-Diary-4e95b0b2988d4166926449283033d810'
     )
     pageId = siteMap?.canonicalPageMap[rawPageId]
-    recordMap = await notion.getPage(pageId)
+    recordMap = await getPageCached(pageId)
     idCanonicalMap = Object.entries(siteMap.canonicalPageMap).reduce(
       (map, [canonical, id]) => ({ ...map, [id]: canonical }),
       {}

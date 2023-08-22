@@ -2,7 +2,6 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import { useEffect, useMemo, useRef } from 'react'
 
-import { NotionAPI } from 'notion-client'
 import { ExtendedRecordMap } from 'notion-types'
 import { getPageProperty } from 'notion-utils'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
@@ -24,6 +23,7 @@ import { buildPreviewImage } from '@/lib/buildPreviewImage'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
 import { getCanonicalPageUrl } from '@/lib/map-page-url'
+import { getPageCached } from '@/lib/notion-api'
 
 export default function Home({
   recordMap,
@@ -141,8 +141,7 @@ export default function Home({
 }
 
 export async function getStaticProps() {
-  const notion = new NotionAPI()
-  const recordMap = await notion.getPage(
+  const recordMap = await getPageCached(
     'About-19837e8210c24e0e95d6b22b1b1d5204'
   )
 

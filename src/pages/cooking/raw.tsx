@@ -1,10 +1,9 @@
 import { GetServerSidePropsContext } from 'next/types'
 
-import { NotionAPI } from 'notion-client'
-
 import { buildImageCache } from '@/lib/buildImageCache'
 import { buildPreviewImage } from '@/lib/buildPreviewImage'
 import { getSiteMap } from '@/lib/get-site-map'
+import { getPageCached } from '@/lib/notion-api'
 
 export async function getServerSideProps({
   req,
@@ -21,8 +20,7 @@ export async function getServerSideProps({
   const ttlMinutes = 24 * 60 // 24 hours
   const ttlSeconds = ttlMinutes * 60
 
-  const notion = new NotionAPI()
-  const recordMap = await notion.getPage(
+  const recordMap = await getPageCached(
     'Cooking-Journey-b294089d65b249b1be54c1dd5875f8c4'
   )
 

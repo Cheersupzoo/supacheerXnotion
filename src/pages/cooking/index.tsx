@@ -2,7 +2,6 @@ import Image from 'next/legacy/image'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
-import { NotionAPI } from 'notion-client'
 import { ExtendedRecordMap } from 'notion-types'
 import { getPageProperty } from 'notion-utils'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
@@ -22,6 +21,7 @@ import { buildPreviewImage } from '@/lib/buildPreviewImage'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
 import { getCanonicalPageUrl } from '@/lib/map-page-url'
+import { getPageCached } from '@/lib/notion-api'
 
 export default function Home({
   recordMap,
@@ -98,8 +98,7 @@ export default function Home({
 }
 
 export async function getStaticProps() {
-  const notion = new NotionAPI()
-  const recordMap = await notion.getPage(
+  const recordMap = await getPageCached(
     'Cooking-Journey-b294089d65b249b1be54c1dd5875f8c4'
   )
 

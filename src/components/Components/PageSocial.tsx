@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { FaMediumM } from '@react-icons/all-files/fa/FaMediumM'
 import cs from 'classnames'
+import { FaMediumM } from 'react-icons/fa'
 
 import styles from './PageSocial.module.css'
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
-import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
+import { IoMoonSharp } from 'react-icons/io5'
+import { IoSunnyOutline } from 'react-icons/io5'
 import { cs } from 'react-notion-x'
 
 import { useDarkMode } from '@/lib/use-dark-mode'

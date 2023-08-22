@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-import { FaGithub } from '@react-icons/all-files/fa/FaGithub'
-import { FaLinkedin } from '@react-icons/all-files/fa/FaLinkedin'
-import { FaMedium } from '@react-icons/all-files/fa/FaMedium'
-import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
-import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
+import { FaGithub } from 'react-icons/fa'
+import { FaLinkedin } from 'react-icons/fa'
+import { FaMedium } from 'react-icons/fa'
+import { IoMoonSharp } from 'react-icons/io5'
+import { IoSunnyOutline } from 'react-icons/io5'
 
 import { useDarkMode } from '@/lib/use-dark-mode'
 

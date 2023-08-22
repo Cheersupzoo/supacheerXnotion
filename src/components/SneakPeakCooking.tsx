@@ -4,18 +4,19 @@ import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { animated, useSpring } from '@react-spring/web'
 import { clamp, mapLinear } from 'three/src/math/MathUtils'
 
+import { MouseScroll } from './Components/MouseScroll'
+import { CookingBg } from './CookingBg'
 import { UnderlineHover } from './Decorator/UnderlineHover'
 
 export const SneakPeakCooking = () => {
   const divRef = useRef<HTMLDivElement>(null!)
 
   return (
-    <div
-      ref={divRef}
-      className='flex flex-col items-center  
-    '
-    >
-      <div className='-mt-2 flex flex-col items-center space-y-10 overflow-hidden px-6 pb-12 pt-8 md:mb-[300px] md:overflow-visible'>
+    <div ref={divRef} className=' flex flex-col items-center'>
+      <CookingBg parentRef={divRef} />
+      <MouseScrollComponent parentRef={divRef} />
+
+      <div className='-mt-2 flex flex-col items-center space-y-10 overflow-hidden px-6 pb-12 pt-8 sm:overflow-visible md:mb-[300px]'>
         {[
           '/cooking/1.jpg',
           '/cooking/2.jpg',
@@ -247,7 +248,7 @@ function Image({
     }
   }, [index, left, parentRef])
   return (
-    <div ref={divRef} className=''>
+    <div ref={divRef}>
       <div
         ref={animatedDivYRef}
         style={{ transition: '0.3s cubic-bezier(.2,.5,.39,.98)' }}
@@ -272,6 +273,48 @@ function Image({
           </animated.div>
         </div>
       </div>
+    </div>
+  )
+}
+
+const MouseScrollComponent = ({
+  parentRef
+}: {
+  parentRef: MutableRefObject<HTMLDivElement>
+}) => {
+  const divRef = useRef<HTMLDivElement>(null!)
+  useEffect(() => {
+    const onscroll = () => {
+      const scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop
+
+      const screenHeight =
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight
+
+      const scrollOffset = scrollTop - parentRef.current.offsetTop
+
+      divRef.current.style.opacity =
+        scrollOffset > -screenHeight + 500 ? '0.0' : '1.0'
+    }
+
+    window.addEventListener('scroll', onscroll)
+
+    return () => {
+      window.removeEventListener('scroll', onscroll)
+    }
+  }, [parentRef])
+
+  return (
+    <div
+      ref={divRef}
+      style={{
+        transition: 'opacity 0.5s linear'
+      }}
+      className='sticky top-2/3 mt-12 h-0'
+    >
+      <MouseScroll />
     </div>
   )
 }

@@ -1,8 +1,8 @@
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import { Menu, Transition } from '@headlessui/react'
-import { HiMenu } from '@react-icons/all-files/hi/HiMenu'
-import { HiX } from '@react-icons/all-files/hi/HiX'
+import { HiMenu } from 'react-icons/hi'
+import { HiX } from 'react-icons/hi'
 
 import { FloatingManImage } from './FloatingMan'
 import { ToggleThemeButton } from './ToggleThemeButton'
