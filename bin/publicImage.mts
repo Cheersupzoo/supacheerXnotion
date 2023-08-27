@@ -32,6 +32,10 @@ let folder = basePath
             return true
           }
 
+          if (!value.length) {
+            return 'Press cmd/ctl+c to exit'
+          } 
+
           return 'Please enter a valid image path'
         }
       }
@@ -54,14 +58,20 @@ let folder = basePath
 
     if (folder === basePath) {
       await writeImage(sharp, fileName, fileType, {
-        maxWidth: 7000,
-        maxHeight: 3000,
+        maxWidth: 1200,
+        maxHeight: 1200,
+        isWebp: true
+      })
+
+      await writeImage(sharp, fileName + '-sm', fileType, {
+        maxWidth: 800,
+        maxHeight: 800,
         isWebp: true
       })
 
       await writeImage(sharp, fileName, fileType, {
-        maxWidth: 2200,
-        maxHeight: 1200
+        maxWidth: 600,
+        maxHeight: 600
       })
     } else {
       await writeImage(sharp, fileName, fileType, {

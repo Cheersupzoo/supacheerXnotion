@@ -46,7 +46,7 @@ export const PageHead: React.FC<{
         rel='alternate'
         type='application/rss+xml'
         href={rssFeedUrl}
-        title={"Supacheer"}
+        title={'Supacheer'}
       />
 
       <meta property='og:title' content={title} />
