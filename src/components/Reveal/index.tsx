@@ -122,7 +122,7 @@ export const RevealComponent = () => {
         </h4>
         <h5 style={{ color: 'var(--light-blue-color)' }}>
           <span style={{ color: 'var(--red-color)' }}>Brikl</span>, Bangkok,
-          Thailand – (Jan 2022 - Present){' '}
+          Thailand – (Jan 2022 - Jul 2023){' '}
         </h5>
         <p className='text-shadow text-left'>
           Leading in Document App project, one of the main features in dashboard
