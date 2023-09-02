@@ -20,7 +20,7 @@ export default function Diary() {
         <PageHead
           title={'Diary | Supacheer'}
           description={'Diary of cheer traveling Europe in 19 Days'}
-          url={basePath}
+          url={'/diary'}
           image={'https://www.supacheer.com/diary/swiss1.jpg'}
         />
         <div className='h-8' />
