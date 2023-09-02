@@ -18,6 +18,7 @@ export default function Home({ blogs }: { blogs: BlogsProp }) {
         title={'Supacheer'}
         description={'Supacheer Home Page'}
         url={'https://www.supacheer.com'}
+        image={'https://www.supacheer.com/default.png'}
       />
       <HeadCurve />
       <Container className='flex'>

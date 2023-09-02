@@ -21,6 +21,7 @@ export default function Diary() {
           title={'Diary | Supacheer'}
           description={'Diary of cheer traveling Europe in 19 Days'}
           url={basePath}
+          image={'https://www.supacheer.com/diary/swiss1.jpg'}
         />
         <div className='h-8' />
         <div className='mt-16 text-center text-3xl font-semibold'>

@@ -120,12 +120,15 @@ export default function Home({
 
   const title = getBlockTitle(block, recordMap)
 
+  const firstImage = Object.values(imageCache)[0]
+
   return (
     <Layout>
       <PageHead
         title={title}
         description={socialDescription}
         url={canonicalPageUrl}
+        image={`https://www.supacheer.com${firstImage}`}
       />
       <div className='h-10' />
       <NotionRenderer

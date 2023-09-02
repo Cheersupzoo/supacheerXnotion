@@ -6,7 +6,12 @@ export const PageHead: React.FC<{
   description?: string
   image?: string
   url?: string
-}> = ({ title, description, url }) => {
+}> = ({
+  title,
+  description,
+  url,
+  image = 'https://www.supacheer.com/default.png'
+}) => {
   const rssFeedUrl = `https://www.supacheer.com/feed`
   title = title ?? 'Supacheer'
   description = description ?? 'Website of Cheer'
@@ -39,6 +44,14 @@ export const PageHead: React.FC<{
           <link rel='canonical' href={url} />
           <meta property='og:url' content={url} />
           <meta property='twitter:url' content={url} />
+        </>
+      )}
+
+      {image && (
+        <>
+          <meta name='image' content={image} />
+          <meta property='og:image' content={image} />
+          <meta property='twitter:image' content={image} />
         </>
       )}
 
