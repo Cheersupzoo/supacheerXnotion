@@ -1,5 +1,6 @@
 import { existsSync } from 'fs'
 import fs from 'fs/promises'
+import { setTimeout } from 'timers/promises'
 
 import { extractKeyFromUrl } from './extractKeyFromUrl'
 
@@ -8,7 +9,14 @@ export async function imageUrlToFile(url: string) {
   const overrideContentType = 'webp'
   const fileName = `/picture_cache/${key}.${overrideContentType}`
   if (!existsSync(`./public${fileName}`)) {
-    const response = await fetch(url)
+    let response = await fetch(url).catch(() => ({
+      status: 600
+    })) as Response
+    if (response.status > 300) {
+      response = await fetch(url)
+      await setTimeout(1000)
+      console.log('Retry download image:', url)
+    }
     const arrayBuffer = await response.arrayBuffer()
     let buffer = Buffer.from(arrayBuffer)
 

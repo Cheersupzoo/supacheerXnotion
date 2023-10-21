@@ -59,6 +59,9 @@ export const CookingBg = ({
 
   useEffect(() => {
     const onscroll = () => {
+      if(!parentRef.current?.offsetTop) {
+        return
+      }
       const scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop
 

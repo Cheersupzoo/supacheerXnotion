@@ -22,7 +22,7 @@ export async function buildImageCache(recordMap: ExtendedRecordMap) {
       return defaultMapImageUrl(url, block)
     }
   })
-  console.log(`🚀 Build Image Cache...`)
+  // console.log(`🚀 Build Image Cache...`)
 
   const promises = imageUrls.map(async (url) =>
     limit(async () => {
@@ -45,7 +45,7 @@ export async function buildImageCache(recordMap: ExtendedRecordMap) {
     {}
   )
 
-  console.log(`🚀 Build Image Cache Done!`)
+  // console.log(`🚀 Build Image Cache Done!`)
 
   return base64Signed_url
 }

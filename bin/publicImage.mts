@@ -3,6 +3,11 @@ import inquirer from 'inquirer'
 import { mkdirp } from 'mkdirp'
 import Sharp from 'sharp'
 
+process.on('SIGINT', () => {
+  console.log('Close!')
+  process.exit()
+})
+
 const basePath = './public/diary'
 let folder = basePath
 ;(async () => {

@@ -189,6 +189,9 @@ function Image({
 
   useEffect(() => {
     const onscroll = () => {
+      if (!parentRef.current?.offsetTop || !divRef?.current?.offsetTop) {
+        return
+      }
       const rootTop = parentRef.current?.offsetTop
       const rootHeight = parentRef.current?.clientHeight
       const scrollTop =
@@ -285,6 +288,9 @@ const MouseScrollComponent = ({
   const divRef = useRef<HTMLDivElement>(null!)
   useEffect(() => {
     const onscroll = () => {
+      if (!parentRef.current?.offsetTop) {
+        return
+      }
       const scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop
 

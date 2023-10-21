@@ -27,7 +27,7 @@ export default function Home({ blogs }: { blogs: BlogsProp }) {
         <FloatingMan className='ml-auto mt-8 hidden w-[250px] md:block' />
       </Container>
       <Container className='mb-8 flex px-6 md:px-12'>
-        <div>
+        <div className='flex-grow'>
           <h1 className='text-lg  text-[--purple-color]'>RECENTLY DIARY</h1>
           <SneakPeakDiary />
         </div>

@@ -5,24 +5,24 @@ import { cs } from 'react-notion-x'
 
 export const SneakPeakDiary = () => {
   return (
-    <div>
+    <div className='w-full'>
       <div className='mt-12'>
         <Link
           rel='noopener noreferrer'
           className={cs('group')}
-          href={`/diary`}
+          href={`/diary/what-I-eat-in-my-japan-trip-2023`}
           passHref
         >
           <div>
             <div className='text-xl font-semibold text-[--text-color] group-hover:text-[--blue-color] group-hover:saturate-150'>
-              I traveled to Europe for 19 Days
+              What I eat in my Japan trip 2023
             </div>
 
-            <div className='my-5 grid' style={{ gridArea: '1/1' }}>
+            <div className='my-5 grid w-full' style={{ gridArea: '1/1' }}>
               <img
-                src={`/europe2023.jpg`}
-                alt={'europe2023'}
-                className='max-h-80 w-full group-hover:brightness-105 transition'
+                src='/picture_cache/5be9c69f-fe41-4155-98aa-f1a8d2ffa445.webp'
+                alt='japan2023'
+                className='object-top max-h-80 w-full transition group-hover:brightness-105'
                 style={{
                   objectFit: 'cover',
                   gridArea: '1/1'
@@ -32,14 +32,13 @@ export const SneakPeakDiary = () => {
                 style={{ gridArea: '1/1', alignSelf: 'end' }}
                 className='text-md mt-4 bg-white/40 p-1  text-gray-800 backdrop-blur-sm'
               >
-                This is my first time travel to the main land europe and also
-                self traveling. All planned ahead 😏.
+                🍽️ 🍽️ 🍽️ 😋
               </div>
             </div>
           </div>
 
           <div className='mt-4 flex items-center font-medium text-[--fg-color] group-hover:text-[--sat-pink-color]'>
-            Sneak peak now
+            Read more
             <svg
               fill='var(--green-color)'
               className='ml-2 w-4 opacity-0 transition-all delay-75 group-hover:opacity-100'
