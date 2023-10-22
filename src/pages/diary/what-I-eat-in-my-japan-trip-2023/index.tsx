@@ -122,7 +122,7 @@ export default function Home({
       <PageHead
         title={title}
         description={socialDescription}
-        url={canonicalPageUrl}
+        url={'/diary/what-I-eat-in-my-japan-trip-2023'}
         image={`https://www.supacheer.com${firstImage}`}
       />
       <div className='h-10' />
