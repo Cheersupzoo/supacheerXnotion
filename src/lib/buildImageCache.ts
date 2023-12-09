@@ -24,26 +24,45 @@ export async function buildImageCache(recordMap: ExtendedRecordMap) {
   })
   // console.log(`🚀 Build Image Cache...`)
 
-  const promises = imageUrls.map(async (url) =>
-    limit(async () => {
-      const image = await imageUrlToFile(url)
-      const [key] = extractKeyFromUrl(decodeURIComponent(url))
-      if (!key) {
-        return {}
-      }
+  let base64Signed_url: {
+    [x: string]: string
+  }
 
-      return {
-        [key]: image
-      }
-    })
-  )
+  if (process.env.BUILD_IMAGE_CACHE === 'true') {
+    const promises = imageUrls.map(async (url) =>
+      limit(async () => {
+        const image = await imageUrlToFile(url)
+        const [key] = extractKeyFromUrl(decodeURIComponent(url))
+        if (!key) {
+          return {}
+        }
 
-  const arrayKeyUrl = await Promise.all(promises)
+        return {
+          [key]: image
+        }
+      })
+    )
+    const arrayKeyUrl = await Promise.all(promises)
 
-  const base64Signed_url = arrayKeyUrl.reduce(
-    (acc, val) => ({ ...acc, ...val }),
-    {}
-  )
+    base64Signed_url = arrayKeyUrl.reduce(
+      (acc, val) => ({ ...acc, ...val }),
+      {}
+    )
+  } else {
+    base64Signed_url = imageUrls
+      .map((url) => {
+        const [key] = extractKeyFromUrl(decodeURIComponent(url))
+        const image = `https://cdn.supacheer.com/picture/${key}.webp`
+        if (!key) {
+          return {}
+        }
+
+        return {
+          [key]: image
+        }
+      })
+      .reduce((acc, val) => ({ ...acc, ...val }), {})
+  }
 
   // console.log(`🚀 Build Image Cache Done!`)
 

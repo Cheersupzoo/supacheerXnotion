@@ -26,7 +26,10 @@ export async function getServerSideProps({
 
   const imageCache = await buildImageCache(recordMap)
 
-  const previewImageMap = await buildPreviewImage(imageCache)
+  const previewImageMap = await buildPreviewImage(
+    imageCache,
+    'Cooking-Journey-b294089d65b249b1be54c1dd5875f8c4'
+  )
   recordMap.preview_images = previewImageMap
   const siteMap = await getSiteMap()
   const idCanonicalMap = Object.entries(siteMap.canonicalPageMap).reduce(

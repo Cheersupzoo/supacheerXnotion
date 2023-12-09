@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:image": "BUILD_IMAGE_CACHE=true next build",
     "start": "next start",
     "lint": "next lint",
     "test:lint": "eslint '**/*.{ts,tsx}'",

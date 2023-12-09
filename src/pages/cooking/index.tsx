@@ -1,4 +1,3 @@
-import Image from 'next/legacy/image'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
@@ -35,7 +34,6 @@ export default function Home({
 }) {
   const components = useMemo(
     () => ({
-      nextImage: Image,
       nextLink: Link,
       Code,
       Collection,
@@ -104,7 +102,10 @@ export async function getStaticProps() {
 
   const imageCache = await buildImageCache(recordMap)
 
-  const previewImageMap = await buildPreviewImage(imageCache)
+  const previewImageMap = await buildPreviewImage(
+    imageCache,
+    'Cooking-Journey-b294089d65b249b1be54c1dd5875f8c4'
+  )
   recordMap.preview_images = previewImageMap
   const siteMap = await getSiteMap()
   const idCanonicalMap = Object.entries(siteMap.canonicalPageMap).reduce(

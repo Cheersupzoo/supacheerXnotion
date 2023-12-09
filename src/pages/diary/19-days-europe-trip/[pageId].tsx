@@ -195,7 +195,7 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async (
   const videoKeyUrls = await buildVideoCache(recordMap)
   videoKeyUrls.map(([key, url]) => (recordMap.signed_urls[key] = url))
 
-  const previewImageMap = await buildPreviewImage(imageCache)
+  const previewImageMap = await buildPreviewImage(imageCache, pageId)
   recordMap.preview_images = previewImageMap
 
   // await transformParentNode(

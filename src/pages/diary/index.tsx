@@ -35,9 +35,9 @@ const Diary = () => {
               Icon={
                 <JapanFlag className='absolute -left-4 -top-4 z-30 w-24 -rotate-6 shadow-2xl' />
               }
-              imageSrc1='/picture_cache/5be9c69f-fe41-4155-98aa-f1a8d2ffa445.webp'
-              imageSrc2='/picture_cache/0977fb18-6d63-4a52-a773-b0907e337154.webp'
-              imageSrc3='/picture_cache/160e6a2e-61a7-4f65-93ab-ee0e1854e16c.webp'
+              imageSrc1='https://cdn.supacheer.com/picture/5be9c69f-fe41-4155-98aa-f1a8d2ffa445.webp'
+              imageSrc2='https://cdn.supacheer.com/picture/0977fb18-6d63-4a52-a773-b0907e337154.webp'
+              imageSrc3='https://cdn.supacheer.com/picture/160e6a2e-61a7-4f65-93ab-ee0e1854e16c.webp'
             />
             <LinkDiary
               href='/diary/19-days-europe-trip'
@@ -49,9 +49,9 @@ const Diary = () => {
               Icon={
                 <EuropeFlag className='absolute -left-4 -top-4 z-30 w-24 -rotate-6 shadow-2xl' />
               }
-              imageSrc1='/picture_cache/d47fb393-cf57-429d-b0ef-275e9246505b.webp'
-              imageSrc2='/picture_cache/0af5ae50-9422-41f4-aaf4-f5b665015b8c.webp'
-              imageSrc3='/picture_cache/9239aa7c-c44b-467e-976a-f81b12e4929f.webp'
+              imageSrc1='https://cdn.supacheer.com/picture/d47fb393-cf57-429d-b0ef-275e9246505b.webp'
+              imageSrc2='https://cdn.supacheer.com/picture/0af5ae50-9422-41f4-aaf4-f5b665015b8c.webp'
+              imageSrc3='https://cdn.supacheer.com/picture/9239aa7c-c44b-467e-976a-f81b12e4929f.webp'
             />
           </div>
         </Container>

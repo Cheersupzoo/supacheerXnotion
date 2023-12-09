@@ -20,7 +20,7 @@ export const SneakPeakDiary = () => {
 
             <div className='my-5 grid w-full' style={{ gridArea: '1/1' }}>
               <img
-                src='/picture_cache/5be9c69f-fe41-4155-98aa-f1a8d2ffa445.webp'
+                src='https://cdn.supacheer.com/picture/5be9c69f-fe41-4155-98aa-f1a8d2ffa445.webp'
                 alt='japan2023'
                 className='object-top max-h-80 w-full transition group-hover:brightness-105'
                 style={{
