@@ -207,14 +207,6 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async (
 }
 
 export async function getStaticPaths() {
-  const environment = process.env.NODE_ENV || 'development'
-  if (environment === 'development') {
-    return {
-      paths: [],
-      fallback: true
-    }
-  }
-
   const siteMap = await getSiteMap(
     '19-Days-Europe-Trip-Diary-4e95b0b2988d4166926449283033d810'
   )
