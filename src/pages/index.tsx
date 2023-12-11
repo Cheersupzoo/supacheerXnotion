@@ -58,7 +58,7 @@ export default function Home({ blogs }: { blogs: BlogsProp }) {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const blogs = await directDownloadBlogFeed()
   return {
     props: {
