@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  staticPageGenerationTimeout: 300
+  output: 'export',
+  staticPageGenerationTimeout: 300,
+  images: {
+    unoptimized: true
+  }
 }
 
 module.exports = nextConfig

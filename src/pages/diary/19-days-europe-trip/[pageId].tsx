@@ -16,6 +16,7 @@ import { PageAside } from '@/components/Components/PageAside'
 import { Layout } from '@/components/Layout'
 import { ImageViewer } from '@/components/Notion/ImageViewer'
 import { LinkMod } from '@/components/Notion/LinkMod'
+import { NextNotionImage } from '@/components/Notion/NextNotionImage'
 import { NotionPageHeader } from '@/components/Notion/NotionPageHeader'
 import {
   Code,
@@ -47,38 +48,7 @@ export default function Home({
 }) {
   const components = useMemo(
     () => ({
-      nextImage: (...all: any) => {
-        const { width, height, src, objectfit, layout } = all[0]
-        if (width / height > 1.6) {
-          return (
-            <ImageViewer src={src} className='relative h-full flex-1'>
-              <img
-                {...{ src, objectfit, layout }}
-                style={{
-                  ...all[0].style,
-                  objectFit: 'cover',
-                  height: '100%',
-                  cursor: 'zoom-in'
-                }}
-              />
-
-              <MdOutlineVrpano className='pointer-events-none absolute bottom-0 right-5  text-2xl text-gray-100' />
-            </ImageViewer>
-          )
-        }
-        return (
-          <ImageViewer
-            src={src}
-            className='relative h-full flex-1'
-            isZoomable={false}
-          >
-            <img
-              {...{ src, objectfit, layout }}
-              style={{ ...all[0].style, objectFit: 'cover', cursor: 'zoom-in' }}
-            />
-          </ImageViewer>
-        )
-      },
+      nextImage: NextNotionImage,
       nextLink: Link,
       Code,
       Collection,
@@ -207,14 +177,6 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async (
 }
 
 export async function getStaticPaths() {
-  const environment = process.env.NODE_ENV || 'development'
-  if (environment === 'development') {
-    return {
-      paths: [],
-      fallback: true
-    }
-  }
-
   const siteMap = await getSiteMap(
     '19-Days-Europe-Trip-Diary-4e95b0b2988d4166926449283033d810'
   )
