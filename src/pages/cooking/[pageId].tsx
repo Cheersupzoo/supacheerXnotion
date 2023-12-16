@@ -1,5 +1,4 @@
 import { GetStaticProps } from 'next'
-import Image from 'next/legacy/image'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
@@ -29,6 +28,7 @@ import { getCanonicalPageUrl } from '@/lib/map-page-url'
 import { getPageCached } from '@/lib/notion-api'
 import { transformParentNode } from '@/lib/transfromParentNode'
 import { ExtendedRecordMap, PageProps, Params } from '@/lib/types'
+import { NextNotionImage } from '@/components/Notion/NextNotionImage'
 
 export default function Home({
   recordMap,
@@ -41,7 +41,7 @@ export default function Home({
 }) {
   const components = useMemo(
     () => ({
-      nextImage: Image,
+      nextImage: NextNotionImage,
       nextLink: Link,
       Code,
       Collection,
