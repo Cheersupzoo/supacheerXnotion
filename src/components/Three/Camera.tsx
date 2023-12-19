@@ -174,6 +174,7 @@ export const Camera = () => {
           targetRef.current.lookAtZ = 0 + 40
           rotation.start([0, 0, 0])
         } else if (indexh === 4) {
+          // Working Experience
           targetRef.current.positionX = 0
           targetRef.current.positionY = -9.4
           targetRef.current.positionZ = 0.2
@@ -182,6 +183,7 @@ export const Camera = () => {
           targetRef.current.lookAtZ = 2 + 40
           rotation.start([0, 0, 0])
         } else if (indexh === 5) {
+          // Working Experience
           targetRef.current.positionX = 0
           targetRef.current.positionY = -9.4
           targetRef.current.positionZ = 0.2
@@ -190,6 +192,7 @@ export const Camera = () => {
           targetRef.current.lookAtZ = 2 + 40
           rotation.start([0, 0, 0])
         } else if (indexh === 6) {
+          // Working Experience
           targetRef.current.positionX = 0
           targetRef.current.positionY = -9.4
           targetRef.current.positionZ = 0.2
@@ -198,6 +201,15 @@ export const Camera = () => {
           targetRef.current.lookAtZ = 2 + 40
           rotation.start([0, 0, 0])
         } else if (indexh === 7) {
+          // Working Experience
+          targetRef.current.positionX = 0
+          targetRef.current.positionY = -9.4
+          targetRef.current.positionZ = 0.2
+          targetRef.current.lookAtX = 0
+          targetRef.current.lookAtY = -9.8
+          targetRef.current.lookAtZ = 2 + 40
+          rotation.start([0, 0, 0])
+        } else if (indexh === 8) {
           targetRef.current.positionX = 16
           targetRef.current.positionY = -10
           targetRef.current.positionZ = 9
@@ -240,6 +252,7 @@ export const Camera = () => {
           targetRef.current.lookAtZ = 0 + 40
           rotation.start([0, 0, 0])
         } else if (indexh === 4) {
+          // Working Experience
           targetRef.current.positionX = 0
           targetRef.current.positionY = -9.5
           targetRef.current.positionZ = -0.1
@@ -248,6 +261,7 @@ export const Camera = () => {
           targetRef.current.lookAtZ = 40 + 40
           rotation.start([0, 0, 0])
         } else if (indexh === 5) {
+          // Working Experience
           targetRef.current.positionX = 0
           targetRef.current.positionY = -9.5
           targetRef.current.positionZ = -0.1
@@ -256,6 +270,7 @@ export const Camera = () => {
           targetRef.current.lookAtZ = 40 + 40
           rotation.start([0, 0, 0])
         } else if (indexh === 6) {
+          // Working Experience
           targetRef.current.positionX = 0
           targetRef.current.positionY = -9.5
           targetRef.current.positionZ = -0.1
@@ -264,6 +279,15 @@ export const Camera = () => {
           targetRef.current.lookAtZ = 40 + 40
           rotation.start([0, 0, 0])
         } else if (indexh === 7) {
+          // Working Experience
+          targetRef.current.positionX = 0
+          targetRef.current.positionY = -9.5
+          targetRef.current.positionZ = -0.1
+          targetRef.current.lookAtX = 0
+          targetRef.current.lookAtY = -10.5
+          targetRef.current.lookAtZ = 40 + 40
+          rotation.start([0, 0, 0])
+        } else if (indexh === 8) {
           targetRef.current.positionX = 16
           targetRef.current.positionY = -10
           targetRef.current.positionZ = 11

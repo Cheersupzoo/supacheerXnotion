@@ -6,7 +6,9 @@ import { Page1 } from './page/Page1'
 export const RevealComponent = () => {
   return (
     <RevealRenderer>
+      {/* // ? Page 1 */}
       <Page1 />
+      {/* // ? Page 2 */}
       <section data-auto-animate>
         <div
           className='text-[1.2em] md:text-[0.8em]'
@@ -21,6 +23,7 @@ export const RevealComponent = () => {
           My name is <span className='text-[var(--blue-color)]'>Cheer</span>
         </div>
       </section>
+      {/* // ? Page 3 */}
       <section
         data-auto-animate
         className='space-y-10 text-[1em] md:text-[0.5em]'
@@ -66,7 +69,7 @@ export const RevealComponent = () => {
           thought into the website.
         </p>
       </section>
-
+      {/* // ? Page 4 */}
       <section
         data-auto-animate
         className='px-20 text-[2.4rem] text-[var(--text-color)] md:text-[1.2rem]'
@@ -89,6 +92,7 @@ export const RevealComponent = () => {
           Java + Spring Boot + PostgreSQL + Redis + Flutter + Vue.Js
         </p>
       </section>
+      {/* // ? Page 5 */}
       <section
         data-auto-animate
         className='px-20 text-[2.4rem] text-[var(--text-color)] md:text-[1.2rem]'
@@ -109,9 +113,10 @@ export const RevealComponent = () => {
           Tech Stack
         </h5>
         <p className='text-shadow text-left'>
-          Java + Spring Boot + Thymeleaf + Vue.Js + Swift
+          Java + Spring Boot + Thymeleaf + Vue.js + Swift
         </p>
       </section>
+      {/* // ? Page 6 */}
       <section
         data-auto-animate
         className='px-20 text-[2.4rem] text-[var(--text-color)] md:text-[1.2rem]'
@@ -135,7 +140,7 @@ export const RevealComponent = () => {
           </li>
         </ul>
         <p className='text-shadow text-left'>
-          I helped maintain internal libraries and tools, and improve developer
+          Maintained internal libraries and tools, and improve developer
           experience.
         </p>
         <h5 className='text-left' style={{ color: 'var(--light-blue-color)' }}>
@@ -145,12 +150,56 @@ export const RevealComponent = () => {
           Node.js + Typescript + GraphQL + PostgreSQL + Prisma
         </p>
       </section>
+      {/* // ? Page 7 */}
+      <section
+        data-auto-animate
+        className='px-20 text-[2.4rem] text-[var(--text-color)] md:text-[1.2rem]'
+      >
+        <h3 style={{ color: 'var(--orange-color)' }}>Working Experience</h3>
+        <h4 style={{ color: 'var(--sat-pink-color)' }}>
+          Full Stack Developer, Senior Developer
+        </h4>
+        <h5 style={{ color: 'var(--light-blue-color)' }}>
+          <span style={{ color: 'var(--red-color)' }}>30 SECONDS TO FLY</span>,
+          Bangkok, Thailand – (Aug 2023 - Present){' '}
+        </h5>
+        <ul className='text-shadow text-left text-4xl space-y-3 sm:text-base'>
+          <li>
+            Developed features for Chat Connectors and debug dashboard to
+            enhance support team efficiency and troubleshooting capabilities.
+          </li>
+          <li>
+            Built a high-performance web app for business flight searches,
+            optimized for large data handling.
+          </li>
+          <li>
+            Conducted regular code reviews and security audits to identify and
+            rectify potential vulnerabilities, reducing the risk of data
+            breaches.
+          </li>
+          <li>
+            Enhanced development practices, including JSDoc generation,
+            documentation refinement, and custom E2E testing.
+          </li>
+        </ul>
+
+        <h5
+          className='!mt-4 text-left'
+          style={{ color: 'var(--light-blue-color)' }}
+        >
+          Tech Stack
+        </h5>
+        <p className='text-shadow text-left'>
+          Node.js + React + Vue.js + PostgreSQL + K8s
+        </p>
+      </section>
       <style jsx>{`
         .text-shadow {
           text-shadow: 0px 0px 5px var(--bg-color), 0px 0px 10px var(--bg-color),
             1px 1px 30px var(--bg-color);
         }
       `}</style>
+      {/* // ? Page 8 */}
       <section
         id='CONTACT'
         data-auto-animate
