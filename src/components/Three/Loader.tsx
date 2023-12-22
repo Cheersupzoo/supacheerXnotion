@@ -2,7 +2,8 @@ import FloatingPerson from '@/assets/2_zpng.png'
 import { Html, useProgress } from '@react-three/drei'
 
 export function Loader() {
-  const { progress } = useProgress()
+  const { loaded } = useProgress()
+
   return (
     <Html
       center
@@ -27,7 +28,7 @@ export function Loader() {
           color: 'var(--fg-color)'
         }}
       >
-        loading {progress.toFixed(0)} %
+        loading {Math.min(100, (100 * loaded) / 16).toFixed(0)} %
       </div>
       <style jsx>{`
         .img-loader {
