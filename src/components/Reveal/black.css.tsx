@@ -10,7 +10,6 @@ export const RevealBlackCss = () => {
  *
  * By Hakim El Hattab, http://hakim.se
  */
-          @import url(./fonts/source-sans-pro/source-sans-pro.css);
           section.has-light-background,
           section.has-light-background h1,
           section.has-light-background h2,
