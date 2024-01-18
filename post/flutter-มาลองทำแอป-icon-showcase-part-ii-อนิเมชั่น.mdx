@@ -1,0 +1,212 @@
+---
+title: Flutter | มาลองทำแอป Icon Showcase || Part II อนิเมชั่น
+description: >-
+  กลับมาต่อกับพาร์ทที่ 2 ครั้งนี้เราจะมาเพิ่มในส่วนของอนิเมชั่น
+  ถ้าใครอยากกลับไปดูการดีไซน์ หรือคำอธิบายของ Widget…
+coverImage: "/img/1__Bj01ZtVn1bmHu__onJTcgKQ.jpeg"
+date: "2020-01-06T17:17:58.121Z"
+categories: []
+keywords: []
+slug: >-
+  flutter-มาลองทำแอป-icon-showcase-part-ii-อนิเมชั่น
+type: "blog"
+---
+
+![](/img/1__Bj01ZtVn1bmHu__onJTcgKQ.jpeg)
+
+---
+
+### พาร์ทอื่นๆ
+
+- [Flutter | มาลองทำแอป Icon Showcase || Part I การดีไซน์](https://medium.com/@cheersupzoo/flutter-%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B3%E0%B9%81%E0%B8%AD%E0%B8%9B-icon-showcase-part-i-%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%94%E0%B8%B5%E0%B9%84%E0%B8%8B%E0%B8%99%E0%B9%8C-6a41da6a39cc)
+- [Flutter | มาลองทำแอป Icon Showcase || Part Extra Bloc+Animation](https://medium.com/@cheersupzoo/flutter-%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B3%E0%B9%81%E0%B8%AD%E0%B8%9B-icon-showcase-part-extra-bloc-animation-50cffb925b1b)
+
+---
+
+### เริ่ม
+
+กลับมาต่อกับพาร์ทที่ 2 ครั้งนี้เราจะมาเพิ่มในส่วนของอนิเมชั่น ถ้าใครอยากกลับไปดูการดีไซน์ หรือคำอธิบายของ Widget แต่ละตัวสามารถไปดูได้ที่พาร์ทที่ 1 ตามลิงค์ด้านล่างนี้เลย
+
+<LinkBlock
+  title="Flutter | มาลองทำแอป Icon Showcase || Part I การดีไซน์"
+  description="หลังจากไม่ได้เขียนมาซักพัก รอบนี้มาลองทำแอป Icon Showcase โดยจะประกอบไปด้วย 2 ส่วน การดีไซน์ กับ การทำอนิเมชั่น…_medium.com"
+  href="https://medium.com/@cheersupzoo/flutter-%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B3%E0%B9%81%E0%B8%AD%E0%B8%9B-icon-showcase-part-i-%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%94%E0%B8%B5%E0%B9%84%E0%B8%8B%E0%B8%99%E0%B9%8C-6a41da6a39cc"
+  src="https://miro.medium.com/max/160/1*sV-UW7BLRub0A15u3C2bgg.jpeg"
+/>
+
+หรือใครอยากต่อยอดจากอันก่อนหน้า มาลองทำเฉพาะส่วนอนิเมชั่นเพิ่ม ก็สามารถไปโหลดจาก Github ได้ โดยคำอธิบายต่างๆในครั้งนี้เราก็จะเอาโค็ดจากครั้งที่แล้วมาทำต่อ
+
+<GithubBlock
+  title="Cheersupzoo/icon_showcase_design_part"
+  description="You can't perform that action at this time. You signed in with another tab or window. You signed out in another tab or…\_github.com"
+  href="https://github.com/Cheersupzoo/icon_showcase_design_part"
+/>
+
+เป้าหมายสุดท้ายเรา จะทำให้ออกมาตามนี้
+
+![](/img/1__AFqWyZgQy4pbfkdShGjSTQ.gif)
+
+เป้าหมายของเราคือ จะสร้างอนิเมชั่นสำหรับเวลาเปลี่ยนหน้า ให้มันดูลื่นไหล โดยเราจะทำ 2 จุด
+
+- ที่ Card แต่ละอันใน ListView
+- ที่ Icon Menu ที่อยู่ด้านซ้ายของ Appbar
+
+![](/img/1__1fCdNZ4zvFASlFZDuy6QKw.jpeg)
+
+และสุดท้าย เราจะแก้ transition ระหว่างเปลี่ยนหน้าให้ดูกลมกลืนขึ้นด้วย
+
+--
+
+#### อนิเมชั่นสำหรับ Card
+
+เราเริ่มจากง่ายๆก่อน เอา Widget Hero ไปหุ้ม Card ทั้งในหน้า `main.dart` และ `detail_page.dart` แล้วให้ตัง tag ของทั้งคู่ให้เหมือนกัน ซึ่งเราก็ตั้งให้เป็นชื่อ title ของไอคอนแต่ละอัน
+
+![](/img/1__DCKbVvJC6BKqjDBkKiTqdA.png)
+![](/img/1__FoEHN70dYthkWKBfTre2Zg.png)
+
+แล้วผลลัพธ์ที่ได้
+
+![](/img/1__LtIiIXJxa4Uszn1jLgy7lA.gif)
+
+ผลลัพธ์ก็ไม่ได้ออกมาดูแย่เลย แต่ถ้าเราอยากไปให้สุดกว่านี้ เราก็จะทำให้หัวข้อกับไอคอน ขยับตามไปด้วยจากตำแหน่งในหน้าก่อนหน้าไปหน้าถัดไป **แต่ปัญหาคือ** จู่ๆ เราจะครอบ Hero ให้ Text กับ Icon เลยไม่ได้ เพราะตอนนี้ทั้งคู่เป็น Widget ลูกหลาน ใน Hero ก่อนหน้าไปแล้ว เราไม่สามารถ ครอบ Hero ซ้อน Hero ได้ [^hero]
+
+[^hero]: [Hero.dart](https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/widgets/heroes.dart#L114)
+
+ทางแก้ของเราคือ แทนที่จะมอง Card ของเราเป็นชิ้นเดียว เราใช้ Stack แยกเป็น 3 ชั้นซ้อนกันแทน จากบนลงล่าง หัวข้อ ไอค่อน พื้นหลัง ซึ่งจะเพิ่มงานให้เราหน่อย แต่เพื่อความงาม ก็จัดไป
+
+**ที่ main.dart**
+
+เราจะแทนที่ Card ด้วย Stack หรือแก้โค๊ตกลายเป็นด้านล่างเลย
+
+<Gist id="4c18f01c59a07a48c7b769e60f5ec005" />
+
+**ที่ detail_page.dart**
+
+เราก็ทำคล้ายๆ กัน
+
+<Gist id="21832e5a3b36d01d695f6de67b24a6aa" />
+
+ผลลัพธ์เริ่มคล้ายที่เราตั้งเป้าแล้ว
+
+![](/img/1__aa3__u1__eMfKFuydOjFO6DA.gif)
+
+**แต่!!!!** เห็นตัวอักษรแสดงแปลกๆ ไหม เพราะ อีกปัญหากับ Hero คือมันไม่ได้ถูกดีไซน์ให้ใช้กับ Text ตั้งแต่แรกเริ่ม แต่ก็ใช่ว่าจะแก้ไม่ได้ ทางออกก็มีแบบหยาบ กับทำให้เนียนเลย แบบหยาบก่อน เราจะเอา Text ทั้งในหน้า `main.dart` และ `detail_page.dart` ไปคลุมด้วย Widget Material และแทรกพารามีเตอร์ `type: MaterialType.transparency` เพิ่มเข้าไป ก็จะพอแก้ขัดไปคร่าวๆได้
+
+![](/img/1__2Eu24Nxz15yf__He2ryVeJA.png)
+
+ประมาณนี้ อันนี้ไปลองเอาเอง วิธีนี้จะพบเฉพาะปัญหา Text Overflow เวลา transition ทำงาน
+
+ทางแก้ที่ดีกว่า แต่ก็ยาวกว่าเยอะคือ เราจะต้องไปแก้ flightShuttleBuilder ของ Hero ซึ่งเราก็ต้องมาทำอนิเมชั่นให้กับ Text ของเราเอง Hero จะได้เอาตัวนี้ไปใช้แทน
+
+หลักการของเรา คือ เราจะสร้าง Widget ให้ Text ที่จะมี 4 สถานะ enlarge(กำลังขยายขนาด), enlarged(ค้างที่ขนาดใหญ่), shrink(กำลังย่อส่วน), shrunk(ค้างที่ขนาดเล็ก) เราจะใช้ชื่อเหล่านี้เรียกสถานะ ดังนั้น เราเลยสร้างไฟล์ใหม่ขึ้นมา จะประกอบไปด้วย enum พวกนี้ ชื่อไฟล์ว่า `view_state.dart`
+
+<Gist id="bf35791186f3b29f1ffeeb36b01f3382" />
+
+เรามาสร้างตัว Widget ให้ Text ต่อ สร้างไฟล์ใหม่ชื่อว่า `title_hero_flight.dart`
+
+<Gist id="393e8f38fff7c7316b0972ff9c8fee00" />
+
+เราค่อยๆมา อธิบายไปทีละส่วนกัน
+
+- **_class DestinationTitleContent_** จะทำหน้าที่รับผิดชอบในการสร้าง Widget Text ณ เวลาหนึ่งๆ โดยจะรับ ข้อความ ขนาดฟอร์ต จำนวนบรรทัด overflow isOverflow สี
+- **_class DestinationTitle_** จะทำหน้าที่เอาข้อความที่สร้างจาก **_class DestinationTitleContent_** สร้างข้อความนิ่ง หรืออนิเมชั่น ขึ้นกับ ViewState ที่ส่งมา คลาสนี้จึงจำเป็นต้องรับ ViewState ขนาดฟอร์ตทั้งเล็ก และใหญ่เข้ามาด้วย สำหรับ **_ViewState.enlarge_** กับ **_ViewState.shrink_** ที่มีอนิเมชั่น **AnimationController** จะเข้ามาจัดการส่วนนี้ ซึ่งขอละคำอธิบายในส่วนนี้ไปก่อน
+
+ใครตามมาถึงจุดนี้แล้วงงเป็นพิเศษ ก็แนะนำให้อย่าพึ่งไปคิดไรมาก ก็อปทั้งไฟล์ `title_hero_flight.dart` นี้ไปใช้ก่อนก็ได้
+
+เราจะกลับไปที่ `main.dart` กับ `detail_page.dart` กันต่อ เอาของใหม่ของเรามาใช้งาน
+
+แก้ Hero ที่มี Text ให้เป็นตามนี้
+
+![](/img/1__vc9aZd____0Jx0GrE__AcbjXg.png)
+![](/img/1__29Y74i__zgF3VbOrW8VbBvQ.png)
+
+สังเกตว่าใน **_flightShuttleBuilder_** เราจะ return **DestinationTitle** ที่มี ViewState ไม่ enlarge ก็ shrink เพราะ flightShuttleBuilder จะถูกเรียกขณะที่มี transition เปลี่ยนหน้าเกิดขึ้น ส่วน **_child_** เราจะส่ง **DestinationTitle** ที่มี ViewState enlarged กับ shrank ตามหน้าที่ต้องแสดง
+
+เสร็จเรียบร้อยในส่วนของ Card แล้ว ไปกันต่อ
+
+![](/img/1__TWLXVjMwjQwZXAo2zTiwaw.gif)
+
+---
+
+#### อนิเมชั่นสำหรับ Icon Menu
+
+![](/img/1__CUZLO9fLBAlWBzZP4Jfe__Q.gif)
+
+ในส่วนนี้ก็ไม่ค่อยยุ่งยากมากแล้ว แต่ต้องใช้ **AnimationController** ดังนั้นมาเริ่มกันเลยที่ `main.dart`
+
+![](/img/1__9mGxTQmJQVw3f0OXCaO8hA.jpeg)
+
+เราจะเพิ่มที่ขีดเส้นใต้ 2 อัน และกล่อง 3 กล่องลงไปใน **_class \_MyHomePageState_**
+
+ฟังก์ชั่น `_initAnimationController()` จะทำหน้าที่ประกาศค่าแรกเริ่มให้ **\__animationController_** ของเรา โดยเราตั้งเวลาเล่นไว้ที่ 500 ms เมื่อสร้างเสร็จก็เอาฟังก์ชั้นนี้ไปใส่ใน `initState()` และสุดท้ายอย่าลืม dispose **\__animationController_** ของเราที่ ฟังก์ชั่น `_dispose()_` ด้วย
+
+หลังจากสร้าง \_animationController เสร็จ เราก็เอามันมาใช้เวลาจะเปลี่ยนหน้าไป-กลับ แต่ก่อนหน้านั้น เราจำเป็นต้องเปลี่ยนไอคอน จากภาพนิ่งเฉยๆให้ มีอนิเมชั่นด้วย ซึ่ง Flutter ก็มีให้เราใช้ AnimatedIcon ดังนั้นเราก็เปลี่ยนเลย
+
+![](/img/1__stm1Rc62eCzgoSctiArS8w.png)
+![](/img/1____M1JJrwox4a__ZBWRDHzmJw.png)
+
+แล้วสุดท้ายไปเพิ่ม `_animationController.forward(from: 0.0);` ตอนก่อนกำลังเปลี่ยนไปหน้า `DetailPage` และ `_animationController.reverse(from: 1.0);` เมื่อกลับมาจากหน้าก่อนหน้า แต่ก่อนจะรัน ก็ต้องมีหลักการเช็คเล็กน้อย
+
+![](/img/1__zXrqnezgBb5jORBNaeuHgA.png)
+
+และทำแบบเดียวกันในหน้า `detail_page.dart` ด้วย
+
+![](/img/1__z6TtLRsk3zZyyZQLLZuj__g.png)
+
+มีความแตกต่างเล็กน้อยเมื่อ `initState()` เราจะ `_animationController.forward()` ไปเลย
+
+แล้วอย่าลืมเปลี่ยนไอคอนเดิมให้กลายเป็น **_AnimatedIcon_** ด้วย
+
+![](/img/1__TYrVp8zA__UwqsyjBHGEBuQ.png)
+
+จากจุดนี้จะพบว่าอนิเมชั่นเราจะทำงานแล้ว แต่ตำแหน่งของมันยังไม่เคลื่อนตาม ไม่พอยังโดนทับอีก
+
+![](/img/1__reAbbDWxxGwTrWHlOtiRlw.gif)
+
+ทางแก้รอบนี้ง่ายเลย เอา Widget **Hero** หุ้ม **_AnimatedIcon_** ทั้งสองหน้า และอย่าลืมตั้ง tag ให้เหมือนกัน
+
+![](/img/1__CGpNWXNaOLD__jbatXwT4__Q.png)
+
+แค่นี้ก็เรียบร้อย
+
+![](/img/1__6kIb7EjJsqDxjCMxlK8tMQ.gif)
+
+---
+
+#### (แถม) เพื่อความสมูทอีกนิด แก้ transition เปลี่ยนหน้า
+
+เราจำเป็นต้องสร้าง transition ของเราเอง สร้างไฟล์ใหม่เรียก `fade_page_route.dart` แล้วก็อปแปะเลย
+
+<Gist id="7d05891bdce1858a7ed6cf11f0d2d75e" />
+
+เราสามารถเปลี่ยนไปใช้ transition อื่นได้ แต่เราจะใช้ **_FadeTransition_** เพื่อความกลมกลืน นอกจากนี้ เราสามารถแก้ **Duration** กับ **Curve** ของ transition ได้ โดยเราจะตั้ง **Duration** ไว้ 550 millisecond และใช้ **_Curves.easeIn_**
+
+พร้อมแล้ว เราก็จะใช้แทนที่ **_MaterialPageRoute_** ในหน้า `main.dart` import เข้ามาแล้วเปลี่ยน **_MaterialPageRoute_** เป็น **_FadePageRoute_**
+
+![](/img/1__Ci3c____ir____rw__CbcQ17fwA.png)
+
+ตอนนี้ แอปเราก็ออกมาดูดีแล้ว
+
+![](/img/1__AFqWyZgQy4pbfkdShGjSTQ.gif)
+
+---
+
+จบไปอีกแอปนึง หวังว่าการแนะนำ Widget เหล่านี้ และการเล่นกับ Hero และ AnimationController จะช่วยทำให้รู้จักการทำอนิเมชั่นมากขึ้นไม่มากก็น้อย อย่างไรก็ตามแอปนี้ยังมีอีกหลายจุดให้เก็บตกอีก อย่างเช่น Icon ที่อยู่ใน Card ไม่ได้สเกลขนาดตามเมื่อเปลี่ยนหน้า หรือสี Icon บน Appbar ไม่ได้ค่อยๆเปลี่ยนตาม ก็ลองไปทำเพิ่มเองได้นะ 55 หรือใครลองทำตามแล้วไม่เข้าใจส่วนไหนก็พิมพ์คำถามลงด้านล่างได้เลย
+
+---
+
+ถ้าเกิดพยายามแก้โค๊ดตามแล้วงง หรืออยากข้ามเอาโค๊ดเต็มมาเทียบเลย ก็โหลดจากลิงค์ด้านล่างได้เลย
+
+<GithubBlock
+  title="Cheersupzoo/icon_showcase_animation_part"
+  description="This Flutter Project Contain the final part of Icon Showcase App Read the tutorial at Flutter | มาลองทำแอป Icon Showcase || Part II อนิเมชั่น"
+  href="https://github.com/Cheersupzoo/icon_showcase_animation_part"
+/>
+
+---
+
+### แนะนำเรื่องถัดไป
+
+- [บอกต่อความท้าทายการทำหุ่นยนต์ ผ่านน้องไอโกะกันเถอะ](https://medium.com/@cheersupzoo/%E0%B8%9A%E0%B8%AD%E0%B8%81%E0%B8%95%E0%B9%88%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%97%E0%B9%89%E0%B8%B2%E0%B8%97%E0%B8%B2%E0%B8%A2%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B8%B3%E0%B8%AB%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B8%A2%E0%B8%99%E0%B8%95%E0%B9%8C-%E0%B8%9C%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B9%84%E0%B8%AD%E0%B9%82%E0%B8%81%E0%B8%B0%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%96%E0%B8%AD%E0%B8%B0-e43ba5d2990e)
+- [Flutter: ลองเขียนแอปสไตล์ BLoC Pattern สำหรับ Noob](https://medium.com/@cheersupzoo/flutter-%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%82%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B9%81%E0%B8%AD%E0%B8%9B%E0%B8%AA%E0%B9%84%E0%B8%95%E0%B8%A5%E0%B9%8C-bloc-pattern-%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A-noob-e5b1cf3f981b)
+- [Flutter: ลองสร้าง Todo App โดยใช้ BLoC Pattern กัน](https://medium.com/@cheersupzoo/flutter-%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87-todo-app-%E0%B9%82%E0%B8%94%E0%B8%A2%E0%B9%83%E0%B8%8A%E0%B9%89-bloc-pattern-%E0%B8%81%E0%B8%B1%E0%B8%99-b7810c99bf32)

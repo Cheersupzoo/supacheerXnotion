@@ -1,0 +1,183 @@
+---
+title: Flutter | มาลองทำแอป Icon Showcase || Part Extra Bloc+Animation
+description: >-
+  กลับมาอีกรอบกับ Icon Showcase โดยรอบนี้เราจะมาลองเพิ่มการจัดการข้อมูลแบบ BloC
+  กับ อนิเมชั่น...
+coverImage: "/img/1__phuBfUrx5Vbi62bRNn8__hQ.jpeg"
+date: "2020-01-09T17:20:14.508Z"
+categories: []
+keywords: []
+slug: >-
+  flutter-มาลองทำแอป-icon-showcase-part-extra-bloc-animation
+type: "blog"
+---
+
+![](/img/1__phuBfUrx5Vbi62bRNn8__hQ.jpeg)
+
+---
+
+### พาร์ทอื่นๆ
+
+- [Flutter | มาลองทำแอป Icon Showcase || Part I การดีไซน์](https://medium.com/@cheersupzoo/flutter-%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B3%E0%B9%81%E0%B8%AD%E0%B8%9B-icon-showcase-part-i-%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%94%E0%B8%B5%E0%B9%84%E0%B8%8B%E0%B8%99%E0%B9%8C-6a41da6a39cc)
+- [Flutter | มาลองทำแอป Icon Showcase || Part II อนิเมชั่น](https://medium.com/@cheersupzoo/flutter-%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B3%E0%B9%81%E0%B8%AD%E0%B8%9B-icon-showcase-part-ii-%E0%B8%AD%E0%B8%99%E0%B8%B4%E0%B9%80%E0%B8%A1%E0%B8%8A%E0%B8%B1%E0%B9%88%E0%B8%99-175e6bc1041b)
+
+---
+
+กลับมาอีกรอบกับ Icon Showcase โดยรอบนี้เราจะมาลองเพิ่มการจัดการข้อมูลแบบ BloC กับ อนิเมชั่น เข้ามาในแอปของเรา จึงตั้งโจทย์ไว้ว่า เราจะสามารถเพิ่มลด Icon ใน List ของเราได้ โดยจัดการข้อมูลเหล่านี้ด้วย BloC และเมื่อเพิ่มหรือลบ Icon ออกไปจะมีอนิเมชั่นการเพิ่มหรือลบออกไปด้วย เป็น Scale กับ Fade แบบง่ายๆ นอกเหนือจากนั้นแอปเรายังสามารถทำงานได้เหมือนก่อนหน้า
+
+![](/img/1__oJvgL0SVLk1O1Ivadp3Obw.gif)
+
+ในงานนี้ เราก็จะมาแนะนำ ให้รู้จัก 2 อย่าง
+
+- Flutter Bloc
+- AnimatedList
+
+เราจะเอาโค๊ดเก่ามาต่อยอด สามารถโหลดได้จากข้างล่างเลย
+
+<GithubBlock
+  title="Cheersupzoo/icon_showcase_animation_part"
+  description="You can't perform that action at this time. You signed in with another tab or window. You signed out in another tab or…github.com"
+  href="https://github.com/Cheersupzoo/icon_showcase_animation_part"
+/>
+
+หรืออยากกลับไปอ่านในพาร์ทก่อนหน้าก็กดลิงค์ข้างล่างได้
+
+<LinkBlock
+  title="Flutter | มาลองทำแอป Icon Showcase || Part II อนิเมชั่น"
+  description="กลับมาต่อกับพาร์ทที่ 2 ครั้งนี้เราจะมาเพิ่มในส่วนของอนิเมชั่น ถ้าใครอยากกลับไปดูการดีไซน์ หรือคำอธิบายของ Widget…"
+  href="https://medium.com/@cheersupzoo/flutter-%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B3%E0%B9%81%E0%B8%AD%E0%B8%9B-icon-showcase-part-ii-%E0%B8%AD%E0%B8%99%E0%B8%B4%E0%B9%80%E0%B8%A1%E0%B8%8A%E0%B8%B1%E0%B9%88%E0%B8%99-175e6bc1041b"
+  src="https://miro.medium.com/max/160/1*Bj01ZtVn1bmHu_onJTcgKQ.jpeg"
+/>
+
+ถ้าพร้อมแล้วก็ไปกันต่อเลย
+
+---
+
+b> ⚠️⚠️⚠️ (อัพเดท 8/7/2020) ถ้าใครใช้ flutter_bloc เวอร์ชั่นตั้งแต่ 1.0.0 ขึ้นไป จะมีการเปลี่ยนชื่อ Api บางส่วนดังนี้
+
+bloc.state.listen -> bloc.listen  
+bloc.currentState -> bloc.state  
+**bloc.dispatch -> bloc.add**  
+bloc.dispose -> bloc.close
+
+สามารถอ่านเพิ่มเติมได้จาก [https://link.medium.com/qnfMcEcW00](https://link.medium.com/qnfMcEcW00)
+
+ดังนั้นตอนทำตาม อาจใช้เวอร์ชั่นที่ระบุไว้ไปก่อนได้ หลักการทำงานของ flutter_bloc ยังเหมือนเดิม
+
+---
+
+### **เรามาดูในส่วนของ Bloc ก่อน**
+
+หรือว่าอีกอย่างคือ มาสร้างวิธีจัดการกับข้อมูล
+
+สร้างโฟลเดอร์ใหม่ชื่อ `bloc`
+
+#### Event
+
+สร้างไฟล์ไว้จัดการ event `bloc/iconlist_event.dart`
+
+event ของเรามีเพียง 3 อย่าง คือ โหลดค่าตั้งต้น(**LoadDefaultIcon**) เพิ่ม item(**AddIcon**) และ ลบ item(**RemoveIcon**)
+
+<Gist id="8328fbfe46179f7a10d2db8ab8b367e8" />
+
+**LoadDefaultIcon** กับ **AddIcon** เราไม่จำเป็นต้องรับพารามีเตอร์เข้ามาเพราะเราจะสุ่มเอา ส่วน **RemoveIcon** จะรับตำแหน่งที่จะลบออก(เพื่อความไม่ซับซ้อน ตำแหน่งที่จะลบ จะลบอันสุดท้ายเสมอ)
+
+#### State
+
+สร้างไฟล์ไว้จัดการ state ที่จะใช้ส่งไปโชว์ในแอป `bloc/iconlist_state.dart`
+
+state เราจะมี 2 สถานะ คือ กำลังโหลด(**IconListLoaded**) กับ โหลดเสร็จแล้ว(**IconListLoading**)
+
+<Gist id="c21714a04f6ddb2a39578a28e2eebe3c" />
+
+**IconListLoaded** จะสามารถส่งข้อมูล Icon List ได้ ส่วน **IconListLoading** ไม่จำเป็นต้องส่งข้อมูล ใช้เพื่อบอกสถานะว่ากำลังโหลดข้อมูล
+
+#### Bloc
+
+เรามาทางเชื่อมระหว่าง event ไป state ด้วย bloc
+
+สร้างไฟล์ใหม่ `bloc/iconlist_bloc.dart`
+
+เนื่องจากเรามี event 3 อัน เราเลยมีฟังก์ชั่น 3 อันที่จะเชื่อมไป State ทั้ง 2
+
+<Gist id="117c1bf7ac7b0717e8794d0f73b630f5" />
+
+ฟังก์ชั่นทั้ง 3 อัน ได้แก่
+
+- **\_mapAddIconToState()** จะทำหน้าที่ สุ่มไอคอนแล้วเพิ่มเข้าไปใน Icon List
+- **\_mapRemoveIconToState(RemoveIcon event)** จะรับตำแหน่งที่จะลบ แล้วลบออกไปจาก Icon List
+- **\_mapLoadDefaultIconToState()** จะโหลดค่าตั้งต้นของ Icon List
+
+#### รวบไฟล์ export
+
+ตอนนี้ bloc เราครบแล้ว ตั้งแต่ event state bloc เพื่อความง่ายในการเรียกใช้ ก็รวบลง อีกไฟล์นึง แล้ว export เอา จะได้ import เข้ามาไฟล์เดียวได้
+
+สร้างไฟล์ใหม่ชื่อ `bloc/iconlist.dart`
+
+<Gist id="b7f6d4b78d34148af6a6e5e01a32b2b8" />
+
+---
+
+### มาทำส่วนดีไซน์กับอนิเมชั่นต่อ
+
+![](/img/1__misMkNylLLkJtPoG__KVixQ.png)
+
+จากโค๊ดเก่า เราเพิ่มมา 2 ปุ่ม เป็น FloatingActionButton ที่มีปุ่ม **+** กับ ปุ่ม **\-**
+
+เราไปดูโค๊ดใหม่ที่แก้ไขทุกอย่างแล้วเลยดีกว่า
+
+<Gist id="98b0ba1282c0dd79609965cb0c207a42" />
+
+มาค่อยๆดูไปทีละส่วนกัน
+
+![](/img/1__hLvpLzha3m5ccTQ3YUGeNw.png)
+
+ตรงนี้เพราะเราใช้ Bloc เลยหุ้ม Widget ที่อยู่นอกสุดด้วย **_BlocProvider_** แล้วส่ง builder เป็น **_IconlistBloc()_** หรือ Bloc ที่เราพึ่งสร้างไป และเมื่อรันครั้งแรกที่เปิดแอป เราก็จะสั่งให้มันโหลดค่าตั้งต้น **_dispatch(LoadDefaultIcon())_**
+
+![](/img/1__kaozl__LpSqfEFF9Gcycvlg.png)
+
+เราเพิ่ม **\__listKey_** ไว้ใช้กับ **AnimatedList**
+
+![](/img/1__YcVyK1EfCkLxAWlf6HCquQ.png)
+
+เราเพิ่มตัวแปร **_iconListBloc_** ไว้เรียก Bloc ของเรา แล้วตอนจะสร้าง Widget เราก็หุ้มไว้ด้วย **_BlocBuilder_** ที่ **bloc** ส่ง **_iconListBloc_** ส่วนที่ **builder** จะส่งฟังก์ชั่นที่สร้าง Widget ในนั้นเราก็เช็คได้ว่า เป็น State ไหน ถ้าเป็น **_IconListLoading_** เราจะโชว์ **_Container()_** เปล่าๆ (ถ้าใครจะทำจริงจัง ก็เปลี่ยนเป็นไอคอน Loading ได้) แต่ถ้าเป็น **_IconListLoaded_** จะโชว์แอปที่เราสร้างมาก่อนหน้า
+
+![](/img/1__hr15__NIJk6bAuUjlRmcN__w.png)
+
+เปลี่ยนจาก **_ListView.builder_** ไปใช้ **_AnimatedList_** แทน
+
+เพื่อความเรียบร้อย และจะได้เรียกใช้ซ้ำได้ เราเอา card ของเราไปสร้างเป็นฟังก์ชั่น **buildCard** ซึ่งจะทำหน้าที่ **return Card** แล้วได้ผลลัพธ์เหมือนเดิม
+
+![](/img/1__1u7u4NkC__J3oddQMCUp0ng.png)
+
+ฟังก์ชั่น **buildCard**
+
+เนื่องจากเป็นอนิเมชั่น เราก็เพิ่ม **_FadeTransition_** และ **_SizeTransition_** เข้าไปด้วย
+
+![](/img/1__z0dbPB8dIXD0RrNEo5gb0A.png)
+
+ในส่วนนี้เราเพิ่มปุ่ม **+** และ **\-** วางตรงกลางล่างของแอปตอนกด เราก็จะเรียก event ที่ bloc และ อัพเดท **\__listKey_ สำหรับ** **+** **\__listKey_** เราจะเพิ่มแค่ตำแหน่งที่จะแทรกเข้า **ส่วน** **\-** **\__listKey_** เราจะลบออกตามตำแหน่งที่ต้องการ นอกจากนั้นต้องส่งฟังก์ชั่นที่สร้าง **Card** ด้วย (**buildCard**) นอกจากนี้อย่าลืมตั้ง **_heroTag_** ของ **_FloatingActionButton_** ให้ต่างกันด้วย เพราะค่าตั้งต้นจะถูกตั้งให้เหมือนกัน
+
+---
+
+เพียงเท่านี้ แอปก็ออกมาเรียบร้อยแล้ว
+
+![](/img/1__oJvgL0SVLk1O1Ivadp3Obw.gif)
+
+ใครมีคำถามสงสัย ก็ส่งทิ้งไว้ข้างล่างได้เช่นเคย ไว้เจอกันใหม่ในครั้งหน้า
+
+---
+
+ใครอยากดูโค๊ดเต็มแล้ว โหลดได้จากข้างล่างเลย
+
+<GithubBlock
+  title="Cheersupzoo/icon_showcase_animationwithbloc_part"
+  description="A new Flutter project. This project is a starting point for a Flutter application. A few resources to get you..."
+  href="https://github.com/Cheersupzoo/icon_showcase_animationwithbloc_part"
+/>
+
+### แนะนำเรื่องถัดไป
+
+- [บอกต่อความท้าทายการทำหุ่นยนต์ ผ่านน้องไอโกะกันเถอะ](https://medium.com/@cheersupzoo/%E0%B8%9A%E0%B8%AD%E0%B8%81%E0%B8%95%E0%B9%88%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%97%E0%B9%89%E0%B8%B2%E0%B8%97%E0%B8%B2%E0%B8%A2%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B8%B3%E0%B8%AB%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B8%A2%E0%B8%99%E0%B8%95%E0%B9%8C-%E0%B8%9C%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B9%84%E0%B8%AD%E0%B9%82%E0%B8%81%E0%B8%B0%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%96%E0%B8%AD%E0%B8%B0-e43ba5d2990e)
+- [Flutter: ลองเขียนแอปสไตล์ BLoC Pattern สำหรับ Noob](https://medium.com/@cheersupzoo/flutter-%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%82%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B9%81%E0%B8%AD%E0%B8%9B%E0%B8%AA%E0%B9%84%E0%B8%95%E0%B8%A5%E0%B9%8C-bloc-pattern-%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A-noob-e5b1cf3f981b)
+- [Flutter: ลองสร้าง Todo App โดยใช้ BLoC Pattern กัน](https://medium.com/@cheersupzoo/flutter-%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87-todo-app-%E0%B9%82%E0%B8%94%E0%B8%A2%E0%B9%83%E0%B8%8A%E0%B9%89-bloc-pattern-%E0%B8%81%E0%B8%B1%E0%B8%99-b7810c99bf32)

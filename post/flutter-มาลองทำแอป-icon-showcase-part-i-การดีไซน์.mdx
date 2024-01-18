@@ -1,0 +1,184 @@
+---
+title: Flutter | มาลองทำแอป Icon Showcase || Part I การดีไซน์
+description: >-
+  หลังจากไม่ได้เขียนมาซักพัก รอบนี้มาลองทำแอป Icon Showcase โดยจะประกอบไปด้วย 2
+  ส่วน การดีไซน์ กับ การทำอนิเมชั่น…
+coverImage: "/img/1__sV__UW7BLRub0A15u3C2bgg.jpeg"
+date: "2020-01-04T18:05:43.838Z"
+categories: []
+keywords: []
+slug: >-
+  flutter-มาลองทำแอป-icon-showcase-part-i-การดีไซน์
+type: "blog"
+---
+
+![](/img/1__sV__UW7BLRub0A15u3C2bgg.jpeg)
+
+---
+
+### พาร์ทอื่นๆ
+
+- [Flutter | มาลองทำแอป Icon Showcase || Part II อนิเมชั่น](https://medium.com/@cheersupzoo/flutter-%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B3%E0%B9%81%E0%B8%AD%E0%B8%9B-icon-showcase-part-ii-%E0%B8%AD%E0%B8%99%E0%B8%B4%E0%B9%80%E0%B8%A1%E0%B8%8A%E0%B8%B1%E0%B9%88%E0%B8%99-175e6bc1041b)
+- [Flutter | มาลองทำแอป Icon Showcase || Part Extra Bloc+Animation](https://medium.com/@cheersupzoo/flutter-%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B3%E0%B9%81%E0%B8%AD%E0%B8%9B-icon-showcase-part-extra-bloc-animation-50cffb925b1b)
+
+---
+
+### เริ่ม
+
+หลังจากไม่ได้เขียนมาซักพัก รอบนี้มาลองทำแอป Icon Showcase โดยจะประกอบไปด้วย 2 ส่วน การดีไซน์ กับ การทำอนิเมชั่น แต่ในรอบนี้จะมีเฉพาะส่วนการดีไซน์ก่อน เพื่อไม่ให้ยาวจนเกินไป
+
+![](/img/1__AFqWyZgQy4pbfkdShGjSTQ.gif)
+
+ครั้งนี้ เราจะมาแนะนำ Widget ต่างๆดังนี้
+
+- Card
+- ListTile
+- SafeArea
+- Stack
+- Positioned
+- Align
+
+---
+
+แอปเราจะประกอบไปด้วย 2 หน้า หน้าหลัก `(main.dart)` และหน้ารายละเอียด `(detail_page.dart)` แต่ก่อนหน้านั้นเรามาเตรียมสีที่จะใช้ กับข้อมูลกันก่อน
+
+!> หมายเหตุ โค๊ดที่นำมาลงประกอบนั้น จะเป็นโค๊ดที่เขียนเสร็จแล้วของพาร์ทนั้นๆ ดังนั้นอาจจะมีโค๊ดบางส่วนที่ยังไม่ถูกอธิบาย ณ ตอนนั้น แต่จะวนกลับมาอธิบายในส่วนถัดๆไป แนะนำให้ลองโหลดไฟล์ท้ายโพสมาลองรันไปควบคู่ไปกับการอ่านจะช่วยให้เข้าใจได้ง่ายขึ้น ถ้าพร้อมแล้วก็ไปต่อกันเลย
+
+---
+
+#### การเตรียมการ
+
+![](/img/1__MnVdcz9D7__NAf__MQQXQ5Kg.png)
+
+ชุดสีที่เราจะใช้ตามนี้
+
+- _#F2F6F5_
+- _#C8DAD3_
+- _#93B5B3_
+- _#63707E_
+
+เราก็ดำเนินการสร้างไฟล์ `color_palette.dart` โลด
+
+<Gist id="b8cb1b5a0613598f32d2504cad4d2f48" />
+
+ทีนี้ เราก็เรียกใช้สีของเราได้ง่ายๆแล้ว
+
+---
+
+ต่อมาเตรียมข้อมูลที่ใช้แสดงกันต่อ สร้างไฟล์ `icon_data.dart`
+
+<Gist id="917348b87ec4fbb5c63cf4c4f538805f" />
+
+เราจะสร้างรูปแบบข้อมูลขึ้นมาก่อนจะได้เรียกใช้ง่ายๆ ตั้งชื่อว่า`IconModel` โดยข้อมูลแต่ละอันจะประกอบไปด้วยชื่อ `title` กับไอคอน `icon` และสร้างข้อมูลต่อ เป็น `List` ของ `IconModel` เก็บไว้ในตัวแปร `iconList`
+
+การเตรียมการเรียบร้อยแล้ว เราก็มาเริ่มการดีไซน์
+
+---
+
+#### หน้าแรก `main.dart`
+
+<Gist id="c31728e36b160ca92a786b23fa202e1e" />
+
+มาที่ `class _MyHomePageState`
+
+![](/img/1__LGq4wEUZrpyNXUjDaXqxEw.png)
+
+ใน `Scaffold` เราจะตั้งสีพื้นหลัง ทั้งหมดเป็น `ColorPalette.grey90`
+
+![](/img/1__ZR7t8j0xX8WEQAH7U3PdJA.png)
+
+ต่อมาใน `Appbar` เราก็ทำให้สีพื้นหลังโปร่งใสซะ และไม่ให้มันเกิดเงา ก็ตั้ง `elevation` เป็น 0.0 แล้วเพิ่ม `leading` เป็น icon menu จะได้ดูเหมือนมีฟีเจอร์อื่น แต่เราจะไม่ได้ใส่เมนูลงไปจริงๆ
+
+![](/img/1__ZCm4SypXW6EhMLtAxDD__7Q.png)
+
+ต่อไปเราส่วน body เราจะทำเป็น `ListView` ที่ประกอบไปด้วย Card ที่สร้างมาจากข้อมูลของเรา เราจะใช้ `ListView.builder` ให้มันสร้าง `Card` แล้วในจะใส่ `ListTile` เข้าไป เพื่อจัดวางข้อมูลของเรา
+
+---
+
+มาอธิบาย Widget ที่ใช้กันก่อน
+
+![](/img/1__pq6U1lVcZWJkuFfIysugwQ.png)
+
+- **_Card_** จะช่วยสร้างสี่เหลี่ยมผืนผ้านมุมมน ให้อัตโนมัติ เราเพียงส่ง `Widget` child เข้าไปก็ใช้งานได้ทันที ถ้าอยากปรับความมนของขอบก็ส่ง `shape:` เข้าไปได้เลย
+
+เมื่อมี `Card` แล้ว เราอยากจัดองค์ประกอบแบบง่ายๆก็ใช้ `Widget ListTile`
+
+![](/img/1__WdfZe4tbXQjSnkI2Nxdwyg.jpeg)
+
+- **_ListTile_** จะประกอบไปด้วย 4 ส่วนหลักๆ leading, title, subtitle, trailing ซึ่งถ้าเราอยากวางตรงตำแหน่งไหน ก็ส่ง `Widget` child ของเราเข้าไปตรงนั้นเลย (ปล.ไม่จำเป็นต้องอยู่ใน `Card` นะ แค่ส่วนใหญ่ชอบใช้คู่กัน)
+
+---
+
+ที่เหลือเราก็จัดรูปต่อ ใส่ `padding` เพื่อให้องค์ประกอบออกมากำลังดี ได้ผลลัพธ์สุดท้ายดังนี้
+
+![](/img/1__nt__NlpABo6lqth____hxwU__A.png)
+
+---
+
+#### หน้ารายละเอียด
+
+เรามาลองทำอะไรทีซับซ้อนมาหน่อย ไปกันที่หน้า `detail_page.dart` กันเลย
+
+<Gist id="78c84ae0db37763df61c37e22fb6aff8" />
+
+ในหน้านี้ ตัว `Scaffold` เราจะไม่มี `appbar` ดังนั้นที่ `body` เราจะหุ้ม `widget` ด้วย `SafeArea`
+
+![](/img/1__wXI19nZdGO57fe__x4Bllpw.jpeg)
+
+- **_SafeArea_** จะช่วย padding หลบพวก notification bar, รูกล้อง (notch, punch hole) ให้อัตโนมัติ
+
+ต่อมาเราก็จะใช้ Card เช่นเคย
+
+![](/img/1__BU1dNMMc4MZ6FYeocJ2BJQ.png)
+
+เพื่อให้เราสามารถยัดหัวข้อกับไอคอนในตำแหน่งดังรูปด้านบนได้ เราก็เลือกใช้ `Widget Stack`
+
+![](/img/1__hFP8KZuh8tNnt31ey3XgLQ.jpeg)
+
+- **_Stack_** เป็น Widget ที่รับ Children หรือ Widget หลายๆอัน แล้วนำมาซ้อนทับกัน โดย อันที่อยู่ก่อนจะอยู่ด้านหลัง แล้วอันที่อยู่หลังจะอยู่ด้านหน้า นอกจากนี้ถ้าต้องการให้ child แต่ละอันของเรามีตำแหน่งอื่น อยากให้อยู่มุมอื่น เราจะใช้ [Widget Positioned](https://api.flutter.dev/flutter/widgets/Positioned-class.html) หรือ [Widget Align](https://api.flutter.dev/flutter/widgets/Align-class.html) มาช่วย
+- **_Positioned_** จะต้องใช้ใน Stack เท่านั้น เพื่อจัดให้อยู่ในตำแหน่งที่เราต้องการแบบละเอียดได้
+- **_Align_** ช่วยให้ Widget ของเราอยู่ตามตำแหน่งอย่างง่ายได้เลย เช่นตามมุมต่างๆ ตรงกลาง กลางซ้าย ฯลฯ
+
+เมื่อจัดทุกอย่างเรียบร้อบแล้ว ผลลัพธ์เราก็จะออกมาตามนี้
+
+![](/img/1__PAgb4HbkfE__QrRJ6ajwRgQ.png)
+
+สุดท้ายอย่าลืมใส่ `Navigator` ใน `main.dart` ให้ _push_ หน้า `detail_page.dart` และในหน้า `detail_page.dart` ก็ใส่ _pop_ จะได้กลับหน้าหลักได้
+
+![](/img/1__t9YnROKN8jALHQ1ewbR7vQ.png)
+![](/img/1__Pv73oIzs__b6AgJQibcB1Fg.png)
+
+---
+
+ตอนนี้การดีไซน์ของเราก็จบลงแล้ว
+
+![](/img/1__GwRY5cjyiZmlc__XCTkuHjQ.gif)
+
+ไว้มาต่อกันพาร์ทหน้า เราจะมาใส่อนิเมชั่นให้เกิดความพริ้วไหวมากขึ้น รอติดตามต่อไป
+
+---
+
+โค๊ดทั้งหมดของพาร์ทนี้สามารถโหลดได้เลยจาก Github ด้านล่างนี้เลย
+
+<GithubBlock
+  title="Cheersupzoo/icon_showcase_design_part"
+  description="This Flutter Project Contain the first part of Icon Showcase App. Read the tutorial at Flutter | มาลองทำแอป Icon Showcase || Part I การดีไซน์"
+  href="https://github.com/Cheersupzoo/icon_showcase_design_part"
+/>
+
+---
+
+มาแล้วพาร์ทถัดไป ส่วนของอนิเมชั่น
+
+<LinkBlock
+  title="Flutter | มาลองทำแอป Icon Showcase || Part II อนิเมชั่น"
+  description="กลับมาต่อกับพาร์ทที่ 2 ครั้งนี้เราจะมาเพิ่มในส่วนของอนิเมชั่น ถ้าใครอยากกลับไปดูการดีไซน์ หรือคำอธิบายของ Widget…"
+  href="https://medium.com/@cheersupzoo/flutter-%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B3%E0%B9%81%E0%B8%AD%E0%B8%9B-icon-showcase-part-ii-%E0%B8%AD%E0%B8%99%E0%B8%B4%E0%B9%80%E0%B8%A1%E0%B8%8A%E0%B8%B1%E0%B9%88%E0%B8%99-175e6bc1041b"
+  src="https://miro.medium.com/max/160/1*Bj01ZtVn1bmHu_onJTcgKQ.jpeg"
+/>
+
+### แนะนำเรื่องถัดไป
+
+- [บอกต่อความท้าทายการทำหุ่นยนต์ ผ่านน้องไอโกะกันเถอะ](https://medium.com/@cheersupzoo/%E0%B8%9A%E0%B8%AD%E0%B8%81%E0%B8%95%E0%B9%88%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%97%E0%B9%89%E0%B8%B2%E0%B8%97%E0%B8%B2%E0%B8%A2%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B8%B3%E0%B8%AB%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B8%A2%E0%B8%99%E0%B8%95%E0%B9%8C-%E0%B8%9C%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B9%84%E0%B8%AD%E0%B9%82%E0%B8%81%E0%B8%B0%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%96%E0%B8%AD%E0%B8%B0-e43ba5d2990e)
+- [Flutter: ลองเขียนแอปสไตล์ BLoC Pattern สำหรับ Noob](https://medium.com/@cheersupzoo/flutter-%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%82%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B9%81%E0%B8%AD%E0%B8%9B%E0%B8%AA%E0%B9%84%E0%B8%95%E0%B8%A5%E0%B9%8C-bloc-pattern-%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A-noob-e5b1cf3f981b)
+- [Flutter: ลองสร้าง Todo App โดยใช้ BLoC Pattern กัน](https://medium.com/@cheersupzoo/flutter-%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87-todo-app-%E0%B9%82%E0%B8%94%E0%B8%A2%E0%B9%83%E0%B8%8A%E0%B9%89-bloc-pattern-%E0%B8%81%E0%B8%B1%E0%B8%99-b7810c99bf32)

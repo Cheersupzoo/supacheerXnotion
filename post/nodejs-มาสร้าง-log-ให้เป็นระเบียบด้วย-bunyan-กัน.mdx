@@ -1,0 +1,162 @@
+---
+title: NodeJS | มาสร้าง Log ให้เป็นระเบียบด้วย bunyan กัน
+titleEN: Organise our Log with Bunyan
+description: >-
+  การสร้าง และเก็บ log ที่ดี ช่วยให้การพัฒนาโปรแกรมเป็นไปด้วยความราบรื่นมากขึ้น
+  โดยเฉพาะอย่างยิ่งเมื่อเราเข้าสู่ยุคของ Microservice…
+descriptionEN: >-
+  Meaningful and organised log will help developing software smoother,
+  especially when we have to handle multiple of sevice...
+coverImage: "/img/1__ADcJrgqogtzy84__iJ3IbOA.jpeg"
+date: "2020-06-23T05:08:23.129Z"
+categories: ["NodeJS"]
+keywords: []
+slug: >-
+  nodejs-มาสร้าง-log-ให้เป็นระเบียบด้วย-bunyan-กัน
+type: "blog"
+---
+
+![](/img/1__ADcJrgqogtzy84__iJ3IbOA.jpeg)
+
+การสร้าง และเก็บ log ที่ดี ช่วยให้การพัฒนาโปรแกรมเป็นไปด้วยความราบรื่นมากขึ้น โดยเฉพาะอย่างยิ่งเมื่อเราเข้าสู่ยุคของ Microservice Architecture ที่ เราจะมี service หลายๆอัน เมื่อเกิดปัญหา ก็จะเริ่มตามหาต้นเหตุยาก เพราะความหลากหลายของแหล่งข้อมูล รูปแบบข้อมูล แล้วเราจะจัดระเบียบข้อมูลเหล่านี้ได้ก็ต่อเมื่อ ข้อมูลเราเป็นข้อมูลที่มีประโยชน์ ซึ่งนี่จะเป็นสิ่งที่เราจะเล่นกันในวันนี้
+
+---
+
+> **ก่อนที่จะไปต่อ เราจะเรียก “log” ในบทความนี้ว่า “ข้อความ”**
+
+---
+
+#### ข้อมูลที่เป็นประโยชน์?
+
+ข้อมูลที่เป็นประโยชน์เช่นอะไรได้บ้าง อย่างแรก **ข้อความบรรยาย หรือ message(msg)** อันนี้น่าจะเป็นอันที่ชัดเจนที่สุดแล้ว เราจะเก็บ log ทำไมถ้าไม่ได้ต้องการจะสื่อสารข้อความ นอกจากนี้ เช่น
+
+- ประเภทแหล่งข้อมูล **(name)** เป็นการบอกว่าข้อมูลพวกนี้เป็นประเภทต่างๆ เช่น authentication, database, network request…
+- **hostname** อันนี้ตามชื่อเลย แหล่งข้อมูลชื่ออะไร
+- **pid** โปรเซสไหน เราจะได้รู้ว่า ถ้าเกิดปัญหา มันรันต่อเนื่องจากโปรเซสไหน แล้วโปรเซสนั้นๆ ทำหน้าที่อะไร
+- **level** หรือ ชื่อเต็มๆว่า severity level บอกระดับความสำคัญของข้อมูลนี้ โดยปกติแล้ว ก็จะใช้ตามมาตรฐาน [**RFC5424**](https://tools.ietf.org/html/rfc5424) หลักๆจะมี :
+
+```
+{
+  emerg: 0,
+  alert: 1,
+  crit: 2,
+  error: 3,
+  warning: 4,
+  notice: 5,
+  info: 6,
+  debug: 7
+}
+```
+
+- **time** หรือ timestamp เวลาที่ข้อมูลนั้นๆถูกสร้าง
+
+อย่างน้อยเวลาเราสร้าง log ควรจะมีข้อมูลเหล่านี้ บางครั้งอาจจะมีมากกว่านี้ก็ได้ ถ้าข้อมูลเหล่านั้นเป็นประโยชน์เมื่อเราต้องตามแก้ปัญหา
+
+---
+
+#### `Bunyan เข้ามาช่วยเรายังไง?`
+
+[**bunyan**](https://github.com/winstonjs/winston) เป็น module ใน [**npm**](https://www.npmjs.com/package/bunyan) ที่ช่วยให้ชีวิตเราง่ายขึ้นมาก เพราะ ด้วยการเรียกฟังก์ชั่นสั้นๆ ตัว module อันนี้ก็จะจัดการแนบข้อมูลที่เป็นประโยชน์ให้เราเลย เช่นคำสั่ง
+
+`log.info(‘hi bug’);`
+
+เราก็จะได้ log ออกมาเป็น JSON หน้าตาตามนี้
+
+```json
+{
+  "name": "test",
+  "hostname": "Suppachai-Laptop",
+  "pid": 26728,
+  "level": 30,
+  "msg": "hi bug",
+  "time": "2020–06–22T17:46:45.878Z",
+  "v": 0
+}
+```
+
+จากแค่ msg ตัว bunyan ได้แนบ name, hostname, pid, time ให้ทันที แถม ถ้าอยากให้มันออกมาสวยงามได้ด้วย
+
+![](/img/1__231VBcoyY__4TGkWlTw9fJg.png)
+
+---
+
+### มาดูวิธีใช้งาน **bunyan** กันหน่อย
+
+ขั้นแรก ใน shell มาติดตั้งกันก่อนที่โฟลเดอร์โปรเจค
+
+```bash
+npm i bunyan
+```
+
+มาลองโค๊ดแบบง่ายๆ
+
+<Gist id="4f61e214d61bc737c720335404421396" />
+
+ถ้าลองรันด้วย
+
+```bash
+node ./loggings.js
+```
+
+ผลลัพธ์ก็จะหน้าตาออกมาแบบนี้
+
+![](/img/1__tbUtbpV0fSl4__S7dvlbZYQ.png)
+
+ถ้าอยากให้ออกมาอ่านง่ายขึ้นหน่อย เราก็ส่ง output ไปให้ bunyan อีกที
+
+```bash
+node .\\loggings.js | .\\node_modules\\.bin\\bunyan.cmd
+```
+
+ก็จะมีสีสันให้เราแล้ว
+
+![](/img/1__r1g8rPu1Et3IOU7C__inoVQ.png)
+
+#### เพิ่ม ข้อความที่เป็น JSON ของเราลงไปก็ทำได้
+
+```js
+log.info({ source_ip: "127.0.0.1", des_ip: "192.168.0.2" }, "hi bug");
+```
+
+ผลลัทธ์ทั้งสองแบบ
+
+![](/img/1__X6CEfg05iEm__6whUcRpMUQ.png)
+![](/img/1__PfxRR0aDjooMP0rAPJUcLw.png)
+
+#### ส่ง log ไปหลายทาง
+
+บางครั้งนอกจากที่เราอยากจะโชว์ข้อมูลใน shell แล้ว เราอาจจะอยากแนบลงในไฟล์ หรืออยากส่งไปฐานข้อมูลข้างนอกก็ทำได้ง่าย
+
+จาก บรรทัดนี้
+
+```js
+var log = bunyan.createLogger({ name: ‘test’});
+```
+
+เราก็ตั้ง streams ให้มาก ตามที่เราต้องการ
+
+<Gist id="006ad5aba8236d23b2e38f871f494dee" />
+
+แล้ว bunyan ก็จะจัดการให้เราทุกอย่าง
+
+---
+
+แค่จากเดิม `console.log()` เราเปลี่ยนไปใช้ `log.info()` ก็ทำให้ log ของเราเป็นประโยชน์ขึ้นมากแล้ว ต่อไปเราจะเอาข้อมูลเหล่านี้ไปแสดงใน **kibana** ทำการวิเคราะห์ แสดงเป็นกราฟ กรองข้อมูล ก็ทำได้แล้ว เพราะเรามีข้อมูล!
+
+![](/img/1______gtDAmpj4DxhzcM__576sg.png)
+
+---
+
+#### **จบเรียบร้อยแล้วกับ bunyan ในบทความนี้**
+
+bunya ยังมีความสามารถอีกมากมาย ลองไปอ่านใน [**docs**](https://github.com/trentm/node-bunyan) ได้ หรือถ้าอยากลองเล่น tool ตัวอื่นก็ลองเล่น [**winston**](https://github.com/winstonjs/winston) เป็น tool ที่ดี สุดท้ายนี้ก็หวังว่าจะเห็นความสำคัญ ของ logging และนำไปใช้ประโยชน์ในโค๊ดของท่านได้นะครับ
+
+---
+
+โค๊ดตัวอย่างการใช้ bunyan แบบ simple ที่สุดแล้ว ลองโหลดมาเล่นได้
+
+<GithubBlock
+  title="Cheersupzoo/simple-bunyan-logging-example"
+  description="Simple Example Logging with Bunyan"
+  href="https://github.com/Cheersupzoo/simple-bunyan-logging-example"
+/>

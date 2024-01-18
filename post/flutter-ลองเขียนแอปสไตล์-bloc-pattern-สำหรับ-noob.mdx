@@ -1,0 +1,418 @@
+---
+title: "Flutter: ลองเขียนแอปสไตล์ BLoC Pattern สำหรับ Noob"
+description: >-
+  Design Pattern รูปแบบ หรือสไตล์การเขียนโปรแกรม
+  มีความสำคัญอย่างมากเมื่อเราอยากสร้างโปรเจคที่สามารถนำไปต่อยอดได้ ดูแลรักษาได้…
+coverImage: "/img/1__99DgXtnKlVBm2XUGb4rXiQ__2x.jpeg"
+date: "2019-09-06T17:46:02.847Z"
+categories: []
+keywords: []
+slug: >-
+  flutter-ลองเขียนแอปสไตล์-bloc-pattern-สำหรับ-noob
+type: "blog"
+---
+
+![](/img/1__99DgXtnKlVBm2XUGb4rXiQ__2x.jpeg)
+
+**Design Pattern** รูปแบบ หรือสไตล์การเขียนโปรแกรม มีความสำคัญอย่างมากเมื่อเราอยากสร้างโปรเจคที่สามารถนำไปต่อยอดได้ ดูแลรักษาได้ และเพิ่มประสิทธิภาพได้
+
+**BLoC pattern** หรือ **Business Logic of Component** คือ Design Pattern ที่มีแนวคิดของการแยก Logic ออกจากส่วนแสดงผล หรือพูดอีกนัยนึงคือ เราพยายามแยกให้โค๊ดอันนึงทำหน้าที่คำนวนตรรกะต่างๆ แล้วอีกอันก็ประกอบไปด้วยการแสดงผล ซึ่งให้อารมณ์คล้ายๆ JavaScript กับ Html แต่เรานำมาใช้บน Flutter นั่นเอง
+
+---
+
+**สร้าง BLoC สำหรับทุกหน้า**
+
+ด้วยหลักการของ BLoC จากเดิมที่แอปหน้านึงจะมีเพียง 1 ไฟล์ เราก็ต้องเพิ่มไฟล์ของ BLoC เพิ่มเข้าไปด้วย เพราะเราต้องแยกส่วนของหลักการออกมา ดังนั้น จากจุดนี้ไปก็จะพบว่า BloC จะมีความยากระดับนึง แล้วอาจจะ **เกินความจำเป็น** สำหรับแอปที่ไม่ได้มีความซับซ้อนมาก แต่ก็คุ้มค่า ถ้าแอปเราเริ่มมีขนาดระดับนึง หรือเมื่อต้องส่ง state ไปมาระหว่างหน้า
+
+**เนื่องจาก BLoC เป็นเพียง Pattern**
+
+ดังนั้นเราสามารถเลือก State Management ที่จะใช้ได้ ซึ่งโดยทั่วไปก็จะนิยมใช้ Stream กับ flutter_bloc ในบทความนี้จะเลือกใช้ `flutter_bloc` เพราะเริ่มมีความนิยมมากกว่า
+
+**ก่อนจะเริ่มเอา BLoC มาใช้ ลองมาดูโครงสร้างของมันกันก่อน**
+
+![](/img/1____Ru1l5eoLM__hkj42qc3Q6A.png)
+
+จากรูปข้างบน จะเห็น flow ของข้อมูล โดย bloc เองก็จะทำหน้าที่เป็นตัวกลางของข้อมูล จะไม่ได้ไปมีส่วนในการเรนเดอร์ UI ส่วนของ UI เองก็จะไม่ได้มี logic ข้างใน แต่จะรับข้อมูลมาจาก BLoC แทน หรือถ้าจะเรียกฟังก์ชั่นก็จะเรียกผ่าน BLoC เช่นกัน
+
+---
+
+!> ⚠️⚠️⚠️ (อัพเดท 8/7/2020) ถ้าใครใช้ flutter_bloc เวอร์ชั่นตั้งแต่ 1.0.0 ขึ้นไป จะมีการเปลี่ยนชื่อ Api บางส่วนดังนี้
+
+bloc.state.listen -> bloc.listen  
+bloc.currentState -> bloc.state  
+**bloc.dispatch -> bloc.add**  
+bloc.dispose -> bloc.close
+
+สามารถอ่านเพิ่มเติมได้จาก [https://link.medium.com/qnfMcEcW00](https://link.medium.com/qnfMcEcW00)
+
+ดังนั้นตอนทำตาม อาจใช้เวอร์ชั่นที่ระบุไว้ไปก่อนได้ หลักการทำงานของ flutter_bloc ยังเหมือนเดิม
+
+---
+
+### **เริ่มเขียน Flutter ด้วย BLoC Pattern กัน**
+
+ก่อนที่เราจะเริ่มเขียน BLoC Pattern แบบจริงจัง ลองมาทำความคุ้นเคยกับคำสั่งต่างๆที่เราต้องใช้กันก่อน ฉะนั้น มาลองแก้ โปรแกรมแรกเริ่ม Increment app ให้เป็น BLoC Pattern กัน
+
+#### **เตรียมความพร้อม**
+
+```bash
+flutter create increment_app
+```
+
+หลังจากนั้นก็ทำการแก้ไขไฟล์ `pubspec.yml` โดยก็อปด้านล่าง หรือ เพิ่ม
+
+```yaml
+flutter_bloc: ^0.18.3
+equatable: ^0.2.0
+```
+
+เข้าไปในส่วน `dependencies:`
+
+<Gist id="c0b634c7964c11b034b8bd3fc4c2d739" />
+
+แล้วอัพเดท dependencies โดยรัน
+
+```bash
+flutter packages get
+```
+
+เป็นอันจบขั้นตอนการเตรียมความพร้อม
+
+#### **เริ่มแก้ไขโค๊ดกัน**
+
+> เราจะเริ่มต้นด้วยการสร้าง bloc เพื่อรองรับการใช้งานของส่วน UI กันก่อน โดยตอนนี้ Logic เรามีเพียงแสดงตัวเลข กับ เพิ่มค่าของเลขเมื่อกดปุ่มบวก ตามเดิมใน `main.dart` เราจะพบว่าค่าของเลขถูกเก็บใน `_MyHomePageState` และถูกอัพเดทโดยฟังก์ชั่น `_incrementCounter()` โดยเรียก `setState()` เพื่ออัพเดทการแสดงผลของตัวเลข
+
+เราจะทำการย้าย logic ออกมา แล้วเปลี่ยนไปใช้ state management ของ `flutter_bloc` แทน โดยเริ่มต้นดังต่อไปนี้
+
+สร้างโฟลเดอร์สำหรับ จัดการ logic ของเรา `increment_app/lib/**bloc**`
+
+แล้วสร้างไฟล์สำหรับ bloc หน้า main ของเราจำนวน 4 ไฟล์ดังนี้
+
+- `increment_app/lib/bloc/**counter_event.dart**` รับ event จากส่วน UI
+- `increment_app/lib/bloc/**counter_state.dart**` อัพเดทข้อมูลส่วน UI
+- `increment_app/lib/bloc/**counter_bloc.dart**` logic ที่รับข้อมูลจาก `counter_event.dart` ประมวลผล แล้วส่งต่อไปยัง `counter_state.dart`
+- `increment_app/lib/bloc/**counter.dart**` export ไฟล์ข้างต้นทั้ง 3 เพื่อความง่ายในการเรียกใช้งาน
+
+**ก่อนอื่น มารวมไฟล์เพื่อให้ export ได้ง่าย ที่** `**counter.dart**` **กันก่อน**
+
+<Gist id="7917198eebf87b24866211c94af696b2" />
+
+**เริ่มต้นที่ `counter_event.dart`**
+
+`import package meta` สำหรับใช้เรียก `@immutable` และ `equatable` สำหรับใช้เปรียบเทียบ state ในอดีตกับปัจจุบัน เพื่อให้ `flutter_bloc` สามารถเช็ค แล้วอัพเดทเฉพาะค่าที่จำเป็นได้
+
+```dart
+import 'package:meta/meta.dart';
+import 'package:equatable/equatable.dart';
+```
+
+สร้าง abstract class CounterEvent โดยที่ขยายมาจาก `Equatable` ที่เรา import มา
+
+```dart
+@immutable
+
+abstract class CounterEvent extends Equatable {
+
+CounterEvent([List props = const []]) : super(props);
+
+}
+```
+
+สร้าง class IncrementCounter ที่ทำหน้าที่ส่งต่อตัวเลขไปยัง bloc
+
+```dart
+class IncrementCounter extends CounterEvent {
+
+final int counter;
+
+IncrementCounter(this.counter) : super([counter]);
+
+@override
+
+String toString() => 'IncrementCounter {counter : $counter}';
+
+}
+```
+
+รวมกันทั้งหมด จะได้โค๊ดดังนี้
+
+<Gist id="e156ac67c7abc803b4583a32060dfe7e" />
+
+**มาต่อกันที่ `counter_state.dart`**
+
+Import meta กับ equatable เข้ามา
+
+`import 'package:meta/meta.dart';`
+
+`import 'package:equatable/equatable.dart';`
+
+สร้าง abstract class CounterState
+
+```dart
+@immutable
+
+abstract class CounterState extends Equatable{
+
+CounterState([List props = const []]) : super(props);
+
+}
+```
+
+สร้าง class UpdateCounterState สำหรับส่งค่า counter ให้ UI นำไปใช้งาน
+
+```dart
+class UpdateCounterState extends CounterState {
+
+final int counter;
+
+
+UpdateCounterState(this.counter): super([counter]);
+
+@override
+
+String toString() {
+
+return 'UpdateCounterState { counter: $counter}';
+
+}
+
+}
+```
+
+รวมกันได้ดังนี้
+
+<Gist id="0947131b405a44b96799dba4a9f2095f" />
+
+> หลังจากเราได้สร้าง **event** กับ **state** เรียบร้อยแล้ว เรามาต่อกันที่ bloc ต่อ ซึ่งทำหน้าที่รับค่าจาก event แล้วประมวลผลตามประเภทของ event แล้วส่งค่าต่อไปยัง state
+
+**ส่วน logic ของเรา `counter_bloc.dart`**
+
+`import async` กับ `bloc` เข้ามา และก็นำ event กับ state เข้ามาด้วย โดยเรียกผ่าน `counter.dart`
+
+```dart
+import 'dart:async';
+
+import 'package:bloc/bloc.dart';
+
+import './counter.dart';
+```
+
+ต่อมา สร้าง class CounterBloc ที่เราจะขยายมาจาก Bloc `<CounterEvent, CounterState>` โดยต้องระบุ **event** และ **state** ที่นำมาใช้ ซึ่งคือ **CounterEvent** กับ **CounterState**
+
+ในส่วนนี้แนะนำให้ก็อปโค๊ดด้านล่างมาก่อน แล้วเราจะมาอธิบายส่วนต่างๆ กัน
+
+<Gist id="c7f6aece967449373044219d91ecbde7" />
+
+- 1\* — `initialState` เป็นการบอกค่าตั้งต้น ที่จะใช้เมื่อเริ่มรันแอปของเรา ซึ่งในตัวอย่างนี้ เราให้เริ่มต้นที่ **0**
+- 2\* — `mapEventToState` ใช้เพื่อโยง event ไปยัง state หรือจะเรียกว่าเป็นตัวระบุฟังก์ชั่นที่จะใช้คำนวนค่าจาก event อีกด้วย แล้วส่งข้อมูลไปยัง state ที่ต้องการ
+- 3\* — _mapUpdateCountertoState ฟังก์ชั่นที่ถูกเรียกใช้ตาม event ที่ถูกส่งมา โดยในส่วนนี้จะประกอบไปด้วย logic อย่างเช่น `final int counter = event.counter + 1;` ที่อยู่ในโค๊ดตัวอย่าง
+
+> ในตัวอย่างนี้อาจจะทำให้สงสัยได้ว่า จะมี 2\* ไปทำไม ถ้าเรามีแค่ event อันเดียว และ state อันเดียว ที่เราใส่ไปเช่นนี้ไว้ก่อนเพราะในความเป็นจริงแล้ว เราจะมี event และ state มากกว่า 1 อัน เช่นเราอาจจะเพิ่มปุ่มลดตัวเลขทีละ 1 เข้าไป เราก็ต้องเพิ่ม event อีกอัน
+
+_\*เดี๋ยวจะลองเพิ่มส่วนนี้ในภายหลัง_
+
+ตอนนี้ เราได้ทำในส่วนของ bloc เรียบร้อยแล้ว ต่อไปนี้เราก็สามารถเรียกใช้มันได้แล้ว
+
+**มาที่ `main.dart` กันต่อเลย**
+
+เดิมๆ โค๊ดเราก็จะเป็นดังนี้
+
+<Gist id="ff781880527d57e612a8f47133cbb2e1" />
+
+เพิ่ม `counter.dart` กับ `flutter_bloc.dart` เข้ามา
+
+```dart
+import 'package:bloc_test/bloc/counter.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+```
+
+แก้ `main()` ให้ `BlocProvider` มาครอบ `MyApp()` ไว้ เพื่อให้เราสามารถเรียก Bloc ของเราจากหน้าไหนของแอปก็ได้ โดยต้องระบุ Bloc ที่เราจะใช้ด้วย ซึ่งคือ `CounterBloc()`
+
+<Gist id="aed6d2c5b3d9a1f5ea4527ef4991ae9e" />
+
+ตอนนี้แอปเราพร้อมที่จะเรียกใช้ bloc แล้ว
+
+เราก็จะมาแก้ในส่วน `class _MyHomePageState extends State<MyHomePage>` ที่ซึ่งเดิมยังประกอบไปด้วยค่านับเลข `_counter` และ logic `_incrementCounter()` เราจะแทนที่สิ่งเหล่านี้ด้วย bloc ที่เราสร้าง
+
+<Gist id="7bd8b72c708f5d1a94803bd16ed340f0" />
+
+หลังจากแก้ได้ตามนี้แล้ว เราก็สามารถลบ หรือคอมเม้น ตัวแปร และฟังก์ชั่นเดิมได้
+
+```dart
+int _counter = 0;
+
+void _incrementCounter() {
+
+setState(() {
+
+_counter++;
+
+});
+
+}
+```
+
+เราจะรวมโค๊ดได้ดังนี้
+
+<Gist id="16c877f4fb21efb089a1dd21fcaa3a8d" />
+
+ตอนนี้แอปของเราก็พร้อมที่จะรันได้แล้ว
+
+```bash
+flutter run
+```
+
+![](/img/1__87zogp0CsNPK5uB__HBbktA.gif)
+
+> หลังจากลองรันแล้ว เราจะพบว่าแทบไม่เห็นความแตกต่างเลย แต่ในความเป็นจริงแล้ว การที่เราเลือกใช้ `flutter_bloc` จะมีความพิเศษที่ตัว state management นี้จะช่วยเราในการจัดการว่า widget ไหนจะต้องสร้างใหม่บ้าง จะเห็นผลผลอย่างมาก เมื่อหน้าตาแอปของเราประกอบไปด้วยหลายๆ widget และด้วย BLoC Pattern จะทำให้โค๊ดเราเป็นระเบียบ สามารถนำไปต่อยอดได้ง่าย
+
+---
+
+ไหนๆก็รันโค๊ดผ่านแล้ว เราลองมาเพิ่มอีกซัก event นึงโดยให้ทำหน้าที่ลดตัวเลขลงทีละ 1 และเพิ่มปุ่มลดตัวเลขด้วย
+
+กลับไปที่ `counter_event.dart` อีกรอบ
+
+เพิ่มคลาสใหม่ `DecrementCounter` ทำหน้าที่ส่ง event ลดเลข
+
+```dart
+class DecrementCounter extends CounterEvent {
+
+final int counter;
+
+DecrementCounter(this.counter) : super([counter]);
+
+@override
+
+String toString() => 'DecrementCounter {counter : $counter}';
+
+}
+```
+
+สุดท้ายโค๊ดจะออกมาหน้าตาตามนี้
+
+<Gist id="eceaddbebd1dfa13e1a4ded6e8a0c745" />
+
+เสร้จแล้วไปที่ `counter_bloc.dart` เพื่อเพิ่มฟังก์ชั่นไว้รองรับ `DecrementCounter` ซึ่งทำหน้าที่ลดตัวเลขลงทีละ 1
+
+```dart
+Stream<CounterState> _mapDecrementCountertoState(DecrementCounter event) async\* {
+
+final int counter = event.counter - 1;
+
+yield UpdateCounterState(counter);
+
+}
+```
+
+แล้วแก้ `mapEventToState` ให้เรียกฟังก์ชั่นนี้เมื่อ event ที่ส่งมาเป็น `DecrementCounter`
+
+```dart
+@override
+
+Stream<CounterState> mapEventToState(
+
+CounterEvent event,
+
+) async\* {
+
+if (event is IncrementCounter) {
+
+yield\* _mapIncrementCountertoState(event);
+
+}else if(event is DecrementCounter) {
+
+yield\* _mapDecrementCountertoState(event);
+
+}
+
+}
+```
+
+หน้าตาจะออกมาตามนี้
+
+<Gist id="4e189991dc4b660536ddd6285e1d2404" />
+
+logic เสร็จแล้วก็กลับไปที่ `main.dart` เพื่อเพิ่มปุ่มลดกัน
+
+เพื่อให้เราสามารถใส่ FABs ได้หลายอัน เราก็จะเอา Column/Row Widget ไปครอบ
+
+```dart
+floatingActionButton: FloatingActionButton(
+
+onPressed: () =>
+
+counterBloc.dispatch(IncrementCounter(counter)),
+
+tooltip: 'Increment',
+
+child: Icon(Icons.add),
+
+),
+```
+
+\--> แก้เป็นด้านล่าง
+
+```dart
+floatingActionButton: Row(mainAxisAlignment: MainAxisAlignment.end,
+
+children: <Widget>[
+
+FloatingActionButton(
+
+onPressed: () =>
+
+counterBloc.dispatch(IncrementCounter(counter)),
+
+tooltip: 'Increment',
+
+child: Icon(Icons.add),
+
+),
+
+Padding(padding: EdgeInsets.only(left: 20),), // เพิ่มช่องว่าระหว่างปุ่ม
+
+FloatingActionButton(
+
+onPressed: () =>
+
+counterBloc.dispatch(DecrementCounter(counter)),  // ทำหน้าที่ส่ง DecrementCounter(counter) แทน
+
+tooltip: 'Increment',
+
+child: Icon(Icons.remove),
+
+),
+
+],
+
+),
+```
+
+สรุปโค็ดได้ดังนี้
+
+<Gist id="650bb75d3fd8af77e44f3304754c0664" />
+
+เมื่อลองรันอีกรอบ แอปก็จะออกมาหน้าตาดังนี้
+
+![](/img/1__bxInQQnbttkDASCEWVHTXw.gif)
+
+---
+
+คงต้องจบ **BLoC Pattern สำหรับ Noob** ไว้เท่านี้ก่อน แล้วเราจะมาต่อกันที่ การนำ Bloc มาใช้กับแอปที่มีหลายหน้า เพื่อให้ตอบโจทย์โลกความเป็นจริงด้วย
+
+ถ้าเขียนเสร็จแล้ว จะเอาลิงค์มาลงไว้ตรงนี้
+
+หวังว่า medium อันนี้พอจะช่วยให้หลายๆ คนเข้าใจ BLoC Pattern มากขึ้น ถ้ามีความเห็นอะไร ก็คอมเม้นลงมาข้างล่างได้เลย
+
+<GithubBlock
+  title="Cheersupzoo/increment_decrement_app_bloc"
+  description="Flutter increment app with BLoC Pattern"
+  href="https://github.com/Cheersupzoo/increment_decrement_app_bloc"
+/>
+
+#### แนะนำเรื่องถัดไป
+
+- [บอกต่อความท้าทายการทำหุ่นยนต์ ผ่านน้องไอโกะกันเถอะ](https://medium.com/@cheersupzoo/%E0%B8%9A%E0%B8%AD%E0%B8%81%E0%B8%95%E0%B9%88%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%97%E0%B9%89%E0%B8%B2%E0%B8%97%E0%B8%B2%E0%B8%A2%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B8%B3%E0%B8%AB%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B8%A2%E0%B8%99%E0%B8%95%E0%B9%8C-%E0%B8%9C%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B9%84%E0%B8%AD%E0%B9%82%E0%B8%81%E0%B8%B0%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%96%E0%B8%AD%E0%B8%B0-e43ba5d2990e)
+- [Flutter: ลองสร้าง Todo App โดยใช้ BLoC Pattern กัน](https://medium.com/@cheersupzoo/flutter-%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87-todo-app-%E0%B9%82%E0%B8%94%E0%B8%A2%E0%B9%83%E0%B8%8A%E0%B9%89-bloc-pattern-%E0%B8%81%E0%B8%B1%E0%B8%99-b7810c99bf32)
+- [Flutter | มาลองทำแอป Icon Showcase || Part I การดีไซน์](https://medium.com/@cheersupzoo/flutter-%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B3%E0%B9%81%E0%B8%AD%E0%B8%9B-icon-showcase-part-i-%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%94%E0%B8%B5%E0%B9%84%E0%B8%8B%E0%B8%99%E0%B9%8C-6a41da6a39cc)
