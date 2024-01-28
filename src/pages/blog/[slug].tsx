@@ -6,6 +6,7 @@ import { format } from 'date-fns'
 import { YouTube } from 'mdx-embed'
 import { MDXRemote } from 'next-mdx-remote'
 import SyntaxHighlighter from 'react-syntax-highlighter'
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 import { Layout } from '@/components/Layout'
 import BigLetter from '@/components/Mdx/bigLetter'
@@ -36,16 +37,20 @@ const components = {
     />
   ),
   code: (props: any) => {
-    return <SyntaxHighlighter {...props}>{props.children}</SyntaxHighlighter>
+    return (
+      <SyntaxHighlighter {...props} style={dracula}>
+        {props.children}
+      </SyntaxHighlighter>
+    )
   },
   pre: (props: any) => {
     return (
       <SyntaxHighlighter
-        language={(props.children?.props?.className ?? props.className)?.replace(
-          'language-',
-          ''
-        )}
+        language={(
+          props.children?.props?.className ?? props.className
+        )?.replace('language-', '')}
         {...props}
+        style={dracula}
       >
         {props.children?.props?.children ?? props.children}
       </SyntaxHighlighter>
@@ -57,7 +62,7 @@ const components = {
   a: (props: any) => <MyLink {...props}></MyLink>,
   inlineCode: (props: any) => {
     return (
-      <SyntaxHighlighterInline {...props}>
+      <SyntaxHighlighterInline {...props} style={dracula}>
         {props.children}
       </SyntaxHighlighterInline>
     )
@@ -92,7 +97,7 @@ const components = {
   hint_big,
   p: (props: any) => (
     <div {...props}>
-      <div className='mt-4'>{props.children}</div>
+      <div className='my-4'>{props.children}</div>
     </div>
   ),
   Divider,
@@ -107,10 +112,6 @@ interface MyProp {
   }
 }
 export default function Home({ post }: MyProp) {
-  const isLocal = process.env.NODE_ENV === 'development'
-  const router = useRouter()
-  const curPage = parseInt(router.query.page?.toString() ?? '1')
-
   useEffect(() => {
     const hash = window.location.hash
     // window.location.hash = ''
@@ -126,7 +127,7 @@ export default function Home({ post }: MyProp) {
 
   return (
     <Layout>
-      <div className='mx-auto mb-4 mt-7  w-11/12 sm:px-4 md:max-w-5xl'>
+      <div className='mx-auto mb-8 mt-20 w-11/12 sm:px-4 md:max-w-5xl'>
         <Head>
           <title>{`${post.title} | supaCheer Blog`}</title>
           {/* <meta property="og:image" content={post.ogImage.url} /> */}
@@ -136,7 +137,7 @@ export default function Home({ post }: MyProp) {
           Created on {format(Date.parse(post.date ?? 0), 'MMM dd, yyyy')}
         </div>
         <Nav />
-        <div className='mx-auto max-w-2xl text-lg'>
+        <div className='mx-auto max-w-2xl text-lg text-[var(--text-color)]'>
           <MDXRemote {...post.source} components={components} />
         </div>
       </div>

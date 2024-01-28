@@ -14,7 +14,7 @@ function Hint({ children, bgColor, borderColor, icon }: HintProp) {
     <div className="relative">
       <div
         className={
-          "mt-8 border-2 rounded-xl text-gray-800 pr-1 " + borderColor
+          " mt-8 border-2 rounded-xl text-[var(--text-color)] pr-1 " + borderColor
         }
       >
         <div

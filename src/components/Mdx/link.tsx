@@ -11,7 +11,7 @@ export default function MyLink(props: any) {
 
   return (
       <a
-        className="text-blue-800 font-medium hover:underline whitespace-pre-wrap break-words "
+        className="text-[var(--purple-color)] font-medium hover:underline whitespace-pre-wrap break-words "
         target={
           new RegExp(/^#[^:/?\n]+/).test(props.href as string)
             ? undefined

@@ -12,16 +12,16 @@ function LinkBlock({ href, src, title, description }: MyProp) {
     /^(?:https?:\/\/)?(?:[^@/\n]+@)?(?:www\.)?([^:/?\n]+)/
   )?.[1]
   return (
-    <div className='group my-3 border transition hover:shadow-md'>
+    <div className='group my-3  transition hover:shadow-md'>
       <a
-        className='flex  '
+        className='flex bg-white'
         target='_blank'
         rel='noreferrer'
         href={href}
         style={{ minWidth: 0 }}
       >
         <div className='text mx-5 my-auto flex-grow'>
-          <h2 className='text-base group-hover:text-blue-900'>
+          <h2 className='text-base text-gray-800 group-hover:text-blue-900'>
             <strong>{title}</strong>
           </h2>
           <div
