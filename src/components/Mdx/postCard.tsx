@@ -11,7 +11,7 @@ interface MyProp {
 
 export default function PostCard({ post }: MyProp) {
   return (
-    <div className='  mb-8 cursor-pointer overflow-hidden rounded-xl bg-white shadow-md'>
+    <div className='  mb-8 cursor-pointer overflow-hidden rounded-xl bg-gray-50 dark:bg-slate-700 shadow-md'>
       <Link legacyBehavior href={`/${post.type}/${post.slug}`} passHref>
         <div className='md:flex'>
           <div className='md:flex-shrink-0'>
@@ -32,14 +32,14 @@ export default function PostCard({ post }: MyProp) {
             </div> */}
             <a
               href={`/${post.type}/${post.slug}`}
-              className='mt-1 block text-lg font-medium leading-tight text-black hover:underline'
+              className='mt-1 block text-lg font-medium leading-tight text-[var(--text-color)] hover:underline'
             >
               {post.title}
             </a>
-            <div className='text-sm text-gray-600'>
+            <div className='text-sm text-[var(--grey-color)]'>
               {format(Date.parse(post.date ?? 0), 'MMM dd, yyyy')}
             </div>
-            <p className='mt-2 line-clamp-2 overflow-ellipsis text-gray-500'>
+            <p className='mt-2 line-clamp-2 overflow-ellipsis text-[var(--fg-color)]'>
               {post.description}
             </p>
           </div>

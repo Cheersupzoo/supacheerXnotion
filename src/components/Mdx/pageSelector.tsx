@@ -7,7 +7,7 @@ interface MyProp {
 
 export default function PageSelector({ numOfPage, curPage }: MyProp) {
   return (
-    <div className="flex flex-row justify-center gap-x-8">
+    <div className="flex flex-row justify-center gap-x-8 text-[var(--text-color)]">
       {Array.from({ length: numOfPage }, (_, i) => i + 1).map((num) =>
         curPage === num ? (
           <div className="font-bold" key={num}>
