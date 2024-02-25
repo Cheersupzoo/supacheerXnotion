@@ -54,6 +54,15 @@ export default function Home({ blogs }: { blogs: BlogsProp }) {
           <FloatingTakatan />
         </div>
       </Container>
+      <style global jsx>
+        {`
+          html,
+          body {
+            position: relative;
+            overflow-x: hidden;
+          }
+        `}
+      </style>
     </Layout>
   )
 }
@@ -66,22 +75,3 @@ export async function getStaticProps() {
     }
   }
 }
-
-// export async function getStaticProps() {
-//   const notion = new NotionAPI()
-//   const recordMap = await notion.getPage(
-//     'Suppachai-a801d85fcc9e4c76bd7a4c60ad234952'
-//   )
-
-//   const imageCache = await buildImageCache(recordMap)
-
-//   const previewImageMap = await buildPreviewImage(imageCache)
-//   recordMap.preview_images = previewImageMap
-//   const siteMap = await getSiteMap()
-//   const idCanonicalMap = Object.entries(siteMap.canonicalPageMap).reduce(
-//     (map, [canonical, id]) => ({ ...map, [id]: canonical }),
-//     {}
-//   )
-
-//   return { props: { recordMap, imageCache, idCanonicalMap } }
-// }
