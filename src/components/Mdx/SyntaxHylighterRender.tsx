@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
-export const SyntaxHighlighterRender = (props: rendererProps) => {
-  function renderNode(node: rendererNode): React.ReactNode {
+export const SyntaxHighlighterRender = (
+  props: rendererProps
+) => {
+  function renderNode(node: rendererNode, index: number): React.ReactNode {
     if (node.tagName === 'span') {
-      const nodes = node.children?.map((child, index) => {
+      const nodes = node.children?.map((child, childIndex) => {
         if (child.type === 'element') {
-          return renderNode(child)
+          return renderNode(child, index + childIndex)
         }
 
         const textType = node.properties?.className[0]
@@ -13,15 +15,15 @@ export const SyntaxHighlighterRender = (props: rendererProps) => {
           .split('_')
           .join('')
         return (
-          <span style={{ ...props.stylesheet[textType] }} key={index}>
+          <span style={{ ...props.stylesheet[textType] }} key={childIndex}>
             {child.value}
           </span>
         )
       })
 
-      return <>{nodes}</>
+      return <Fragment key={index}>{nodes}</Fragment>
     }
     return <span>ELSE</span>
   }
-  return <>{props.rows.map((element) => renderNode(element))}</>
+  return <>{props.rows.map((element, index) => renderNode(element, index))}</>
 }
