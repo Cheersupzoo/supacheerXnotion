@@ -20,10 +20,8 @@ export default function SneakPeakBlogV2({ blogs }: { blogs: BlogsProp }) {
         <span className=''>
           <UnderlineHover>
             <Link
-              target='_blank'
-              rel='noopener noreferrer'
               className={'text-[--blue-color] hover:text-[--sat-pink-color]'}
-              href={blogBaseUrl}
+              href={'/blog'}
             >
               More Blog
             </Link>
