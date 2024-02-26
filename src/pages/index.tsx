@@ -24,7 +24,7 @@ export default function Home({ blogs }: { blogs: BlogsProp }) {
       <Container className='flex'>
         <KeyboardContainer />
 
-        <FloatingMan className='ml-auto mt-8 hidden w-[250px] md:block' />
+        <FloatingMan className='ml-auto mt-8 hidden w-[250px] lg:block' />
       </Container>
       <Container className='mb-8 flex px-6 md:px-12'>
         <div className='flex-grow'>
@@ -42,7 +42,7 @@ export default function Home({ blogs }: { blogs: BlogsProp }) {
         </div>
         <div className='md:w-[300px]'></div>
       </Container>
-      <Container className='mt-12 md:px-12'>
+      <Container className='mt-12 lg:px-12 w-screen '>
         <h1 className='px-6 text-lg text-[--purple-color]'>
           RECENTLY COOKING MENU
         </h1>
@@ -54,15 +54,6 @@ export default function Home({ blogs }: { blogs: BlogsProp }) {
           <FloatingTakatan />
         </div>
       </Container>
-      <style global jsx>
-        {`
-          html,
-          body {
-            position: relative;
-            overflow-x: hidden;
-          }
-        `}
-      </style>
     </Layout>
   )
 }

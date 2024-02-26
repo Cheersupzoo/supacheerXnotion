@@ -16,7 +16,7 @@ export const SneakPeakCooking = () => {
       <CookingBg parentRef={divRef} />
       <MouseScrollComponent parentRef={divRef} />
 
-      <div className='-mt-2 flex flex-col items-center space-y-10 overflow-hidden px-6 pb-12 pt-8 sm:overflow-visible md:mb-[300px]'>
+      <div className='-mt-2 flex w-full flex-col items-center space-y-10 overflow-hidden px-6 pb-12 pt-8 md:pb-[300px] lg:overflow-visible'>
         {[
           '/cooking/1.jpg',
           '/cooking/2.jpg',
@@ -62,9 +62,11 @@ function LookForMore() {
     }
 
     window.addEventListener('scroll', onScroll)
+    window.addEventListener('resize', onScroll);
 
     return () => {
       window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
     }
   }, [])
 
@@ -189,6 +191,8 @@ function Image({
 
   useEffect(() => {
     const onscroll = () => {
+      console.log('onScroll');
+      
       if (!parentRef.current?.offsetTop || !divRef?.current?.offsetTop) {
         return
       }
@@ -212,7 +216,7 @@ function Image({
 
       const imgOffsetTop = divRef.current.offsetTop
 
-      if (!show?.current && scrollTop > imgOffsetTop - 400) {
+      if (scrollTop > imgOffsetTop - 400) {
         animatedDivRef.current.style.transform = `translateX(${
           left
             ? offsetResponsive - [30, 0, 60][index % 3]
@@ -245,9 +249,11 @@ function Image({
     }
 
     window.addEventListener('scroll', onscroll)
+    window.addEventListener('resize', onscroll)
 
     return () => {
       window.removeEventListener('scroll', onscroll)
+      window.removeEventListener('resize', onscroll)
     }
   }, [index, left, parentRef])
   return (
@@ -306,9 +312,11 @@ const MouseScrollComponent = ({
     }
 
     window.addEventListener('scroll', onscroll)
+    window.addEventListener('resize', onscroll)
 
     return () => {
       window.removeEventListener('scroll', onscroll)
+      window.removeEventListener('resize', onscroll)
     }
   }, [parentRef])
 

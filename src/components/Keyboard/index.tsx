@@ -67,9 +67,11 @@ export const Three = () => {
       invalidate(1)
     }
     window.addEventListener('scroll', onScroll)
+    window.addEventListener('resize', onScroll)
 
     return () => {
       window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
     }
   }, [invalidate])
   return (

@@ -59,7 +59,7 @@ export const CookingBg = ({
 
   useEffect(() => {
     const onscroll = () => {
-      if(!parentRef.current?.offsetTop) {
+      if (!parentRef.current?.offsetTop) {
         return
       }
       const scrollTop =
@@ -71,9 +71,11 @@ export const CookingBg = ({
     }
 
     window.addEventListener('scroll', onscroll)
+    window.addEventListener('resize', onscroll)
 
     return () => {
       window.removeEventListener('scroll', onscroll)
+      window.removeEventListener('resize', onscroll)
     }
   }, [parentRef])
 
