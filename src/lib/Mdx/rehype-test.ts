@@ -11,6 +11,7 @@ const rehypeTest = () => {
     const visitor: BuildVisitor = (node, ...other) => {
     //  console.log('Hype node.type ',node.type )
     //  console.log('Hype node.type ',node.data )
+    // @ts-ignore
     if(node.type === 'element' && node.tagName === 'code') {
       console.log("🚀 ~ transformer ~ other:", other)
       console.log('Hype',node)

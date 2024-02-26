@@ -20,7 +20,7 @@ export const PageHeader = () => {
         </a>
         <div className='mx-8 hidden space-x-8 md:flex'>
           <HeaderLink title='Diary' href='/diary' />
-          <HeaderLink title='Blog' href='https://blog.supacheer.com' />
+          <HeaderLink title='Blog' href='/blog' />
           <HeaderLink title='Cooking' href='/cooking' />
           <HeaderLink title='Profile' href='/profile' />
         </div>
