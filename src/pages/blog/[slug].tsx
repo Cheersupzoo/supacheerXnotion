@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 
 import { format } from 'date-fns'
@@ -9,6 +8,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 import { Layout } from '@/components/Layout'
+import { SyntaxHighlighterRender } from '@/components/Mdx/SyntaxHylighterRender'
 import BigLetter from '@/components/Mdx/bigLetter'
 import MyBlockquote from '@/components/Mdx/blockquote'
 import BlogHeader from '@/components/Mdx/blogHeader'
@@ -38,7 +38,28 @@ const components = {
   ),
   code: (props: any) => {
     return (
-      <SyntaxHighlighter {...props} style={dracula}>
+      <SyntaxHighlighter
+        style={dracula}
+        language='javascript'
+        PreTag={(props) => (
+          <pre
+            {...props}
+            style={{ ...props.style, margin: '0 0.3em', padding: 0 }}
+            className='inline-code inline-flex'
+          >
+            {props.children}
+          </pre>
+        )}
+        CodeTag={(props) => (
+          <code
+            {...props}
+            style={{ ...props.style, padding: 0, margin: '0 0.3em' }}
+          >
+            {props.children}
+          </code>
+        )}
+        renderer={SyntaxHighlighterRender}
+      >
         {props.children}
       </SyntaxHighlighter>
     )
@@ -51,6 +72,7 @@ const components = {
         )?.replace('language-', '')}
         {...props}
         style={dracula}
+        renderer={SyntaxHighlighterRender}
       >
         {props.children?.props?.children ?? props.children}
       </SyntaxHighlighter>
@@ -141,6 +163,14 @@ export default function Home({ post }: MyProp) {
           <MDXRemote {...post.source} components={components} />
         </div>
       </div>
+      <style global jsx>
+        {`
+          .mdx-embed {
+            padding-top: 0.25rem;
+            margin-top: 2rem;
+          }
+        `}
+      </style>
     </Layout>
   )
 }
