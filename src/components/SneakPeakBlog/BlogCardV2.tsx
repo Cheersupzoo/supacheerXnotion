@@ -9,7 +9,7 @@ interface MyProp {
   post: BlogsProp[0]
 }
 
-export const blogBaseUrl = 'https://blog.supacheer.com/'
+export const blogBaseUrl = '/'
 
 export function BlogCard({ post }: MyProp) {
   return (
