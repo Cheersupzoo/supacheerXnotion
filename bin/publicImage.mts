@@ -1,6 +1,7 @@
 import { existsSync, writeFileSync } from 'fs'
 import inquirer from 'inquirer'
 import { mkdirp } from 'mkdirp'
+import path from 'path'
 import Sharp from 'sharp'
 
 process.on('SIGINT', () => {
@@ -39,7 +40,7 @@ let folder = basePath
 
           if (!value.length) {
             return 'Press cmd/ctl+c to exit'
-          } 
+          }
 
           return 'Please enter a valid image path'
         }
@@ -109,7 +110,7 @@ async function writeImage(
     })
   }
 
-  let outputPath = `${folder}/${fileName}.`
+  let outputPath = path.join(path.resolve(folder), fileName) + '.'
 
   if (isWebp) {
     sharp = sharp.webp({ quality: 65 })
