@@ -26,14 +26,14 @@ export default function Home({ blogs }: { blogs: BlogsProp }) {
 
         <FloatingMan className='ml-auto mt-8 hidden w-[250px] lg:block' />
       </Container>
-      <Container className='mb-8 flex px-6 md:px-12'>
-        <div className='flex-grow'>
-          <h1 className='text-lg  text-[--purple-color]'>RECENTLY DIARY</h1>
+      <Container className='mb-8 grid xl:grid-cols-[1fr_300px]  '>
+        <div className='flex-grow-0'>
+          <h1 className='text-lg layout-padding text-[--purple-color]'>RECENTLY DIARY</h1>
           <SneakPeakDiary />
         </div>
-        <div className='md:w-[300px]'></div>
+        <div className=''></div>
       </Container>
-      <Container className='flex px-6 md:px-12'>
+      <Container className='grid xl:grid-cols-[1fr_300px] px-6 md:px-12'>
         <div>
           <h1 className='text-lg  text-[--purple-color]'>
             RECENTLY PUBLISHED BLOG
@@ -43,7 +43,7 @@ export default function Home({ blogs }: { blogs: BlogsProp }) {
         <div className='md:w-[300px]'></div>
       </Container>
       <Container className='mt-12 lg:px-12 w-screen '>
-        <h1 className='px-6 text-lg text-[--purple-color]'>
+        <h1 className='px-6 md:px-12 lg:px-0 text-lg text-[--purple-color]'>
           RECENTLY COOKING MENU
         </h1>
         <SneakPeakCooking />

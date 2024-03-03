@@ -26,7 +26,7 @@ const Diary = () => {
         <Container>
           <div className='mx-8 grid gap-24 sm:mx-16 lg:mx-12 lg:grid-cols-2'>
             <LinkDiary
-              href='/diary/what-I-eat-in-my-japan-trip-2023'
+              href='/diary/Snowboarding-in-Hakuba-2024'
               title='What I eat in my Japan trip 2023'
               primary1='bg-rose-600'
               primary2='bg-orange-600'
@@ -83,7 +83,7 @@ type LinkDiaryProps = {
 
 const LinkDiary = (props: LinkDiaryProps) => {
   return (
-    <Link href={props.href}>
+    <Link href={props.href.toLowerCase()}>
       <div className='group drop-shadow-2xl relative'>
         <div
           className={`absolute -right-4 -top-4 -z-10 h-24 w-24 rounded-full ${props.primary1} dark:${props.secondary1}`}
