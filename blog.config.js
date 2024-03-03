@@ -9,5 +9,5 @@ module.exports = {
   shareImageAlt: 'Supacheer',
   postsPerPage: 8,
   showDate: true, // if you would like the date to appear on the blog posts
-  disqus: '' // your disqus shortname, remove if you don't use disqus
+  notionBaseUrl: 'https://supacheer.notion.site'
 }

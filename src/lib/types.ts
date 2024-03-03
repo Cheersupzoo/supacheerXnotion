@@ -70,3 +70,13 @@ export interface NotionPageInfo {
   authorImage: string
   detail: string
 }
+
+export type NotionPageData = {
+  collectionSchema: {
+    [key: string]: {
+      name: string
+      type: string
+      options: { id: string; color: string; value: string }[]
+    }
+  }
+}

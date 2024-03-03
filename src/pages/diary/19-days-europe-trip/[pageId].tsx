@@ -8,13 +8,11 @@ import {
   idToUuid,
   parsePageId
 } from 'notion-utils'
-import { MdOutlineVrpano } from 'react-icons/md/index'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
 import { Collection } from 'react-notion-x/build/third-party/collection'
 
 import { PageAside } from '@/components/Components/PageAside'
 import { Layout } from '@/components/Layout'
-import { ImageViewer } from '@/components/Notion/ImageViewer'
 import { LinkMod } from '@/components/Notion/LinkMod'
 import { NextNotionImage } from '@/components/Notion/NextNotionImage'
 import { NotionPageHeader } from '@/components/Notion/NotionPageHeader'

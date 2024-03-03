@@ -1,16 +1,14 @@
-import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
-import { getBlockTitle, getPageProperty, idToUuid } from 'notion-utils'
-import { MdOutlineVrpano } from 'react-icons/md/index'
+import { getBlockTitle, idToUuid, parsePageId, uuidToId } from 'notion-utils'
 import { NotionRenderer, defaultMapImageUrl } from 'react-notion-x'
 import { Collection } from 'react-notion-x/build/third-party/collection'
 
 import { PageAside } from '@/components/Components/PageAside'
 import { Layout } from '@/components/Layout'
-import { ImageViewer } from '@/components/Notion/ImageViewer'
 import { LinkMod } from '@/components/Notion/LinkMod'
+import { NextNotionImage } from '@/components/Notion/NextNotionImage'
 import { NotionPageHeader } from '@/components/Notion/NotionPageHeader'
 import {
   Code,
@@ -25,22 +23,25 @@ import { buildPreviewImage } from '@/lib/buildPreviewImage'
 import { buildVideoCache } from '@/lib/buildVideoCache'
 import { extractKeyFromUrl } from '@/lib/extractKeyFromUrl'
 import { getSiteMap } from '@/lib/get-site-map'
-import { getCanonicalPageUrl } from '@/lib/map-page-url'
-import { getPageCached } from '@/lib/notion-api'
-import { PageProps, Params } from '@/lib/types'
-import { NextNotionImage } from '@/components/Notion/NextNotionImage'
+import {
+  getPageCached,
+  getPageProperties,
+  getPublicPageData
+} from '@/lib/notion-api'
+import { NotionPageData } from '@/lib/types'
+
+const pageCanonicalIds = [
+  'What-I-eat-in-my-Japan-Trip-2023-7fe81dd5b54a4b0da444aa8e15dab9ca',
+  'Snowboarding-in-Hakuba-2024-79423f4b537e49b482ebc7d15fcfc96b'
+]
 
 export default function Home({
   recordMap,
   imageCache,
   pageId,
-  idCanonicalMap
-}: {
-  recordMap: any
-  imageCache: { [key: string]: string }
-  pageId: string
-  idCanonicalMap: { [key: string]: string }
-}) {
+  idCanonicalMap,
+  properties
+}: Awaited<ReturnType<typeof getStaticProps>>['props']) {
   const components = useMemo(
     () => ({
       nextImage: NextNotionImage,
@@ -72,16 +73,7 @@ export default function Home({
     return <div>Loading...</div>
   }
 
-  const keys = Object.keys(recordMap?.block || {})
-  const block = recordMap?.block?.[keys[0]]?.value
-
-  const canonicalPageUrl = getCanonicalPageUrl(recordMap)(pageId)
-
-  const socialDescription = getPageProperty<string>(
-    'Description',
-    block,
-    recordMap
-  )
+  const block = Object.values(recordMap?.block)[0]?.value
 
   const title = getBlockTitle(block, recordMap)
 
@@ -91,8 +83,8 @@ export default function Home({
     <Layout>
       <PageHead
         title={title}
-        description={socialDescription}
-        url={'/diary/what-I-eat-in-my-japan-trip-2023'}
+        description={properties['Description'].value}
+        url={'/diary/snowboarding-in-hakuba-2024'}
         image={`https://www.supacheer.com${firstImage}`}
       />
       <div className='h-10' />
@@ -100,6 +92,19 @@ export default function Home({
         recordMap={recordMap}
         fullPage={true}
         darkMode={false}
+        pageHeader={
+          <>
+            {properties['Published on']?.value && (
+              <div className='mb-10 text-sm text-[var(--grey-color)]'>
+                Published on{' '}
+                {new Date(properties['Published on'].value).toLocaleDateString(
+                  undefined,
+                  { year: 'numeric', month: 'short', day: 'numeric' }
+                )}
+              </div>
+            )}
+          </>
+        }
         previewImages={true}
         isImageZoomable={false}
         mapImageUrl={(url, block) => {
@@ -132,25 +137,60 @@ export default function Home({
   )
 }
 
-export const getStaticProps: GetStaticProps<PageProps, Params> = async () => {
-  const pageId = '7fe81dd5b54a4b0da444aa8e15dab9ca'
+const pageSlugIdMap = Object.fromEntries(
+  pageCanonicalIds.map((pageCanonicalId) => {
+    const pageUUID = parsePageId(pageCanonicalId)
+    const pageId = uuidToId(pageUUID)
+    return [
+      pageCanonicalId.replace(`-${pageId}`, '').toLowerCase(),
+      pageCanonicalId
+    ]
+  })
+)
 
-  const recordMap = await getPageCached(
-    'What-I-eat-in-my-Japan-Trip-2023-7fe81dd5b54a4b0da444aa8e15dab9ca'
-  )
+export const getStaticProps = async ({
+  params: { slug }
+}: {
+  params: { slug: string }
+}) => {
+  const pageCanonicalId = pageSlugIdMap[slug.toLowerCase()]
+  if (!pageCanonicalId) {
+    throw new Error('Slug not exist!')
+  }
+  const pageId = parsePageId(pageCanonicalId)
+  const recordMap = await getPageCached(pageCanonicalId)
+  const pageData = (await getPublicPageData(pageId)) as NotionPageData
+  const block = Object.values(recordMap?.block)[0]?.value
+  const properties = getPageProperties(block, pageData)
+
   const imageCache = await buildImageCache(recordMap)
-
   const videoKeyUrls = await buildVideoCache(recordMap)
   videoKeyUrls.map(([key, url]) => (recordMap.signed_urls[key] = url))
-
   const previewImageMap = await buildPreviewImage(imageCache, pageId)
+
   recordMap.preview_images = previewImageMap
 
   const siteMap = await getSiteMap()
-  const idCanonicalMap = Object.entries(siteMap.canonicalPageMap).reduce(
-    (map, [canonical, id]) => ({ ...map, [id]: canonical }),
-    {}
+  const idCanonicalMap = Object.fromEntries(
+    Object.entries(siteMap.canonicalPageMap).map(([canonical, id]) => [
+      id,
+      canonical
+    ])
   )
 
-  return { props: { recordMap, imageCache, pageId, idCanonicalMap } }
+  return {
+    props: { recordMap, imageCache, pageId, idCanonicalMap, properties }
+  }
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [
+      ...Object.keys(pageSlugIdMap).map((slug) => ({
+        params: { slug }
+      })),
+      { params: { slug: 'what-I-eat-in-my-japan-trip-2023' } }
+    ],
+    fallback: false
+  }
 }
