@@ -71,7 +71,7 @@ const Diary = () => {
         </Container>
         <div className='h-14 md:hidden' />
         <Container>
-          <div className='ml-auto w-[340px] overflow-hidden'>
+          <div className='ml-auto w-[340px] overflow-hidden -mb-12 pb-20 -mr-8 pr-8'>
             <FloatingTakatan className='-scale-x-100' />
           </div>
         </Container>
