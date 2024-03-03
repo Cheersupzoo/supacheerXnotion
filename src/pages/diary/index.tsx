@@ -24,7 +24,21 @@ const Diary = () => {
         <div className='mt-16 text-center text-3xl font-semibold'>My Diary</div>
         <div className='h-16' />
         <Container>
-          <div className='mx-8 grid gap-24 sm:mx-16 lg:mx-12 lg:grid-cols-2'>
+          <div className='mx-8 grid gap-24 sm:mx-16 lg:mx-12 lg:grid-cols-2 '>
+            <LinkDiary
+              href='/diary/Snowboarding-in-Hakuba-2024'
+              title='Snowboarding in Hakuba 2024'
+              primary1='bg-amber-500'
+              primary2='bg-pink-400'
+              secondary1='bg-amber-300'
+              secondary2='bg-pink-500'
+              Icon={
+                <JapanFlag className='absolute -left-4 -top-4 z-30 w-24 -rotate-6 shadow-2xl' />
+              }
+              imageSrc1='https://cdn.supacheer.com/picture/e04aa30e-2bfe-4853-b512-eed6ffd2070e.webp'
+              imageSrc2='https://cdn.supacheer.com/picture/ca9a6dcf-5834-4107-b920-115483057e1b.webp'
+              imageSrc3='https://cdn.supacheer.com/picture/276b0832-5766-4876-aa07-03525c03f5f5.webp'
+            />
             <LinkDiary
               href='/diary/Snowboarding-in-Hakuba-2024'
               title='What I eat in my Japan trip 2023'
@@ -84,7 +98,7 @@ type LinkDiaryProps = {
 const LinkDiary = (props: LinkDiaryProps) => {
   return (
     <Link href={props.href.toLowerCase()}>
-      <div className='group drop-shadow-2xl relative'>
+      <div className='group relative drop-shadow-2xl max-w-xl mx-auto'>
         <div
           className={`absolute -right-4 -top-4 -z-10 h-24 w-24 rounded-full ${props.primary1} dark:${props.secondary1}`}
         />
