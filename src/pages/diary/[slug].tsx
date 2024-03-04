@@ -85,7 +85,11 @@ export default function Home({
         title={title}
         description={properties['Description'].value}
         url={'/diary/snowboarding-in-hakuba-2024'}
-        image={`https://www.supacheer.com${firstImage}`}
+        image={
+          firstImage.includes('https://')
+            ? firstImage
+            : `https://www.supacheer.com${firstImage}`
+        }
       />
       <div className='h-10' />
       <NotionRenderer
