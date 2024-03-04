@@ -10,7 +10,7 @@ export const SneakPeakDiary = () => {
         <Link
           rel='noopener noreferrer'
           className={cs('group')}
-          href={`/diary/what-I-eat-in-my-japan-trip-2023`}
+          href={`/diary/snowboarding-in-hakuba-2024`}
           passHref
         >
           <div>
